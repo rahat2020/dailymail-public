@@ -1,0 +1,130 @@
+.lb_row {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+}
+
+::placeholder {
+    color: #1b1a1aaf !important;
+    font-weight: bold;
+}
+
+.lb_row:hover .lb_lftImg {
+    transform: scale(1.1);
+    border-radius: 15px;
+}
+
+.lb_row:hover .lb_rightTitle {
+    text-decoration: underline;
+    color: #e97623;
+}
+
+.lb_row:hover small {
+    text-decoration: underline;
+    color: #e97623;
+}
+
+.lb_row:hover .lb_right_cards {
+    text-decoration: underline;
+}
+
+.lb_right_cards .lb_rightTitle {
+    font-size: 1.29em;
+}
+
+.lb_imgConainer {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.lb_imgConainer .lb_lftImg {
+    width: 100%;
+    height: 10rem;
+    border-radius: 15px;
+    transition: all 0.5s ease-in-out;
+}
+
+.lb_right_cards {
+    width: 100%;
+    height: 10rem;
+}
+
+.lb_right_cards .more {
+    text-decoration: none;
+    padding: 5px 30px;
+    color: #e97623;
+    /* background: linear-gradient(140deg, #de4c4c 0%, #e97623 35%); */
+    border: solid 1px #e97623;
+    border-radius: 30px;
+    transition: 0.4s;
+    text-transform: uppercase;
+
+}
+
+.lb_right_cards .more a:hover {
+    background: linear-gradient(140deg, #de4c4c 0%, #e97623 35%);
+    color: white;
+}
+
+/* recent blogs */
+.rb_cards {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+}
+
+.rb_cards .rcb_textPara {
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+    width: 230px;
+    height: auto;
+    object-fit: contain;
+}
+.rb_cards .rb_cardsImg {
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+    width: 130px;
+    height: auto;
+    object-fit: contain;
+}
+
+.rb_cards:hover .rb_cardsImg {
+    transform: scale(1.1);
+    transition: all 0.5s ease-in-out;
+}
+
+.rb_cards:hover h6 {
+    color: #e97623 !important;
+    text-decoration: underline;
+}
+
+.rb_cards:hover small {
+    color: #e97623 !important;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.socialIcon_container {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: linear-gradient(140deg, #e6626231 0%, #e27d3541 35%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .5s ease-in-out;
+
+}
+.socialIcon_container:hover{
+    background: linear-gradient(140deg, #de4c4c 0%, #e97623 35%);
+    color: white;
+}
+.socialIcon_container:hover .socialIcon{
+    color: white !important;
+}
+.socialIcon {
+    color: #ff6a00;
+    transition: all .5s ease-in-out;
+}

@@ -1,0 +1,24 @@
+.socialIcon_container {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: linear-gradient(140deg, #e6626231 0%, #e27d3541 35%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .5s ease-in-out;
+}
+.socialIcon_container:hover{
+    background: linear-gradient(140deg, #de4c4c 0%, #e97623 35%);
+    color: white;
+}
+.socialIcon_container:hover .socialIcon{
+    color: white !important;
+}
+.socialIcon {
+    color: #ff6a00;
+    transition: all .5s ease-in-out;
+}
+.activeLikes{
+    color: #de4c4c !important;
+}

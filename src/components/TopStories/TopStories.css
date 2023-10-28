@@ -1,0 +1,70 @@
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    color: #fff !important;
+    background-color: #ff2929;
+    background: linear-gradient(140deg, #de4c4c 0%, #e97623 35%) !important;
+    font-weight: bold;
+}
+
+.tp_imgContainer {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease-in-out;
+}
+
+.tp_imgBig {
+    transition: all 0.4s ease-in-out;
+}
+
+.tp_imgContainer:hover .tp_imgBig {
+    transform: scale(1.1);
+}
+
+.tp_imgContainer .TS_overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    text-align: left;
+    flex-direction: column;
+    padding: 0 1rem;
+    background-image: linear-gradient(to bottom, #00000052, #f3d1d156);
+}
+
+.TS_overlay small {
+    background: #de4c4c;
+    background: linear-gradient(140deg, #de4c4c 0%, #e97623 35%);
+    margin-top: .33rem;
+    padding: 0 1rem;
+    border-radius: 1rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.TS_overlay h4 {
+    color: #fff;
+    font-weight: bold;
+}
+
+.ts_smallCard{
+    transition: all 0.4s ease-in-out;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+.ts_smallCard:hover{
+    box-shadow: 0 .125rem .25rem #00000013!important;
+}
+.ts_smallCard:hover p{
+    text-decoration: underline;
+    color: #e97623 !important;
+}
+.tp_smllCardImg{
+    transition: all 0.4s ease-in-out;
+}
+.ts_smallCard:hover .tp_smllCardImg{
+    transform: scale(1.1);
+}

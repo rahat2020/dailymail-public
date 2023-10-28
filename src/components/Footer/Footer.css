@@ -1,0 +1,25 @@
+.TH_socialIcon_container {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: #ffffffd5;
+    /* background: linear-gradient(140deg, #e6626231 0%, #e27d3541 35%); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .5s ease-in-out;
+
+}
+.TH_socialIcon_container:hover{
+    background: linear-gradient(140deg, #f35a5a 0%, #fa8837 35%);
+    color: white;
+}
+.TH_socialIcon_container:hover .TH_socialIcon{
+    color: white !important;
+   
+}
+.TH_socialIcon {
+    color: #ff6a00;
+    font-size: 1.2rem;
+    transition: all .5s ease-in-out;
+}
