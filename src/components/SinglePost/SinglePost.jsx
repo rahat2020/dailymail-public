@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Form, Image, Row, Spinner } from 'react-bootstrap';
 import './SinglePost.css';
 import SendIcon from '@mui/icons-material/Send';
@@ -12,12 +12,13 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllPostQuery, useGetSinglePostQuery, useUserDataByEmailQuery } from '@/redux/apiSlice';
+import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllPostQuery, useGetSinglePostQuery, useIncreaseViewsMutation, useUserDataByEmailQuery } from '@/redux/apiSlice';
 import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from 'next/navigation';
-
+import Modal from 'react-bootstrap/Modal';
+import { AuthContext } from '@/context/authContext';
 
 // export const Data = [
 //     {
@@ -63,20 +64,36 @@ import { usePathname } from 'next/navigation';
 // ]
 
 const SinglePost = ({ params }) => {
+    // AUTH CONTEXT 
+    const {user} = useContext(AuthContext)
 
     // REDUX QUERIES
     const { data, isLoading } = useGetSinglePostQuery(params)
     const { data: item } = useGetAllPostQuery(undefined)
     const filteredData = item?.filter((item) => item?.status === "approved")
-    const userEmail = typeof window !== "undefined" ? window.localStorage.getItem('user') || '' : false;
+    // const userEmail = typeof window !== "undefined" ? window.localStorage.getItem('user') || '' : false;
     // const activeUser = typeof window !== "undefined" ? window.localStorage.getItem('Imin') || '' : false;
     const [CommetsData] = useCreateCommentsMutation()
-    const { data: userData } = useUserDataByEmailQuery(userEmail)
+    const { data: userData } = useUserDataByEmailQuery(user)
+    const [IncData] = useIncreaseViewsMutation()
     const [LikesData] = useCreateLikesMutation()
-    // console.log('single post loggedInUserData', userData)
-    console.log('single post', data)
+    console.log('does user is active', userData?.email === user)
+
+    // add viewers to the post
+    const [show, setShow] = useState(true);
+    const handleClose = async () => {
+        const id = params
+        try {
+            const obj = { id }
+            const res = await IncData(obj)
+            setShow(false)
+        } catch (err) {
+            console.log(err)
+        }
+    };
 
 
+    // formating the date
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
@@ -157,7 +174,7 @@ const SinglePost = ({ params }) => {
     }
 
 
-    const abc = data?.likes?.map((item) => (item?.liker[0]?.email?.includes(userEmail)))
+    const abc = data?.likes?.map((item) => (item?.liker[0]?.email?.includes(user)))
     const trueValues = abc?.filter((value) => value === true);
     const stringResult = trueValues?.toString();
     // const falseValues = abc?.filter((value) => value === false);
@@ -193,7 +210,8 @@ const SinglePost = ({ params }) => {
                                                     loading='lazy'
                                                 />
                                                 {
-                                                    userData?.activeUser === 'yes' ?
+                                                    userData?.username === data?.user[0]?.username ?
+                                                    // userData?.email === user ?
                                                         <OverlayTrigger
                                                             placement="top"
                                                             delay={{ show: 250, hide: 400 }}
@@ -211,7 +229,7 @@ const SinglePost = ({ params }) => {
                                                     <span className='fw-bold text-secondary'>{data?.user[0]?.username} </span>
                                                     <div className="d-flex jsutify-content-start align-items-start flex-wrap">
                                                         <small className='text-secondary'>{formattedDate} | 4 min to read </small>
-                                                        <small className='text-secondary ms-2 '>| <VisibilityIcon style={{ fontSize: "1.11rem" }} /> 45 views</small>
+                                                        <small className='text-secondary ms-2 '>| <VisibilityIcon style={{ fontSize: "1.11rem" }} /> {data?.viewers} views</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -298,7 +316,7 @@ const SinglePost = ({ params }) => {
                                                 style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '50%' }}
                                             />
                                             {
-                                                userData?.activeUser === 'yes' ?
+                                                 userData?.username === data?.user[0]?.username ?
                                                     <OverlayTrigger
                                                         placement="top"
                                                         delay={{ show: 250, hide: 400 }}
@@ -325,7 +343,7 @@ const SinglePost = ({ params }) => {
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                     <Form.Label className='fw-bold text-dark'>Write your comment:</Form.Label>
                                     <Form.Control as="textarea" rows={3} placeholder='your comment' onChange={(e) => setDesc(e.target.value)} />
-                                    <Button variant='danger mt-2 fw-bold' size='sm' onClick={handleComment}>Submit</Button>
+                                    <Button className='btn_filter my-2' size='sm' onClick={handleComment}>Submit</Button>
                                 </Form.Group>
                             </Form>
                         </div>
@@ -392,6 +410,21 @@ const SinglePost = ({ params }) => {
 
                     </Col>
                 </Row>
+
+                <>
+                    <Modal show={show} onHide={handleClose} size='lg'>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Post visited</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>{data?.title}</Modal.Body>
+                        <Modal.Footer>
+                            <Button className='btn_filter' onClick={handleClose}>
+                                Save
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </>
+
             </Container>
         </div>
     )

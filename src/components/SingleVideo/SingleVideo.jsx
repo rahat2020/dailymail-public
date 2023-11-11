@@ -1,6 +1,6 @@
 "use client"
-import React, { useState } from 'react';
-import { Button, Card, Col, Container, Form, Image, Row, Spinner } from 'react-bootstrap';
+import React, { useContext, useState } from 'react';
+import { Button, Card, Col, Container, Form, Image, Modal, Row, Spinner } from 'react-bootstrap';
 import SendIcon from '@mui/icons-material/Send';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -11,85 +11,61 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllPostQuery, useGetSinglePostQuery, useUserDataByEmailQuery } from '@/redux/apiSlice';
+import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllPostQuery, useGetSinglePostQuery, useIncreaseVideoViewsMutation, useUserDataByEmailQuery } from '@/redux/apiSlice';
 import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from 'next/navigation';
+import { AuthContext } from '@/context/authContext';
 
-
-// export const Data = [
-//     {
-//         id: 1,
-//         title: 'Beauty of deep space. Billions of galaxies in',
-//         category: 'Technology',
-//         name: 'rahat',
-//         cardImg: 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg',
-//         profle: 'https://secure.gravatar.com/avatar/1b70c830da30f39d5c6fab323017430c?s=50&d=mm&r=g',
-//         date: 'January 22, 2023',
-//         needTime: '10 min'
-//     },
-//     {
-//         id: 2,
-//         title: 'Rocket Lab mission fails shortly after launch',
-//         category: 'Science',
-//         name: 'rahat',
-//         cardImg: 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-13-300x169.jpg',
-//         profle: 'https://secure.gravatar.com/avatar/1b70c830da30f39d5c6fab323017430c?s=50&d=mm&r=g',
-//         date: 'June 22, 2023',
-//         needTime: '3 min'
-//     },
-//     {
-//         id: 3,
-//         title: 'The Morning After: Uber sets its sights on Postmates',
-//         category: 'Technology',
-//         name: 'rahat',
-//         cardImg: 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-14-300x169.jpg',
-//         profle: 'https://secure.gravatar.com/avatar/1b70c830da30f39d5c6fab323017430c?s=50&d=mm&r=g',
-//         date: 'March 10, 2023',
-//         needTime: '9 min'
-//     },
-//     {
-//         id: 4,
-//         title: 'Sony’s Wf-sp800n Earbuds Are A Noise-canceling Alternative.',
-//         category: 'Mobile',
-//         cardImg: 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-20-705x660.jpg',
-//         profle: 'https://secure.gravatar.com/avatar/1b70c830da30f39d5c6fab323017430c?s=50&d=mm&r=g',
-//         name: 'rahat',
-//         date: 'March 10, 2023',
-//         needTime: '4 min'
-//     },
-// ]
 
 const SingleVideo = ({ params }) => {
+
+    // AUTH CONTEXT
+    const { user } = useContext(AuthContext)
 
     // REDUX
     const { data, isLoading } = useGetSinglePostQuery(params)
     const { data: item } = useGetAllPostQuery(undefined)
     const filteredData = item?.filter((item) => item?.status === "approved")
-    const userEmail = typeof window !== "undefined"? window.localStorage.getItem('user') || '': false
-    // const activeUser = typeof window !== "undefined"? window.localStorage.getItem('Imin') || '' : false;
     const [CommetsData] = useCreateCommentsMutation()
-    const { data: userData } = useUserDataByEmailQuery(userEmail)
+    const { data: userData } = useUserDataByEmailQuery(user)
     const [LikesData] = useCreateLikesMutation()
+    const [IncData] = useIncreaseVideoViewsMutation()
     // console.log('single post loggedInUserData', userData)
-    console.log('single post', data)
+    // console.log('single post', data)
 
 
+    // FORMATING DATE
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     }
-
     const inputDateString = data?.createdAt;
     const formattedDate = formatDate(inputDateString);
 
+    // CATCHING PATHNAME 
     const pathname = usePathname()
+
+    // USER IS ONLINE 
     const renderTooltip = (props) => (
         <Tooltip id="button-tooltip" {...props}>
             user is online
         </Tooltip>
     );
+
+    // ADD VIEWERS TO THE POST
+    const [show, setShow] = useState(true);
+    const handleClose = async () => {
+        const id = params
+        try {
+            const obj = { id }
+            const res = await IncData(obj)
+            setShow(false)
+        } catch (err) {
+            console.log(err)
+        }
+    };
 
     // CREATEING COMMENTS
     const [desc, setDesc] = useState('')
@@ -156,7 +132,7 @@ const SingleVideo = ({ params }) => {
     }
 
 
-    const abc = data?.likes?.map((item) => (item?.liker[0]?.email?.includes(userEmail)))
+    const abc = data?.likes?.map((item) => (item?.liker[0]?.email?.includes(user)))
     const trueValues = abc?.filter((value) => value === true);
     const stringResult = trueValues?.toString();
     // const falseValues = abc?.filter((value) => value === false);
@@ -192,7 +168,7 @@ const SingleVideo = ({ params }) => {
                                                     loading='lazy'
                                                 />
                                                 {
-                                                    userData?.activeUser === 'yes' ?
+                                                     userData?.username === data?.user[0]?.username ?
                                                         <OverlayTrigger
                                                             placement="top"
                                                             delay={{ show: 250, hide: 400 }}
@@ -244,8 +220,8 @@ const SingleVideo = ({ params }) => {
                                             />
                                             <small className='text-secondary'>Source: {data?.author}</small>
                                         </div>
-                                        <p className='text-dark py-2 letter-1' 
-                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.desc) }}></p>
+                                        <p className='text-dark py-2 letter-1'
+                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.desc) }}></p>
                                     </div>
                                 </div>
                         }
@@ -296,7 +272,7 @@ const SingleVideo = ({ params }) => {
                                                 style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '50%' }}
                                             />
                                             {
-                                                userData?.activeUser === 'yes' ?
+                                                userData?.username === data?.user[0]?.username ?
                                                     <OverlayTrigger
                                                         placement="top"
                                                         delay={{ show: 250, hide: 400 }}
@@ -390,6 +366,20 @@ const SingleVideo = ({ params }) => {
 
                     </Col>
                 </Row>
+
+                <>
+                    <Modal show={show} onHide={handleClose} size='lg'>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Post visited</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>{data?.title}</Modal.Body>
+                        <Modal.Footer>
+                            <Button className='btn_filter' onClick={handleClose}>
+                                Save
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </>
             </Container>
         </div>
     )

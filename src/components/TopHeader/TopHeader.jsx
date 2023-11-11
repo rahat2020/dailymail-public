@@ -34,7 +34,7 @@ const TopHeader = () => {
                         <div className="w-50 w-sm-100 ">
                             <div className="d-flex justify-content-between align-items-center mt-3 ">
                                 <p className='text-secondary'>{monthName} {currentDate}, {currentYear}</p>
-                                <p className=' text-secondary d-none d-md-block d-lg-block d-xl-block'>
+                                {/* <p className=' text-secondary d-none d-md-block d-lg-block d-xl-block'>
                                     <Link href="/advirtisement"
                                         className={Tpath === '/advirtisement' ?
                                             'activecls text-decoration-none ' :
@@ -42,7 +42,7 @@ const TopHeader = () => {
                                     >
                                         Advertisement
                                     </Link>
-                                </p>
+                                </p> */}
                                 <p className=' text-secondary d-none d-md-block d-lg-block d-xl-block'>
                                     <Link href="/contact"
                                         className={Tpath === '/contact' ?
@@ -59,6 +59,15 @@ const TopHeader = () => {
                                             'text-secondary text-decoration-none'}
                                     >
                                         About
+                                    </Link>
+                                </p>
+                                <p className=' text-secondary d-none d-md-block d-lg-block d-xl-block'>
+                                    <Link href="/about"
+                                        className={Tpath === '/about' ?
+                                            'activecls text-decoration-none ' :
+                                            'text-secondary text-decoration-none'}
+                                    >
+                                        Documentation
                                     </Link>
                                 </p>
                             </div>

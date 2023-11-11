@@ -8,7 +8,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import './CategoryByPosts.css';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
-import { useGetCategoryPostsQuery } from '@/redux/apiSlice';
+import { useGetAllVideosQuery, useGetCategoryPostsQuery, useGetCategoryvideosQuery } from '@/redux/apiSlice';
 import Spinner from 'react-bootstrap/Spinner';
 import { usePathname } from 'next/navigation';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
@@ -17,19 +17,31 @@ import ReactPaginate from 'react-paginate';
 
 
 const CategoryByPosts = ({ params }) => {
+    // POSTS DATA
     const { data, isLoading } = useGetCategoryPostsQuery(params.category)
-    const routerPath = usePathname()
+    const approvedData = data?.filter((item) => item?.status === "approved")
     console.log('CategoryByPosts', data)
+    // VIDEOS DATA
+    const { data: catVideos, isLoading: loading } = useGetCategoryvideosQuery(params.category)
+    const approvedVideoData = catVideos?.filter((item) => item?.status === "approved")
+    console.log('videocard', approvedVideoData)
+
+    // COMBINE ARRAY 
+    const combinedVideoAndPostData = {...approvedData, ...approvedVideoData}
+    console.log('combinedVideoAndPostData', combinedVideoAndPostData)
+    // BREADCUMB
+    const routerPath = usePathname()
+
 
     // PAGINATIONS
     const [itemOffset, setItemOffset] = useState(0);
     const itemsPerPage = 6;
     const endOffset = itemOffset + itemsPerPage;
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    const currentItems = data?.slice(itemOffset, endOffset);
-    const pageCount = Math.ceil(data?.length / itemsPerPage);
+    const currentItems = approvedData?.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(approvedData?.length / itemsPerPage);
     const handlePageClick = (event) => {
-        const newOffset = (event.selected * itemsPerPage) % data?.length;
+        const newOffset = (event.selected * itemsPerPage) % approvedData?.length;
         setItemOffset(newOffset)
     };
 
@@ -39,10 +51,10 @@ const CategoryByPosts = ({ params }) => {
         (item?.title?.toLowerCase().includes(searchQuery.toLowerCase())) ||
         (item?.category?.toLowerCase().includes(searchQuery.toLowerCase())) ||
         (item?.desc?.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (item?.author?.toLowerCase().includes(searchQuery.toLowerCase())) 
+        (item?.author?.toLowerCase().includes(searchQuery.toLowerCase()))
     );
 
-      // FILTERING DATA BY LAUNCH STATUS
+    // FILTERING DATA BY NAME
     //   const [status, setStatus] = useState('all');
     //   const filteredStatus = filteredData?.filter((item: { launch_success: boolean, all: string }) => {
     //       if (status === 'all') {
@@ -53,7 +65,7 @@ const CategoryByPosts = ({ params }) => {
     //           item.all?.toString().toLowerCase().includes(status.toLowerCase())
     //       );
     //   });
-  
+
 
     return (
         <Container className='mt-5'>
@@ -68,7 +80,7 @@ const CategoryByPosts = ({ params }) => {
                 <Form className="d-flex">
                     <Form.Control
                         type="search"
-                        placeholder="Search events"
+                        placeholder="Search blogs"
                         className="me-2 border border-1 shadow-sm"
                         size='sm'
                         aria-label="Search"
@@ -78,7 +90,7 @@ const CategoryByPosts = ({ params }) => {
                 </Form>
                 <div className="d-flex justify-content-between align-items-center">
                     <Form.Select aria-label="Default select example" className="border border-1 shadow-sm text-secondary" size="sm">
-                        <option>select events</option>
+                        <option>select blogs</option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
@@ -176,6 +188,7 @@ const CategoryByPosts = ({ params }) => {
 
                 />
             </div>
+
         </Container>
     )
 }

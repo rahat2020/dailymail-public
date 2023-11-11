@@ -2,7 +2,7 @@
 import { createContext, useEffect, useReducer } from "react";
 
 const INITIAL_STATE = {
-  user:  typeof window !== "undefined" ? window.localStorage.removeItem("user") : false,
+  user:  typeof window !== "undefined" ? window.localStorage.getItem("user") : false,
   loading: false,
   error: null,
 };
@@ -44,7 +44,7 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
   useEffect(() => {
-    typeof window !== "undefined" ? window.localStorage.removeItem("user") : false;
+    typeof window !== "undefined" ? window.localStorage.setItem("user", state.user) : false;
   }, [state.user]);
 
   return (

@@ -52,48 +52,50 @@ const Footer = () => {
               </div>
             </Col>
             <Col md={3}>
-              <div className="">
-                <h5 className='text-secondary border-bottom w-100'>Subscribe</h5>
-                <Form className="d-flex mt-3 bg-light justify-content-center align-items-center rounded border-0 border-bottom ">
-                  <Form.Control
-                    type="search"
-                    className="me-2 rounded border-0 text-secondary"
-                    aria-label="Search"
-                  />
-                  <SendIcon className='text-muted' />
-                </Form>
-              </div>
               <div className="w-100">
-                <div className="d-flex justify-content-between align-items-center mt-3">
-                  <div className="TH_socialIcon_container">
-                    <Link href="https://www.instagram.com/kazirahat1020" target="_blank">
-                      <InstagramIcon className='TH_socialIcon' />
-                    </Link>
-                  </div>
-                  <div className="TH_socialIcon_container">
-                    <Link href="https://www.linkedin.com/in/kazi-rahat2020/" target="_blank">
-                      <LinkedInIcon className='TH_socialIcon' />
-                    </Link>
-                  </div>
-                  <div className="TH_socialIcon_container">
-                    <Link href="https://www.facebook.com/rahatwebdev" target="_blank">
-                      <FacebookIcon className='TH_socialIcon' />
-                    </Link>
-                  </div>
-                  <div className="TH_socialIcon_container">
-                    <Link href="https://twitter.com/KaziRahat2020" target="_blank">
-                      <TwitterIcon className='TH_socialIcon' />
-                    </Link>
-                  </div>
+                <div>
+                  <h5 className='text-secondary border-bottom w-100'>Subscribe</h5>
+                  <Form className="d-flex mt-3 bg-light justify-content-center align-items-center rounded border-0 border-bottom ">
+                    <Form.Control
+                      type="search"
+                      className="me-2 rounded border-0 text-secondary"
+                      aria-label="Search"
+                    />
+                    <SendIcon className='text-muted' />
+                  </Form>
                 </div>
+                <div className="w-100">
+                  <div className="d-flex justify-content-between align-items-center mt-3">
+                    <div className="TH_socialIcon_container">
+                      <Link href="https://www.instagram.com/kazirahat1020" target="_blank">
+                        <InstagramIcon className='TH_socialIcon' />
+                      </Link>
+                    </div>
+                    <div className="TH_socialIcon_container">
+                      <Link href="https://www.linkedin.com/in/kazi-rahat2020/" target="_blank">
+                        <LinkedInIcon className='TH_socialIcon' />
+                      </Link>
+                    </div>
+                    <div className="TH_socialIcon_container">
+                      <Link href="https://www.facebook.com/rahatwebdev" target="_blank">
+                        <FacebookIcon className='TH_socialIcon' />
+                      </Link>
+                    </div>
+                    <div className="TH_socialIcon_container">
+                      <Link href="https://twitter.com/KaziRahat2020" target="_blank">
+                        <TwitterIcon className='TH_socialIcon' />
+                      </Link>
+                    </div>
+                  </div>
 
+                </div>
               </div>
             </Col>
           </Row>
         </Container>
       </div>
 
-      <div className=" h-100 p-1 text-center shadow" style={{backgroundColor:'#dfe8f6'}}>
+      <div className=" h-100 p-1 text-center shadow" style={{ backgroundColor: '#dfe8f6' }}>
         <small className='text-secondary fw-bold'>© 2023 | All rights reserved to DailyMail</small>
         {/* <small className='text-secondary '><CopyrightIcon /> 2023 | All rights reserved to DailyMail</small> */}
       </div>

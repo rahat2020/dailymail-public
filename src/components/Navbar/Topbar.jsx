@@ -29,13 +29,16 @@ const Topbar = () => {
   const handleShow = () => setShow(true);
 
   // LOGIN PARTS
-  const { dispatch } = useContext(AuthContext)
+  const { dispatch, user } = useContext(AuthContext)
+  
   const [username, setUserName] = useState("")
   const [password, setUser_Password] = useState("")
-  const userEmail = typeof window !== "undefined" ? window.localStorage.getItem('user') || '' : false;
-  const { data: userData } = useUserDataByEmailQuery(userEmail)
-  const { data: userPostsData } = useUserTotalPostAndVideosCountQuery(userEmail)
-  // console.log('topbar', userData,userPostsData)
+  // const userEmail = typeof window !== "undefined" ? window.localStorage.getItem('user') || '' : false;
+  // console.log('context user', user)
+  // console.log('userEmail', userEmail)
+  const { data: userData } = useUserDataByEmailQuery(user)
+  const { data: userPostsData } = useUserTotalPostAndVideosCountQuery(user)
+  console.log('topbar', userData)
   const handleLogin = async (e) => {
     e.preventDefault()
     const object = {
@@ -81,7 +84,7 @@ const Topbar = () => {
 
   const handleRegistration = async (e) => {
     e.preventDefault()
-    if (!usernameReg || !passwordReg || !email || !file  || !terms) {
+    if (!usernameReg || !passwordReg || !email || !file || !terms) {
       toast('Field can not be empty')
     } else if (password.length <= 6) {
       toast('Password must greater than 6 characters')
@@ -268,6 +271,7 @@ const Topbar = () => {
                   <Card.Img variant="top" src={userData?.photo ? userData.photo : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf9DBm4up7xkDQKhfO1kvAAwU8Grk36ZywnngllVU&s'}
                     style={{ width: '8rem', height: '8rem', objectFit: 'cover', borderRadius: '50%' }}
                     alt="Rahat"
+                    className='shadow-sm'
                   />
                 </div>
                 <Card.Body>
@@ -277,7 +281,7 @@ const Topbar = () => {
                   </div>
                   <div className="d-flex justify-content-between align-items-center">
                     <Card.Title className='text-secondary'>Status:</Card.Title>
-                    <Card.Title className='text-secondary'>{userData?.activeUser === 'yes' ? 'Online' : 'Offline'}</Card.Title>
+                    <Card.Title className='text-secondary '>{userData?.activeUser === 'yes' ? 'Online' : 'Offline'}</Card.Title>
                   </div>
                   <div className="d-flex justify-content-between align-items-center">
                     <Card.Title className='text-secondary'>Total Posts:</Card.Title>
@@ -293,8 +297,8 @@ const Topbar = () => {
                   </div>
 
                   <div className="d-flex justify-content-between align-items-center mt-2">
-                    <Button variant="success fw-bold" size='sm'>Go to Dashboard</Button>
-                    <Button variant="danger text-white fw-bold" size='sm' onClick={handleLogout}>Logout</Button>
+                    <Button className='btn_goto_dashboard fw-bold' size='sm'>Go to Dashboard</Button>
+                    <Button className='btn_filter fw-bold' size='sm' onClick={handleLogout}>Logout</Button>
                   </div>
                 </Card.Body>
               </Card>

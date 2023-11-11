@@ -14,7 +14,7 @@ const AdvirtisementCom = () => {
                                 <div class="ad_content">
                                     <h5 className='text-dark fw-bold'>Kazi Rahat</h5>
                                     <p className='text-muted fw-bold'>Front-End Developer</p>
-                                    <Button variant='primary fw-bold'>Message me</Button>
+                                    <Button className='btn_filter'>Message me</Button>
                                 </div>
                             </div>
                         </Card>

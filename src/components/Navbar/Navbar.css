@@ -34,3 +34,26 @@
     background-image: linear-gradient(180deg, #42B7FE, #2B8EFE);
     box-shadow: #0077ff 0px 3px 54px;
 }
+.btn_goto_dashboard{
+    border: none;
+    padding: 6px 25px;
+    text-transform: capitalize;
+    background-image: linear-gradient(180deg, #42B7FE, #1980f5);
+    box-shadow: #f344146e 0px 3px 54px;
+    color: #fff;
+    font-weight: 400;
+    border-radius: 20px;
+    font-size:.84rem;
+}
+.btn_filter{
+    border: none;
+    padding: 6px 25px;
+    text-transform: capitalize;
+    background-image: linear-gradient(180deg, #FF8F50, #FF5324);
+    box-shadow: #f344146e 0px 3px 54px;
+    color: #fff;
+    font-weight: 400;
+    border-radius: 20px;
+    font-size:.84rem;
+  }
+

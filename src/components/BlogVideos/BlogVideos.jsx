@@ -35,6 +35,7 @@ export const Data = [
 const BlogVideos = () => {
     const [hasWindow, setHasWindow] = useState(false);
     const { data, isLoading } = useGetAllVideosQuery(undefined)
+    const filteredData = data?.filter((item) => item?.status === "approved")
     console.log('videocard', data)
 
     useEffect(() => {
@@ -59,7 +60,7 @@ const BlogVideos = () => {
                             </div> :
                             <>
                                 {
-                                    data?.map((item, index) => (
+                                    filteredData?.slice(0,6)?.map((item, index) => (
                                         <Col md={4} key={index} className='gy-3'>
                                             <div className='BV_wrapper'>
                                                 <div className="BV_card">
@@ -106,27 +107,38 @@ const BlogVideos = () => {
 
                                                         </div>
                                                         <div className="w-100 p-1">
-                                                            <h6 className='text-dark fw-bold fs-5'>{item?.title}</h6>
+                                                            <h6 className=' bv_title'>{item?.title}</h6>
                                                             <small className='text-start text-secondary'
-                                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item?.desc?.slice(0, 70)) }}
-                                                        ></small>
+                                                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item?.desc?.slice(0, 70)) }}
+                                                            ></small>
                                                         </div>
                                                     </div>
-                                                  
+
 
                                                     <div className="more">
-                                                        <Link href={`/singlevide/${item?._id}`} 
-                                                        className='text-decoration-none text-capitalize'>watch</Link>
+                                                        <Link href={`/singlevide/${item?._id}`}
+                                                            className='text-decoration-none text-capitalize'>watch</Link>
                                                     </div>
                                                 </div>
                                             </div>
                                         </Col>
                                     ))
                                 }
+
+                                {
+                                    !filteredData && <p>Not found any approved posts</p>
+                                }
+                                {
+                                    filteredData?.length >= 0 && <p className='fw-bold text-dark'>Not found any approved posts</p>
+                                }
                             </>
                     }
 
-
+                    <div className="d-flex justify-content-center align-items-center">
+                        <Link href="/all-videos" className='text-decoration-none'>
+                            <Button className='btn_filter'>view more</Button>
+                        </Link>
+                    </div>
                 </Row>
             </Container>
         </>
