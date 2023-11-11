@@ -62,8 +62,8 @@ const TopHeader = () => {
                                     </Link>
                                 </p>
                                 <p className=' text-secondary d-none d-md-block d-lg-block d-xl-block'>
-                                    <Link href="/about"
-                                        className={Tpath === '/about' ?
+                                    <Link href="/documentations"
+                                        className={Tpath === '/documentations' ?
                                             'activecls text-decoration-none ' :
                                             'text-secondary text-decoration-none'}
                                     >

@@ -5,3 +5,20 @@
   font-family: 'Ubuntu', sans-serif;
 }
 
+.embed-responsive-item{
+  width: 1000px !important;
+  height: 100vh !important;
+}
+
+/* @media only screen and (max-width:393px){
+  .embed-responsive-item{
+    width: 100% !important;
+    height: 100% !important;
+  }
+} */
+@media only screen and (max-width:468px){
+  .embed-responsive-item{
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
