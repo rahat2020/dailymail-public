@@ -88,19 +88,21 @@ const Featured = () => {
                                     </div> :
                                     <>
                                         {
-                                            filteredData?.slice(0,4)?.map((item, index) => (
+                                            filteredData?.slice(0, 4)?.map((item, index) => (
                                                 <Col md={6} key={index}>
-                                                    <Card style={{ height: '15rem' }} className='bg-transparent border-0 cards'>
-                                                        <div className="ImagContainer">
-                                                            <Card.Img variant="top" src={item?.photoUrlOne ? item?.photoUrlOne : "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-13-390x260.jpg"} className='rounded feature_rghtImg' loading='lazy' />
-                                                        </div>
-                                                        <div className="p-1">
-                                                            <small className='fw-bold category'>{item?.category}</small>
-                                                            <p className='fw-bold'>
-                                                                {item?.title}
-                                                            </p>
-                                                        </div>
-                                                    </Card>
+                                                    <Link href={`/singleblog/${item?._id}`} className='text-decoration-none'>
+                                                        <Card style={{ height: '15rem' }} className='bg-transparent border-0 cards'>
+                                                            <div className="ImagContainer">
+                                                                <Card.Img variant="top" src={item?.photoUrlOne ? item?.photoUrlOne : "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-13-390x260.jpg"} className='rounded feature_rghtImg' loading='lazy' />
+                                                            </div>
+                                                            <div className="p-1">
+                                                                <small className='fw-bold category'>{item?.category}</small>
+                                                                <p className='fw-bold'>
+                                                                    {item?.title}
+                                                                </p>
+                                                            </div>
+                                                        </Card>
+                                                    </Link>
                                                 </Col>
                                             ))
                                         }

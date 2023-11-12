@@ -1,39 +1,55 @@
-  .bv_title{
-    color: #333;
+  .BV_wrapper {
+    transition: all .3s ease-in-out;
+    background-color: #FEF7F1;
+    box-shadow: #ebebebd5 0px 3px 20px;
+  }
+
+  .BV_wrapper:hover {
+    background-color: #FEFBF8;
+    border-radius: 10px;
+    box-shadow: #f344146e 0px 3px 20px;
+  }
+
+  .bv_title {
+    color: #1b1b1bde;
     font-size: 1.222rem;
   }
+
   .BV_card {
     position: relative;
     height: 440px;
     width: 100%;
     overflow: hidden;
-    box-shadow: 0px 5px 10px 0 #00000033;
+    /* box-shadow: 0px 5px 10px 0 #00000033; */
     border-radius: 10px;
   }
+
   .BV_card .header {
     position: absolute;
     width: 100%;
     height: 350px;
     overflow: hidden;
-    /* background: #444; */
-    background: linear-gradient(140deg, #de4c4c 0%, #f0904b0a 35%);
+    /* background: linear-gradient(140deg, #de4c4c 0%, #f0904b0a 35%); */
     z-index: 1;
     /* text-align: center; */
   }
-  .BC_likedWrapper{
+
+  .BC_likedWrapper {
     position: relative;
     cursor: pointer;
   }
-  .BC_likedWrapper .BC_likedNum{
+
+  .BC_likedWrapper .BC_likedNum {
     position: absolute;
     top: -14px;
     font-size: .77rem;
-    padding:0 2px;
+    padding: 0 2px;
     right: 0;
     color: #fff;
     background-color: red;
     border-radius: 50%;
   }
+
   /* .header img {
     position: absolute;
     width: 100px;
@@ -44,14 +60,15 @@
     transform: translateX(-50%);
     border-radius: 50%;
   } */
-  
-  
+
+
   .BV_card .wave-container {
     position: absolute;
     width: 100%;
     height: 60%;
     top: 0;
   }
+
   .wave {
     position: absolute;
     height: 960px;
@@ -64,23 +81,25 @@
     background: linear-gradient(140deg, #de4c4c 0%, #ee731b 35%);
     animation: wave 3s infinite linear;
   }
-  
+
   .wave:nth-child(2) {
     animation-delay: 0.2s;
   }
+
   .wave:nth-child(3) {
     animation-delay: 0.3s;
   }
-  
+
   @keyframes wave {
     0% {
       transform: rotate(0deg);
     }
+
     100% {
       transform: rotate(360deg);
     }
   }
-  
+
   .icons {
     position: absolute;
     top: 52%;
@@ -92,15 +111,15 @@
     display: flex;
     justify-content: center;
   }
-  
-  .link {
+
+  /* .watch_btn {
     text-decoration: none;
     height: 40px;
     width: 40px;
     margin: 7px;
-    color: white;
-    /* background: rgb(39, 39, 39); */
-    background: linear-gradient(140deg, #de4c4c 0%, #e97623af 35%);
+    color: #e97623;
+    background: white;
+    background: linear-gradient(140deg, #fff 0%, #ffff 35%);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -109,12 +128,13 @@
     border: none;
     transition: 0.4s;
   }
-  
-  .link:hover {
-    background: white;
-    color: #e97623;
-  }
-  
+
+  .watch_btn:hover {
+    background: linear-gradient(140deg, #de4c4c 0%, #e97623af 35%);
+    color: white;
+    
+  } */
+
   .BV_card .more {
     position: absolute;
     bottom: 30px;
@@ -124,15 +144,22 @@
   .BV_card .more a {
     text-decoration: none;
     padding: 6px 25px;
-    color: #fff;
+    color: #e97623;
+    font-weight: bold;
     text-transform: uppercase;
     /* background: linear-gradient(180deg, #e2595986 20%, #e97623 45%); */
-    background-image: linear-gradient(180deg, #FF8F50, #FF5324);
+    background: #fff;
     border: solid 1px #e97623;
     border-radius: 30px;
     transition: 0.4s;
   }
-  .btn_filter{
+  .BV_card .more a:hover {
+    color: #fff;
+    background-image: linear-gradient(180deg, #FF8F50, #FF5324);
+ 
+  }
+
+  .btn_filter {
     border: none;
     padding: 6px 25px;
     text-transform: capitalize;
@@ -141,11 +168,5 @@
     color: #fff;
     font-weight: 400;
     border-radius: 20px;
-    font-size:.84rem;
+    font-size: .84rem;
   }
-  
-  .BV_card .more a:hover {
-   background: #fff;
-    color: #e97623;
-  }
-  

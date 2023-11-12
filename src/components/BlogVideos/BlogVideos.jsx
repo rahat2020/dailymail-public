@@ -51,7 +51,7 @@ const BlogVideos = () => {
     return (
         <>
             <Container className='mt-5 bv_main'>
-                <h3 className='fw-bold'>Videos you may like</h3>
+                <h3 className='fw-bold'><span style={{ color: '#EF7C2A' }}>Videos you</span> may like</h3>
                 <Row>
                     {
                         isLoading ?
@@ -60,7 +60,7 @@ const BlogVideos = () => {
                             </div> :
                             <>
                                 {
-                                    filteredData?.slice(0,6)?.map((item, index) => (
+                                    filteredData?.slice(0, 6)?.map((item, index) => (
                                         <Col md={4} key={index} className='gy-3'>
                                             <div className='BV_wrapper'>
                                                 <div className="BV_card">
@@ -107,7 +107,7 @@ const BlogVideos = () => {
 
                                                         </div>
                                                         <div className="w-100 p-1">
-                                                            <h6 className=' bv_title'>{item?.title}</h6>
+                                                            <h6 className='bv_title'>{item?.title}</h6>
                                                             <small className='text-start text-secondary'
                                                                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item?.desc?.slice(0, 70)) }}
                                                             ></small>
@@ -117,7 +117,7 @@ const BlogVideos = () => {
 
                                                     <div className="more">
                                                         <Link href={`/singlevide/${item?._id}`}
-                                                            className='text-decoration-none text-capitalize'>watch</Link>
+                                                            className='text-decoration-none text-capitalize '>watch</Link>
                                                     </div>
                                                 </div>
                                             </div>
@@ -128,9 +128,9 @@ const BlogVideos = () => {
                                 {
                                     !filteredData && <p>Not found any approved posts</p>
                                 }
-                                {
+                                {/* {
                                     filteredData?.length >= 0 && <p className='fw-bold text-dark'>Not found any approved posts</p>
-                                }
+                                } */}
                             </>
                     }
 

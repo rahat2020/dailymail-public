@@ -163,18 +163,20 @@ const LatestBlogs = () => {
                                 {
                                     filteredData?.slice(0.5)?.map((item, index) => (
                                         <Col md={12} key={index} className='rb_cards'>
-                                            <div className="d-flex border-top border-bottom py-2 border-light border-2 shadow-sm">
-                                                <div className="w-50 d-flex justify-content-center align-items-center overflow-hidden position-relative">
-                                                    <Card.Img src={item?.photoUrlOne ? item?.photoUrlOne : 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg'} className=' rb_cardsImg' />
+                                            <Link href={`/singleblog/${item?._id}`} className='text-decoration-none'>
+                                                <div className="d-flex border-top border-bottom py-2 border-light border-2 shadow-sm">
+                                                    <div className="w-50 d-flex justify-content-center align-items-center overflow-hidden position-relative">
+                                                        <Card.Img src={item?.photoUrlOne ? item?.photoUrlOne : 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg'} className=' rb_cardsImg' />
+                                                    </div>
+                                                    <div className="d-flex justify-content-start align-items-start flex-column rcb_textPara">
+                                                        <h6 className="fw-bold text-secondary">{item?.title}</h6>
+                                                        <small className='text-secondary'>{
+                                                            item?.user[0]?.username
+                                                        }</small>
+                                                        <small className='text-secondary'>Need 4 min to read</small>
+                                                    </div>
                                                 </div>
-                                                <div className="d-flex justify-content-start align-items-start flex-column rcb_textPara">
-                                                    <h6 className="fw-bold text-secondary">{item?.title}</h6>
-                                                    <small className='text-secondary'>{
-                                                        item?.user[0]?.username
-                                                    }</small>
-                                                    <small className='text-secondary'>Need 4 min to read</small>
-                                                </div>
-                                            </div>
+                                            </Link>
                                         </Col>
                                     ))
                                 }

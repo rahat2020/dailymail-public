@@ -65,10 +65,11 @@ import { AuthContext } from '@/context/authContext';
 
 const SinglePost = ({ params }) => {
     // AUTH CONTEXT 
-    const {user} = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
 
     // REDUX QUERIES
     const { data, isLoading } = useGetSinglePostQuery(params)
+    console.log('filteredData from single post', data)
     const { data: item } = useGetAllPostQuery(undefined)
     const filteredData = item?.filter((item) => item?.status === "approved")
     // const userEmail = typeof window !== "undefined" ? window.localStorage.getItem('user') || '' : false;
@@ -77,9 +78,9 @@ const SinglePost = ({ params }) => {
     const { data: userData } = useUserDataByEmailQuery(user)
     const [IncData] = useIncreaseViewsMutation()
     const [LikesData] = useCreateLikesMutation()
-    console.log('does user is active', userData?.email === user)
+    // console.log('does user is active', userData?.email === user)
 
-    // add viewers to the post
+    // ADD VIEWERS OR VISITORS TO THIS POST
     const [show, setShow] = useState(true);
     const handleClose = async () => {
         const id = params
@@ -93,15 +94,15 @@ const SinglePost = ({ params }) => {
     };
 
 
-    // formating the date
+    // FORMATING THE DATE LIKE THIS --> ( Nov 12, 2023 )
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     }
-
     const inputDateString = data?.createdAt;
     const formattedDate = formatDate(inputDateString);
 
+    // USER IS ONLINE TOOLTIP
     const pathname = usePathname()
     const renderTooltip = (props) => (
         <Tooltip id="button-tooltip" {...props}>
@@ -174,6 +175,7 @@ const SinglePost = ({ params }) => {
     }
 
 
+    // CHECING ALREADY THIS USER IS LIKED POST 
     const abc = data?.likes?.map((item) => (item?.liker[0]?.email?.includes(user)))
     const trueValues = abc?.filter((value) => value === true);
     const stringResult = trueValues?.toString();
@@ -211,7 +213,7 @@ const SinglePost = ({ params }) => {
                                                 />
                                                 {
                                                     userData?.username === data?.user[0]?.username ?
-                                                    // userData?.email === user ?
+                                                        // userData?.email === user ?
                                                         <OverlayTrigger
                                                             placement="top"
                                                             delay={{ show: 250, hide: 400 }}
@@ -236,18 +238,18 @@ const SinglePost = ({ params }) => {
                                         </Col>
                                         <Col md={3} className='gy-3'>
                                             <div className="d-flex justify-content-center justify-content-md-end justify-content-lg-end align-items-center h-100 w-100">
-                                                <Link href="/" className='text-decoration-none'>
+                                                <Link href={data?.instagram} target='_blank' className='text-decoration-none'>
                                                     <InstagramIcon className='socialIcon' />
                                                 </Link>
-                                                <Link href="/" className='text-decoration-none'>
+                                                <Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
                                                     <LinkedInIcon className='socialIcon ms-1 cursor-pointer' />
                                                 </Link>
-                                                <Link href="/" className='text-decoration-none'>
+                                                <Link href={data?.facebook} target='_blank' className='text-decoration-none'>
                                                     <FacebookIcon className='socialIcon ms-1' />
                                                 </Link>
-                                                <Link href="/" className='text-decoration-none'>
+                                                {/* <Link href="/" className='text-decoration-none'>
                                                     <TwitterIcon className='socialIcon ms-1' />
-                                                </Link>
+                                                </Link> */}
                                             </div>
                                         </Col>
                                     </Row>
@@ -257,12 +259,16 @@ const SinglePost = ({ params }) => {
                                         <p className='fw-bold text-muted py-2'
                                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.desc.slice(0, 80)) }}></p>
                                         <div className="d-flex justify-content-center align-items-center flex-column">
-                                            <Image src="https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-12-1440x720.jpg"
+                                            <Image src={data?.photoUrlOne ? data.photoUrlOne : 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-12-1440x720.jpg'}
                                                 alt='img-1'
                                                 className='w-sm-50 h-sm-100 img-fluid  w-md-100 w-lg-100 w-xl-100'
                                             // style={{width:'90%', height:'100%'}}
                                             />
                                             <small className='text-secondary'>Source: {data?.author}</small>
+
+                                            <small className='text-secondary'>
+                                                <Link href={data?.website ? data?.website : ''} target='_blank' className='text-primary'>source website</Link>
+                                            </small>
                                         </div>
                                         <p className='text-muted py-2 letter-1'
                                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.desc) }}></p>
@@ -291,17 +297,14 @@ const SinglePost = ({ params }) => {
                                 }
                             </div>
                             <div className="d-flex">
-                                <Link href="/" className='text-decoration-none'>
+                                <Link href={data?.instagram} target='_blank' className='text-decoration-none'>
                                     <InstagramIcon className='socialIcon' />
                                 </Link>
-                                <Link href="/" className='text-decoration-none'>
+                                <Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
                                     <LinkedInIcon className='socialIcon ms-1 cursor-pointer' />
                                 </Link>
-                                <Link href="/" className='text-decoration-none'>
+                                <Link href={data?.facebook} target='_blank' className='text-decoration-none'>
                                     <FacebookIcon className='socialIcon ms-1' />
-                                </Link>
-                                <Link href="/" className='text-decoration-none'>
-                                    <TwitterIcon className='socialIcon ms-1' />
                                 </Link>
                             </div>
                         </div>
@@ -316,7 +319,7 @@ const SinglePost = ({ params }) => {
                                                 style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '50%' }}
                                             />
                                             {
-                                                 userData?.username === data?.user[0]?.username ?
+                                                userData?.username === data?.user[0]?.username ?
                                                     <OverlayTrigger
                                                         placement="top"
                                                         delay={{ show: 250, hide: 400 }}
@@ -362,7 +365,7 @@ const SinglePost = ({ params }) => {
                                                 <div className="d-flex justify-content-start align-items-start flex-column">
                                                     <h6 className="fw-bold text-secondary">{item?.title}</h6>
                                                     <small className='text-secondary'>{item?.date}</small>
-                                                    <small className='text-secondary'>Need {item?.needTime} to read</small>
+                                                    <small className='text-secondary'>{item?.timeToRead}</small>
                                                 </div>
                                             </div>
                                         </Col>
