@@ -1,22 +1,24 @@
 "use client"
 import React, { useContext, useState } from 'react';
-import { Button, Card, Col, Container, Form, Image, Modal, Row, Spinner } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Image, Modal, Row, Spinner, Nav } from 'react-bootstrap';
 import SendIcon from '@mui/icons-material/Send';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import Link from 'next/link';
+// import Link from 'next/link';
+import './SingleVideo.css';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllPostQuery, useGetSinglePostQuery, useIncreaseVideoViewsMutation, useUserDataByEmailQuery } from '@/redux/apiSlice';
+import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllPostQuery, useGetAllVideosQuery, useGetSinglePostQuery, useGetSingleVideosQuery, useIncreaseVideoViewsMutation, useUserDataByEmailQuery } from '@/redux/apiSlice';
 import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from 'next/navigation';
 import { AuthContext } from '@/context/authContext';
+import ReactPlayer from 'react-player';
 
 
 const SingleVideo = ({ params }) => {
@@ -25,15 +27,15 @@ const SingleVideo = ({ params }) => {
     const { user } = useContext(AuthContext)
 
     // REDUX
-    const { data, isLoading } = useGetSinglePostQuery(params)
-    const { data: item } = useGetAllPostQuery(undefined)
+    const { data, isLoading } = useGetSingleVideosQuery(params)
+    const { data: item } = useGetAllVideosQuery(undefined)
     const filteredData = item?.filter((item) => item?.status === "approved")
     const [CommetsData] = useCreateCommentsMutation()
     const { data: userData } = useUserDataByEmailQuery(user)
     const [LikesData] = useCreateLikesMutation()
     const [IncData] = useIncreaseVideoViewsMutation()
     // console.log('single post loggedInUserData', userData)
-    // console.log('single post', data)
+    console.log('single video data', data)
 
 
     // FORMATING DATE
@@ -168,7 +170,7 @@ const SingleVideo = ({ params }) => {
                                                     loading='lazy'
                                                 />
                                                 {
-                                                     userData?.username === data?.user[0]?.username ?
+                                                    userData?.username === data?.user[0]?.username ?
                                                         <OverlayTrigger
                                                             placement="top"
                                                             delay={{ show: 250, hide: 400 }}
@@ -185,26 +187,23 @@ const SingleVideo = ({ params }) => {
                                                 <div className="d-flex flex-column justify-content-start align-items-start ms-2">
                                                     <span className='fw-bold text-secondary'>{data?.user[0]?.username} </span>
                                                     <div className="d-flex jsutify-content-start align-items-start flex-wrap">
-                                                        <small className='text-secondary'>{formattedDate} | 4 min to read </small>
-                                                        <small className='text-secondary ms-2 '>| <VisibilityIcon style={{ fontSize: "1.11rem" }} /> 45 views</small>
+                                                        <small className='text-secondary'>{formattedDate} | {data?.timeToRead ? data.timeToRead : 'N/A'} </small>
+                                                        <small className='text-secondary ms-2 '>| <VisibilityIcon style={{ fontSize: "1.11rem" }} /> {data?.viewers ? data.viewers : 'N/A'} views</small>
                                                     </div>
                                                 </div>
                                             </div>
                                         </Col>
                                         <Col md={3} className='gy-3'>
                                             <div className="d-flex justify-content-center justify-content-md-end justify-content-lg-end align-items-center h-100 w-100">
-                                                <Link href="/" className='text-decoration-none'>
+                                                <Nav.Link href={data?.instagram} target='_blank' className='text-decoration-none'>
                                                     <InstagramIcon className='socialIcon' />
-                                                </Link>
-                                                <Link href="/" className='text-decoration-none'>
+                                                </Nav.Link>
+                                                <Nav.Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
                                                     <LinkedInIcon className='socialIcon ms-1 cursor-pointer' />
-                                                </Link>
-                                                <Link href="/" className='text-decoration-none'>
+                                                </Nav.Link>
+                                                <Nav.Link href={data?.facebook} target='_blank' className='text-decoration-none'>
                                                     <FacebookIcon className='socialIcon ms-1' />
-                                                </Link>
-                                                <Link href="/" className='text-decoration-none'>
-                                                    <TwitterIcon className='socialIcon ms-1' />
-                                                </Link>
+                                                </Nav.Link>
                                             </div>
                                         </Col>
                                     </Row>
@@ -213,10 +212,9 @@ const SingleVideo = ({ params }) => {
                                         <small className='text-primary fw-bold'>home{pathname}</small>
                                         <p className='fw-bold text-dark py-2' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.desc.slice(0, 80)) }}></p>
                                         <div className="d-flex justify-content-center align-items-center flex-column">
-                                            <Image src="https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-12-1440x720.jpg"
-                                                alt='img-1'
-                                                className='w-sm-50 h-sm-100 img-fluid  w-md-100 w-lg-100 w-xl-100'
-                                            // style={{width:'90%', height:'100%'}}
+                                            <ReactPlayer url={data?.videoOne}
+                                                controls
+                                                width="580px" height="300px"
                                             />
                                             <small className='text-secondary'>Source: {data?.author}</small>
                                         </div>
@@ -247,18 +245,15 @@ const SingleVideo = ({ params }) => {
                                 }
                             </div>
                             <div className="d-flex">
-                                <Link href="/" className='text-decoration-none'>
+                                <Nav.Link href={data?.instagram} target='_blank' className='text-decoration-none'>
                                     <InstagramIcon className='socialIcon' />
-                                </Link>
-                                <Link href="/" className='text-decoration-none'>
+                                </Nav.Link>
+                                <Nav.Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
                                     <LinkedInIcon className='socialIcon ms-1 cursor-pointer' />
-                                </Link>
-                                <Link href="/" className='text-decoration-none'>
+                                </Nav.Link>
+                                <Nav.Link href={data?.facebook} target='_blank' className='text-decoration-none'>
                                     <FacebookIcon className='socialIcon ms-1' />
-                                </Link>
-                                <Link href="/" className='text-decoration-none'>
-                                    <TwitterIcon className='socialIcon ms-1' />
-                                </Link>
+                                </Nav.Link>
                             </div>
                         </div>
 
@@ -311,16 +306,18 @@ const SingleVideo = ({ params }) => {
                                 {
                                     filteredData?.map((item, index) => (
                                         <Col md={12} key={index} className='rb_cards'>
-                                            <div className="d-flex border-top border-bottom py-2 border-light border-2 shadow-sm">
-                                                <div className="w-50 d-flex justify-content-center align-items-center overflow-hidden position-relative">
-                                                    <Card.Img src={item?.photoOne ? item.photoOne : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGaBjAWQvd1_0xvpZXg2W1tNxISVTqOXm35gaf403u&s"} className='w-75 h-100 rb_cardsImg' />
+                                            <Nav.Link href={`/singlevideo/${item?._id}`} className='text-decoration-none'>
+                                                <div className="d-flex border-top border-bottom py-2 border-light border-2 shadow-sm">
+                                                    <div className="w-50 d-flex justify-content-center align-items-center overflow-hidden position-relative">
+                                                        <Card.Img src={item?.photoUrlOne ? item.photoUrlOne : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGaBjAWQvd1_0xvpZXg2W1tNxISVTqOXm35gaf403u&s"} className='rb_cardsImg' />
+                                                    </div>
+                                                    <div className="d-flex justify-content-start align-items-start flex-column w-50">
+                                                        <h6 className="fw-bold text-secondary">{item?.title}</h6>
+                                                        <small className='text-secondary'>{item?.date}</small>
+                                                        <small className='text-secondary'>Need {item?.needTime} to read</small>
+                                                    </div>
                                                 </div>
-                                                <div className="d-flex justify-content-start align-items-start flex-column">
-                                                    <h6 className="fw-bold text-secondary">{item?.title}</h6>
-                                                    <small className='text-secondary'>{item?.date}</small>
-                                                    <small className='text-secondary'>Need {item?.needTime} to read</small>
-                                                </div>
-                                            </div>
+                                            </Nav.Link>
                                         </Col>
                                     ))
                                 }

@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap'
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -26,24 +26,36 @@ const TopHeader = () => {
     // console.log(`formattedDate: ${formattedDate}`);
     // console.log(monthName, currentDate, currentYear)
     const Tpath = usePathname()
+
+    // TIME FUNCTIONS
+    const [time, setTime] = useState(new Date());
+    useEffect(() => {
+        const intervalID = setInterval(() => {
+            setTime(new Date());
+        }, [1000]);
+        return () => clearInterval(intervalID);
+    }, []); 
+
+    const hours = time.getHours();
+    const minutes = time.getMinutes();
+    const seconds = time.getSeconds();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12;
+
+    // console.log("time", hours, minutes, seconds, formattedHours)
+
+
     return (
         <div className='bg-light p-2'>
             <Container className=''>
                 <Row>
                     <Col md={10}>
-                        <div className="w-50 w-sm-100 ">
-                            <div className="d-flex justify-content-between align-items-center mt-3 ">
-                                <p className='text-secondary'>{monthName} {currentDate}, {currentYear}</p>
+                        <div className="w-50 w-sm-50 ">
+                            <div className="d-flex justify-content-start align-items-center mt-3 m-1">
+                                <p className='text-secondary fw-bold'>
+                                    {monthName} {currentDate}, {currentYear} ||  {formattedHours}:{minutes < 10 ? `0${minutes}` : minutes}:{seconds < 10 ? `0${seconds}` : seconds} {ampm}
+                                </p>
                                 {/* <p className=' text-secondary d-none d-md-block d-lg-block d-xl-block'>
-                                    <Link href="/advirtisement"
-                                        className={Tpath === '/advirtisement' ?
-                                            'activecls text-decoration-none ' :
-                                            'text-secondary text-decoration-none'}
-                                    >
-                                        Advertisement
-                                    </Link>
-                                </p> */}
-                                <p className=' text-secondary d-none d-md-block d-lg-block d-xl-block'>
                                     <Link href="/contact"
                                         className={Tpath === '/contact' ?
                                             'activecls text-decoration-none ' :
@@ -60,16 +72,18 @@ const TopHeader = () => {
                                     >
                                         About
                                     </Link>
-                                </p>
-                                <p className=' text-secondary d-none d-md-block d-lg-block d-xl-block'>
+                                </p> */}
+                                <p className='ms-2 text-secondary d-none d-md-block d-lg-block d-xl-block fw-bold'>
                                     <Link href="/documentations"
                                         className={Tpath === '/documentations' ?
                                             'activecls text-decoration-none ' :
                                             'text-secondary text-decoration-none'}
                                     >
-                                        Documentation
+                                    Documentation
+
                                     </Link>
                                 </p>
+
                             </div>
                         </div>
                     </Col>

@@ -16,7 +16,7 @@ const BlogsCards = () => {
     const filteredData = data?.filter((item) => item?.status === "approved")
     // console.log('latese blogs', filteredData)
     console.log('blogscard', filteredData)
-    
+
     return (
 
         <Container className='mt-5'>
@@ -59,9 +59,9 @@ const BlogsCards = () => {
                                                     </div>
                                                     <div className="w-100 p-1">
                                                         <h4 className='text-white fw-bold'>{item?.title}</h4>
-                                                        <small className='text-start text-light'
-                                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.desc?.slice(0, 20)) }}
-                                                        ></small>
+                                                        <small
+                                                            className='text-start text-light'
+                                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item?.desc?.slice(0, 200)) }}></small>
                                                         <small>{data?.desc}</small>
                                                     </div>
                                                 </div>
@@ -94,9 +94,9 @@ const BlogsCards = () => {
                             {
                                 !filteredData && <p>Not found any approved posts</p>
                             }
-                            {
+                            {/* {
                                 filteredData?.length >= 0 && <p className='fw-bold text-dark'>Not found any approved posts</p>
-                            }
+                            } */}
                         </>
 
 

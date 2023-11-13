@@ -116,7 +116,7 @@ const BlogVideos = () => {
 
 
                                                     <div className="more">
-                                                        <Link href={`/singlevide/${item?._id}`}
+                                                        <Link href={`/singlevideo/${item?._id}`}
                                                             className='text-decoration-none text-capitalize '>watch</Link>
                                                     </div>
                                                 </div>

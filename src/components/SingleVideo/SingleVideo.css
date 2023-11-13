@@ -1,0 +1,8 @@
+.rb_cardsImg{
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}

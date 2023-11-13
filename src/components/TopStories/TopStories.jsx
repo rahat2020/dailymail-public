@@ -24,7 +24,7 @@ const TopStories = () => {
     const innovationApprovedData = innovationlData?.filter((item) => item?.status === "approved")
     const motivationalApprovedData = motivationData?.filter((item) => item?.status === "approved")
     const javasacriptApprovedData = javasacriptData?.filter((item) => item?.status === "approved")
-    console.log('technologyApprovedData', technologyApprovedData)
+    console.log('travelData', travelData)
     return (
         <Container className='mt-5 pt-3'>
             <h3 className='fw-bold'>Top Stories</h3>
@@ -61,7 +61,7 @@ const TopStories = () => {
                                                         <Card className="text-dark shadow ts_smallCard">
                                                             <Row>
                                                                 <Col md={4}>
-                                                                    <Card.Img src={item?.photoOne ? item?.photoOne :
+                                                                    <Card.Img src={item?.photoUrlOne ? item?.photoUrlOne :
                                                                         "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-20-705x660.jpg"} alt="post-img" className='rounded tp_smllCardImg'
                                                                         style={{ height: '100%', width: '100%', objectFit: 'contain' }} />
                                                                 </Col>
@@ -87,7 +87,7 @@ const TopStories = () => {
                                         travelApprovedData?.slice(0, 1)?.map((item, i) => (
                                             <Col md={6} key={i}>
                                                 <div className="tp_imgContainer">
-                                                    <Image src={item?.photoOne ? item?.photoOne :
+                                                    <Image src={item?.photoUrlOne ? item?.photoUrlOne :
                                                         "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-20-705x660.jpg"} alt="post-img" className="img-fluid  rounded tp_imgBig" />
                                                     <div className="TS_overlay">
                                                         <small>{item?.category}</small>

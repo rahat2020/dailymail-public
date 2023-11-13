@@ -156,9 +156,6 @@ const AllVideos = () => {
                                     {
                                         !filteredData && <p>Not found any approved posts</p>
                                     }
-                                    {
-                                        filteredData?.length >= 0 && <p className='fw-bold text-dark'>Not found any approved posts</p>
-                                    }
                                 </>
                         }
 

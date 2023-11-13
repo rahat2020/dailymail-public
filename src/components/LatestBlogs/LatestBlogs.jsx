@@ -137,7 +137,7 @@ const LatestBlogs = () => {
                                                                     <Card.Img src={item?.user[0]?.photo ? item?.user[0]?.photo : 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg'} className='' style={{ width: '4rem', height: '4rem', borderRadius: '50%', objectFit: 'cover' }} />
                                                                     <div className="d-flex flex-column justify-content-start align-items-start ms-2">
                                                                         <span style={{ color: '#e97623', fontWeight: 'bold' }}>{item?.name}</span>
-                                                                        <small><strong>Author:</strong> {item?.user[0]?.username}</small>
+                                                                        <small><strong>Writer:</strong> {item?.user[0]?.username}</small>
                                                                         <small><strong>Category:</strong> {item?.category}</small>
                                                                         <small><strong>Date:</strong> {item?.publicationDate?.slice(0, 10)}</small>
                                                                     </div>

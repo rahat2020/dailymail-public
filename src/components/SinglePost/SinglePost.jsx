@@ -1,13 +1,13 @@
 "use client"
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Card, Col, Container, Form, Image, Row, Spinner } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Image, Row, Spinner, Nav } from 'react-bootstrap';
 import './SinglePost.css';
 import SendIcon from '@mui/icons-material/Send';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import Link from 'next/link';
+// import Link from 'next/link';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -230,7 +230,7 @@ const SinglePost = ({ params }) => {
                                                 <div className="d-flex flex-column justify-content-start align-items-start ms-2">
                                                     <span className='fw-bold text-secondary'>{data?.user[0]?.username} </span>
                                                     <div className="d-flex jsutify-content-start align-items-start flex-wrap">
-                                                        <small className='text-secondary'>{formattedDate} | 4 min to read </small>
+                                                        <small className='text-secondary'>{formattedDate} | {data?.timeToRead} </small>
                                                         <small className='text-secondary ms-2 '>| <VisibilityIcon style={{ fontSize: "1.11rem" }} /> {data?.viewers} views</small>
                                                     </div>
                                                 </div>
@@ -238,18 +238,16 @@ const SinglePost = ({ params }) => {
                                         </Col>
                                         <Col md={3} className='gy-3'>
                                             <div className="d-flex justify-content-center justify-content-md-end justify-content-lg-end align-items-center h-100 w-100">
-                                                <Link href={data?.instagram} target='_blank' className='text-decoration-none'>
+                                                <Nav.Link href={data?.instagram} target='_blank' className='text-decoration-none'>
                                                     <InstagramIcon className='socialIcon' />
-                                                </Link>
-                                                <Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
+                                                </Nav.Link>
+                                                <Nav.Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
                                                     <LinkedInIcon className='socialIcon ms-1 cursor-pointer' />
-                                                </Link>
-                                                <Link href={data?.facebook} target='_blank' className='text-decoration-none'>
+                                                </Nav.Link>
+                                                <Nav.Link href={data?.facebook} target='_blank' className='text-decoration-none'>
                                                     <FacebookIcon className='socialIcon ms-1' />
-                                                </Link>
-                                                {/* <Link href="/" className='text-decoration-none'>
-                                                    <TwitterIcon className='socialIcon ms-1' />
-                                                </Link> */}
+                                                </Nav.Link>
+
                                             </div>
                                         </Col>
                                     </Row>
@@ -266,12 +264,12 @@ const SinglePost = ({ params }) => {
                                             />
                                             <small className='text-secondary'>Source: {data?.author}</small>
 
-                                            <small className='text-secondary'>
-                                                <Link href={data?.website ? data?.website : ''} target='_blank' className='text-primary'>source website</Link>
+                                            <small className='text-primary'>
+                                                <Nav.Link href={data?.website ? data?.website : ''} target='_blank' >source website</Nav.Link>
                                             </small>
                                         </div>
                                         <p className='text-muted py-2 letter-1'
-                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.desc) }}></p>
+                                            dangerouslySetInnerHTML={{ __html: DOMPurify?.sanitize(data?.desc) }}></p>
                                     </div>
                                 </div>
                         }
@@ -297,15 +295,15 @@ const SinglePost = ({ params }) => {
                                 }
                             </div>
                             <div className="d-flex">
-                                <Link href={data?.instagram} target='_blank' className='text-decoration-none'>
+                                <Nav.Link href={data?.instagram} target='_blank' className='text-decoration-none'>
                                     <InstagramIcon className='socialIcon' />
-                                </Link>
-                                <Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
+                                </Nav.Link>
+                                <Nav.Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
                                     <LinkedInIcon className='socialIcon ms-1 cursor-pointer' />
-                                </Link>
-                                <Link href={data?.facebook} target='_blank' className='text-decoration-none'>
+                                </Nav.Link>
+                                <Nav.Link href={data?.facebook} target='_blank' className='text-decoration-none'>
                                     <FacebookIcon className='socialIcon ms-1' />
-                                </Link>
+                                </Nav.Link>
                             </div>
                         </div>
 
@@ -351,6 +349,8 @@ const SinglePost = ({ params }) => {
                             </Form>
                         </div>
                     </Col>
+
+                    {/* RELATED BLOGS */}
                     <Col md={4}>
                         <Card className='border-0 rounded shadow h-auto mt-5'>
                             <h5 className='fw-bold text-center text-dark my-3'>Related Blogs</h5>
@@ -358,16 +358,23 @@ const SinglePost = ({ params }) => {
                                 {
                                     filteredData?.map((item, index) => (
                                         <Col md={12} key={index} className='rb_cards'>
-                                            <div className="d-flex border-top border-bottom py-2 border-light border-2 shadow-sm">
-                                                <div className="w-50 d-flex justify-content-center align-items-center overflow-hidden position-relative">
-                                                    <Card.Img src={item?.photoOne ? item.photoOne : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGaBjAWQvd1_0xvpZXg2W1tNxISVTqOXm35gaf403u&s"} className='w-75 h-100 rb_cardsImg' />
+                                            <Nav.Link href={`/singleblog/${item?._id}`} className='text-decoration-none'>
+                                                <div className="d-flex border-top border-bottom py-2 border-light border-2 shadow-sm">
+                                                    <div className="w-50 d-flex justify-content-center align-items-center overflow-hidden position-relative">
+                                                        <Card.Img src={
+                                                            item?.photoUrlOne ?
+                                                                item.photoUrlOne :
+                                                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGaBjAWQvd1_0xvpZXg2W1tNxISVTqOXm35gaf403u&s"}
+                                                            className='rb_cardsImg'
+                                                        />
+                                                    </div>
+                                                    <div className="d-flex justify-content-start align-items-start flex-column w-50">
+                                                        <h6 className="fw-bold text-secondary">{item?.title}</h6>
+                                                        <small className='text-secondary'>{item?.date}</small>
+                                                        <small className='text-secondary'>{item?.timeToRead}</small>
+                                                    </div>
                                                 </div>
-                                                <div className="d-flex justify-content-start align-items-start flex-column">
-                                                    <h6 className="fw-bold text-secondary">{item?.title}</h6>
-                                                    <small className='text-secondary'>{item?.date}</small>
-                                                    <small className='text-secondary'>{item?.timeToRead}</small>
-                                                </div>
-                                            </div>
+                                            </Nav.Link>
                                         </Col>
                                     ))
                                 }

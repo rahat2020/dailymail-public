@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -38,7 +38,7 @@ const Topbar = () => {
   // console.log('userEmail', userEmail)
   const { data: userData } = useUserDataByEmailQuery(user)
   const { data: userPostsData } = useUserTotalPostAndVideosCountQuery(user)
-  console.log('topbar', userData)
+  // console.log('topbar', userData)
   const handleLogin = async (e) => {
     e.preventDefault()
     const object = {
@@ -139,6 +139,7 @@ const Topbar = () => {
   // CURRENT PATHNAME
   const Tpath = usePathname()
 
+ 
 
 
   return (

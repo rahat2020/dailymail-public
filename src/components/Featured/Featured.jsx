@@ -22,48 +22,70 @@ const Featured = () => {
                     <Col md={6} >
                         <Carousel>
                             <Carousel.Item>
-                                <div className="img_container d-flex justify-content-center align-items-cetner shadow-sm">
-                                    <Image src={
-                                        filteredData ? filteredData[0]?.photoUrlOne : "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg"
-                                    } alt={filteredData ? filteredData[0]?.title : 'N/A'} className='feature_left shadow-sm' loading='lazy' />
-                                    <div className="overlay">
-                                        <small className='category'>{filteredData ? filteredData[0]?.category : 'N/A'}</small>
-                                        <h3>{filteredData ? filteredData[0]?.title : 'N/A'}</h3>
+                                <Link href={`/singleblog/${filteredData ? filteredData[1]?._id : ''}`} className='text-decoration-none'>
+                                    <div className="img_container d-flex justify-content-center align-items-cetner shadow-sm">
+                                        <Image src={
+                                            filteredData ? filteredData[1]?.photoUrlOne : "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg"
+                                        } alt={filteredData ? filteredData[1]?.title : 'N/A'} className='feature_left shadow-sm' loading='lazy' />
+                                        <div className="overlay">
+                                            <small className='category'>{filteredData ? filteredData[1]?.category : 'N/A'}</small>
+                                            <h3>{filteredData ? filteredData[1]?.title : 'N/A'}</h3>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             </Carousel.Item>
                             <Carousel.Item>
-                                <div className="img_container d-flex justify-content-center align-items-cetner shadow-sm">
-                                    <Image src={
-                                        filteredData ? filteredData[1]?.photoUrlOne : "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg"
-                                    } alt={filteredData ? filteredData[1]?.title : 'N/A'} className='feature_left shadow-sm' loading='lazy' />
-                                    <div className="overlay">
-                                        <small className='category'>{filteredData ? filteredData[1]?.category : 'N/A'}</small>
-                                        <h3>{filteredData ? filteredData[1]?.title : 'N/A'}</h3>
+                                <Link href={`/singleblog/${filteredData ? filteredData[0]?._id : ''}`} className='text-decoration-none'>
+                                    <div className="img_container d-flex justify-content-center align-items-cetner shadow-sm">
+                                        <Image src={
+                                            filteredData ? filteredData[0]?.photoUrlOne : "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg"
+                                        } alt={filteredData ? filteredData[0]?.title : 'N/A'} className='feature_left shadow-sm' loading='lazy' />
+                                        <div className="overlay">
+                                            <small className='category'>{filteredData ? filteredData[0]?.category : 'N/A'}</small>
+                                            <h3>{filteredData ? filteredData[0]?.title : 'N/A'}</h3>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
+                            </Carousel.Item>
+
+                            <Carousel.Item>
+                                <Link href={`/singleblog/${filteredData ? filteredData[2]?._id : ''}`} className='text-decoration-none'>
+                                    <div className="img_container d-flex justify-content-center align-items-cetner shadow-sm">
+                                        <Image src={
+                                            filteredData ? filteredData[2]?.photoUrlOne : "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg"
+                                        } alt={filteredData ? filteredData[2]?.title : 'N/A'} className='feature_left shadow-sm' loading='lazy' />
+                                        <div className="overlay">
+                                            <small className='category'>{filteredData ? filteredData[2]?.category : 'N/A'}</small>
+                                            <h3>{filteredData ? filteredData[2]?.title : 'N/A'}</h3>
+                                        </div>
+                                    </div>
+                                </Link>
                             </Carousel.Item>
                             <Carousel.Item>
-                                <div className="img_container d-flex justify-content-center align-items-cetner shadow-sm">
-                                    <Image src={
-                                        filteredData ? filteredData[2]?.photoUrlOne : "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg"
-                                    } alt={filteredData ? filteredData[1]?.title : 'N/A'} className='feature_left shadow-sm' loading='lazy' />
-                                    <div className="overlay">
-                                        <small className='category'>{filteredData ? filteredData[2]?.category : 'N/A'}</small>
-                                        <h3>{filteredData ? filteredData[2]?.title : 'N/A'}</h3>
+                                <Link href={`/singleblog/${filteredData ? filteredData[3]?._id : ''}`} className='text-decoration-none'>
+                                    <div className="img_container d-flex justify-content-center align-items-cetner shadow-sm">
+                                        <Image src={
+                                            filteredData ? filteredData[3]?.photoUrlOne : "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg"
+                                        } alt={filteredData ? filteredData[3]?.title : 'N/A'} className='feature_left shadow-sm' loading='lazy' />
+                                        <div className="overlay">
+                                            <small className='category'>{filteredData ? filteredData[3]?.category : 'N/A'}</small>
+                                            <h3>{filteredData ? filteredData[3]?.title : 'N/A'}</h3>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             </Carousel.Item>
                             <Carousel.Item>
-                                <div className="img_container d-flex justify-content-center align-items-cetner shadow-sm">
-                                    <Image src={
-                                        filteredData ? filteredData[3]?.photoUrlOne : "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg"
-                                    } alt={filteredData ? filteredData[1]?.title : 'N/A'} className='feature_left shadow-sm' loading='lazy' />
-                                    <div className="overlay">
-                                        <small className='category'>{filteredData ? filteredData[3]?.category : 'N/A'}</small>
-                                        <h3>{filteredData ? filteredData[3]?.title : 'N/A'}</h3>
+                                <Link href={`/singleblog/${filteredData ? filteredData[4]?._id : ''}`} className='text-decoration-none'>
+                                    <div className="img_container d-flex justify-content-center align-items-cetner shadow-sm">
+                                        <Image src={
+                                            filteredData ? filteredData[4]?.photoUrlOne : "https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg"
+                                        } alt={filteredData ? filteredData[4]?.title : 'N/A'} className='feature_left shadow-sm' loading='lazy' />
+                                        <div className="overlay">
+                                            <small className='category'>{filteredData ? filteredData[4]?.category : 'N/A'}</small>
+                                            <h3>{filteredData ? filteredData[4]?.title : 'N/A'}</h3>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             </Carousel.Item>
                             <Carousel.Item>
                                 <div className="img_container d-flex justify-content-center align-items-cetner shadow-sm">

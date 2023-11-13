@@ -115,7 +115,7 @@ export const api = createApi({
             query: (data) => {
                 const { id } = data
                 return {
-                    url: `/videos/v1/post/${id}/views`,
+                    url: `/videos/v1/videos/${id}/views`,
                     method: 'PATCH',
                     body: data,
                 }

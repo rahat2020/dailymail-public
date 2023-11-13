@@ -8,6 +8,14 @@
     align-items: center;
     transition: all .5s ease-in-out;
 }
+.rb_cardsImg{
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
 .socialIcon_container:hover{
     background: linear-gradient(140deg, #de4c4c 0%, #e97623 35%);
     color: white;
