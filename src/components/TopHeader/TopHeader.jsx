@@ -46,7 +46,7 @@ const TopHeader = () => {
 
 
     return (
-        <div className='bg-light p-2'>
+        <div className='featureds p-2'>
             <Container className=''>
                 <Row>
                     <Col md={10}>
