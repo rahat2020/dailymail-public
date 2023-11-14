@@ -30,7 +30,7 @@ const Topbar = () => {
 
   // LOGIN PARTS
   const { dispatch, user } = useContext(AuthContext)
-  
+
   const [username, setUserName] = useState("")
   const [password, setUser_Password] = useState("")
   // const userEmail = typeof window !== "undefined" ? window.localStorage.getItem('user') || '' : false;
@@ -139,7 +139,7 @@ const Topbar = () => {
   // CURRENT PATHNAME
   const Tpath = usePathname()
 
- 
+
 
 
   return (
@@ -298,7 +298,9 @@ const Topbar = () => {
                   </div>
 
                   <div className="d-flex justify-content-between align-items-center mt-2">
-                    <Button className='btn_goto_dashboard fw-bold' size='sm'>Go to Dashboard</Button>
+                    <Nav.Link href="/https://dailymail-dashboard.web.app/login" target="_blank" className='text-decoration-none'>
+                      <Button className='btn_goto_dashboard fw-bold' size='sm'>Go to Dashboard</Button>
+                    </Nav.Link>
                     <Button className='btn_filter fw-bold' size='sm' onClick={handleLogout}>Logout</Button>
                   </div>
                 </Card.Body>
