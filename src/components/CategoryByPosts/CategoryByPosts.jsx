@@ -27,8 +27,9 @@ const CategoryByPosts = ({ params }) => {
     console.log('videocard', approvedVideoData)
 
     // COMBINE ARRAY 
-    const combinedVideoAndPostData = {...approvedData, ...approvedVideoData}
-    console.log('combinedVideoAndPostData', combinedVideoAndPostData)
+    // const combinedVideoAndPostData = {...approvedData, ...approvedVideoData}
+    // console.log('combinedVideoAndPostData', combinedVideoAndPostData)
+
     // BREADCUMB
     const routerPath = usePathname()
 
@@ -37,7 +38,7 @@ const CategoryByPosts = ({ params }) => {
     const [itemOffset, setItemOffset] = useState(0);
     const itemsPerPage = 6;
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     const currentItems = approvedData?.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(approvedData?.length / itemsPerPage);
     const handlePageClick = (event) => {
@@ -114,12 +115,13 @@ const CategoryByPosts = ({ params }) => {
                                                 <div className="header p-2">
                                                     <div className="d-flex justify-content-between align-items-center">
                                                         <div className="d-flex">
-                                                            <Image src="https://secure.gravatar.com/avatar/1b70c830da30f39d5c6fab323017430c?s=50&d=mm&r=g" alt="prson"
+                                                            <Image src={item?.user[0]?.photo ? item?.user[0]?.photo : "https://secure.gravatar.com/avatar/1b70c830da30f39d5c6fab323017430c?s=50&d=mm&r=g"} alt="prson"
                                                                 className='rounded-circle' loading='lazy'
+                                                                style={{ width: '50px', height: '50px', objectFit: 'contain' }}
                                                             />
                                                             <div className="d-flex justify-content-start align-items-start flex-column ms-2">
                                                                 <small className='text-white fw-bold fs-5'>{item?.user[0]?.username}</small>
-                                                                <small className='text-white fw-bold fs-5'>{item?.author}</small>
+                                                                {/* <small className='text-white fw-bold fs-5'>{item?.author}</small> */}
                                                                 <small style={{ color: '#e97623', backgroundColor: 'white', padding: '0 10px', borderRadius: '20px', fontWeight: 'bold', fontSize: '.6em' }}>
                                                                     {item?.category}
                                                                 </small>
@@ -127,13 +129,13 @@ const CategoryByPosts = ({ params }) => {
                                                         </div>
                                                         <div className="BC_likedWrapper">
                                                             <FavoriteIcon style={{ width: '2rem', height: '2rem', color: '#F70099' }} />
-                                                            <span className='BC_likedNum'>30</span>
+                                                            <span className='BC_likedNum'>{item?.likes?.length}</span>
                                                         </div>
                                                     </div>
                                                     <div className="w-100 p-1">
                                                         <h4 className='text-white fw-bold'>{item?.title}</h4>
                                                         <small className='text-start text-light'
-                                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item?.desc.slice(0, 30)) }}></small>
+                                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item?.desc.slice(0, 140)) }}></small>
                                                     </div>
                                                 </div>
                                                 <div className="wave-container">
@@ -142,15 +144,15 @@ const CategoryByPosts = ({ params }) => {
                                                     <div className="wave" />
                                                 </div>
                                                 <div className="icons mt-4">
-                                                    <a href="#" className="link">
+                                                    <Link href={item?.facebook} target='_blank' className="link">
                                                         <FacebookIcon />
-                                                    </a>
-                                                    <a href="#" className="link">
+                                                    </Link>
+                                                    <Link href={item?.linkedin} target='_blank' className="link">
                                                         <LinkedInIcon />
-                                                    </a>
-                                                    <a href="#" className="link">
+                                                    </Link>
+                                                    <Link href={item?.instagram} target='_blank' className="link">
                                                         <InstagramIcon />
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                                 <div className="more">
                                                     <Link href={`/singleblog/${item._id}`}>

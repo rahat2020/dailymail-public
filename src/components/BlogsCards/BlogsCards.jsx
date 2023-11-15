@@ -49,7 +49,16 @@ const BlogsCards = () => {
                                                                 <small className='text-white fw-bold fs-5'>
                                                                     {item?.user[0]?.username ? item?.user[0]?.username : 'N/A'}
                                                                 </small>
-                                                                <small style={{ color: '#e97623', backgroundColor: 'white', padding: '0 10px', borderRadius: '20px', fontWeight: 'bold', fontSize: '.6em' }}>{item?.category}</small>
+                                                                <small style={{
+                                                                    color: '#e97623',
+                                                                    backgroundColor: 'white',
+                                                                    padding: '0 10px',
+                                                                    borderRadius: '20px',
+                                                                    fontWeight: 'bold',
+                                                                    fontSize: '.6em'
+                                                                }}>
+                                                                    {item?.category}
+                                                                </small>
                                                             </div>
                                                         </div>
                                                         <div className="BC_likedWrapper">
@@ -71,15 +80,15 @@ const BlogsCards = () => {
                                                     <div className="wave" />
                                                 </div>
                                                 <div className="icons mt-4">
-                                                    <a href="#" className="link">
+                                                    <Link href={item?.facebook} target='_blank' className="link">
                                                         <FacebookIcon />
-                                                    </a>
-                                                    <a href="#" className="link">
+                                                    </Link>
+                                                    <Link href={item?.linkedin} target='_blank' className="link">
                                                         <LinkedInIcon />
-                                                    </a>
-                                                    <a href="#" className="link">
+                                                    </Link>
+                                                    <Link href={item?.instagram} target='_blank' className="link">
                                                         <InstagramIcon />
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                                 <div className="more">
                                                     <Link href={`/singleblog/${item?._id}`} className='text-decoration-none text-uppercase'>
