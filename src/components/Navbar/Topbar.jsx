@@ -298,7 +298,7 @@ const Topbar = () => {
                   </div>
 
                   <div className="d-flex justify-content-between align-items-center mt-2">
-                    <Nav.Link href="/https://dailymail-dashboard.web.app/login" target="_blank" className='text-decoration-none'>
+                    <Nav.Link href="https://dailymail-dashboard.web.app/login" target="_blank" className='text-decoration-none'>
                       <Button className='btn_goto_dashboard fw-bold' size='sm'>Go to Dashboard</Button>
                     </Nav.Link>
                     <Button className='btn_filter fw-bold' size='sm' onClick={handleLogout}>Logout</Button>
