@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Carousel from 'react-bootstrap/Carousel';
 import Link from 'next/link';
+import FeaturedSkelton, { FeaturedCatSkelton } from '../utils/FeaturedSkelton';
 
 const Featured = () => {
 
@@ -105,9 +106,11 @@ const Featured = () => {
                         <Row className='gy-3'>
                             {
                                 loading ?
-                                    <div className='d-flex justify-content-center align-items-center text-dark fw-bold my-5 fs-5'>
-                                        <Spinner animation="grow" />
-                                    </div> :
+                                    // <div className='d-flex justify-content-center align-items-center text-dark fw-bold my-5 fs-5'>
+                                    //     <Spinner animation="grow" />
+                                    // </div> 
+                                    <FeaturedSkelton />
+                                    :
                                     <>
                                         {
                                             filteredData?.slice(0, 4)?.map((item, index) => (
@@ -140,16 +143,18 @@ const Featured = () => {
                     <Row className='gy-2'>
                         {
                             isLoading ?
-                                <div className='d-flex justify-content-center align-items-center text-dark fw-bold my-5 fs-5'>
-                                    <Spinner animation="grow" />
-                                </div> :
+                                // <div className='d-flex justify-content-center align-items-center text-dark fw-bold my-5 fs-5'>
+                                //     <Spinner animation="grow" />
+                                // </div> 
+                                <FeaturedCatSkelton />
+                                :
                                 <>
                                     {
                                         data?.map((item, i) => (
                                             <Col md={2} className='gy-3' key={i}>
                                                 <Link href={`/category-post/${item?.title}`} className='text-decoration-none'>
                                                     <Card className='bg-transparent border-0 trnding_cards'>
-                                                        <Image src={item?.photo ? item?.photo : 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-13-390x260.jpg'} alt="trending" className=' rounded trendImg' loading='lazy' />
+                                                        <Image src={item?.photo ?? 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-13-390x260.jpg'} alt="trending" className=' rounded trendImg' loading='lazy' />
                                                         <div className="overlay ">
                                                             <h5 className='text-center'>{item?.title}</h5>
                                                         </div>
