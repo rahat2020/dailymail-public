@@ -36,7 +36,7 @@ const BlogVideos = () => {
     const [hasWindow, setHasWindow] = useState(false);
     const { data, isLoading } = useGetAllVideosQuery(undefined)
     const filteredData = data?.filter((item) => item?.status === "approved")
-    console.log('videocard', data)
+    // console.log('videocard', data)
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -60,7 +60,7 @@ const BlogVideos = () => {
                             </div> :
                             <>
                                 {
-                                    filteredData?.slice(0, 6)?.map((item, index) => (
+                                    filteredData && filteredData?.slice(0, 6)?.map((item, index) => (
                                         <Col md={4} key={index} className='gy-3'>
                                             <div className='BV_wrapper'>
                                                 <div className="BV_card">

@@ -102,7 +102,6 @@ const SingleVideo = ({ params }) => {
 
     // CREATE LIKES
     const [likeRes, setLikesRes] = useState('')
-    // console.log('like', like)
     const handleLikes = async (params) => {
         console.log('setlikes_params', params)
         const Obj = {
@@ -110,14 +109,11 @@ const SingleVideo = ({ params }) => {
             liker: [userData],
             like: params,
         }
-        console.log('like_Obj', Obj)
         if (!userData) {
             toast('You must logged in before do comments')
         } else {
             try {
                 const res = await LikesData(Obj)
-                console.log('like obj', Obj)
-                console.log('comments res', res)
                 if (res?.data === "you liked the post") {
                     toast('you liked the post')
                     setLikesRes(res?.data)
@@ -139,9 +135,6 @@ const SingleVideo = ({ params }) => {
     const stringResult = trueValues?.toString();
     // const falseValues = abc?.filter((value) => value === false);
     // console.log('abc', abc)
-    // console.log('stringResult', stringResult)
-    // console.log('trueValues', trueValues)
-    // console.log('userEmail', userEmail)
 
     const handleLikeBtnClick = (e) => {
         e.preventDefault()

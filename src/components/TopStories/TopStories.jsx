@@ -12,19 +12,18 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useGetAllPostQuery } from '@/redux/apiSlice';
 
 const TopStories = () => {
-    const { data, isLoading } = useGetAllPostQuery(undefined)
-    const travelData = data?.filter((item) => item?.category === "Travel")
-    const technologylData = data?.filter((item) => item?.category === "Technology")
-    const innovationlData = data?.filter((item) => item?.category === "Innovation")
-    const motivationData = data?.filter((item) => item?.category === "Motivational")
-    const javasacriptData = data?.filter((item) => item?.category === "Javascript")
+    const { data } = useGetAllPostQuery(undefined);
 
-    const travelApprovedData = travelData?.filter((item) => item?.status === "approved")
-    const technologyApprovedData = technologylData?.filter((item) => item?.status === "approved")
-    const innovationApprovedData = innovationlData?.filter((item) => item?.status === "approved")
-    const motivationalApprovedData = motivationData?.filter((item) => item?.status === "approved")
-    const javasacriptApprovedData = javasacriptData?.filter((item) => item?.status === "approved")
-    console.log('travelData', travelData)
+    const filterDataByCategoryAndStatus = (data, category, status) => {
+        return data?.filter(item => item?.category === category && item?.status === status);
+    };
+
+    const travelApprovedData = filterDataByCategoryAndStatus(data, "Travel", "approved");
+    const technologyApprovedData = filterDataByCategoryAndStatus(data, "Technology", "approved");
+    const innovationApprovedData = filterDataByCategoryAndStatus(data, "Innovation", "approved");
+    const motivationalApprovedData = filterDataByCategoryAndStatus(data, "Motivational", "approved");
+    const javasacriptApprovedData = filterDataByCategoryAndStatus(data, "Javascript", "approved");
+
     return (
         <Container className='mt-5 pt-3'>
             <h3 className='fw-bold'>Top Stories</h3>
