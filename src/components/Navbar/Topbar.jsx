@@ -33,12 +33,20 @@ const Topbar = () => {
 
   const [username, setUserName] = useState("")
   const [password, setUser_Password] = useState("")
+  const [mutationData, setMutationData] = useState({
+    username: '',
+    password: '',
+  })
   // const userEmail = typeof window !== "undefined" ? window.localStorage.getItem('user') || '' : false;
-  // console.log('context user', user)
+  console.log('mutationData', mutationData)
   // console.log('userEmail', userEmail)
   const { data: userData } = useUserDataByEmailQuery(user)
   const { data: userPostsData } = useUserTotalPostAndVideosCountQuery(user)
   // console.log('topbar', userData)
+  const handleOnchangeForLogin = (value, params) => {
+    console.log('onchange', value, params)
+    // setMutationData(()=> {})
+  }
   const handleLogin = async (e) => {
     e.preventDefault()
     const object = {
@@ -207,7 +215,8 @@ const Topbar = () => {
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Control type="text" placeholder="Enter username"
                         className='border-0 rounded shadow'
-                        onChange={(e) => setUserName(e.target.value)}
+                        onChange={(e) => handleOnchangeForLogin(e.target.value, 'username')}
+                        // onChange={(e) => setUserName(e.target.value)}
                       />
                     </Form.Group>
                     <Form.Group className="mb-4" controlId="formBasicPassword">
