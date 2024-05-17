@@ -20,11 +20,9 @@ const CategoryByPosts = ({ params }) => {
     // POSTS DATA
     const { data, isLoading } = useGetCategoryPostsQuery(params.category)
     const approvedData = data?.filter((item) => item?.status === "approved")
-    console.log('CategoryByPosts', data)
     // VIDEOS DATA
     const { data: catVideos, isLoading: loading } = useGetCategoryvideosQuery(params.category)
     const approvedVideoData = catVideos?.filter((item) => item?.status === "approved")
-    console.log('videocard', approvedVideoData)
 
     // COMBINE ARRAY 
     // const combinedVideoAndPostData = {...approvedData, ...approvedVideoData}

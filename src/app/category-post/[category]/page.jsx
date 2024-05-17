@@ -7,7 +7,6 @@ export const metadata = {
 }
 
 const page = ({params}) => {
-    console.log(params)
   return (
     <div>
         <CategoryByPosts params={params} />

@@ -35,8 +35,6 @@ const SingleVideo = ({ params }) => {
     const [LikesData] = useCreateLikesMutation()
     const [IncData] = useIncreaseVideoViewsMutation()
     // console.log('single post loggedInUserData', userData)
-    console.log('single video data', data)
-
 
     // FORMATING DATE
     const formatDate = (dateString) => {
@@ -103,7 +101,6 @@ const SingleVideo = ({ params }) => {
     // CREATE LIKES
     const [likeRes, setLikesRes] = useState('')
     const handleLikes = async (params) => {
-        console.log('setlikes_params', params)
         const Obj = {
             id: data?._id,
             liker: [userData],

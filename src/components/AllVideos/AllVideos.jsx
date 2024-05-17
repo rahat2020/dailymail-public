@@ -16,13 +16,11 @@ const AllVideos = () => {
     const [hasWindow, setHasWindow] = useState(false);
     const { data, isLoading } = useGetAllVideosQuery(undefined)
     const approvedData = data?.filter((item) => item?.status === "approved")
-    console.log('videocard', data)
 
     // PAGINATIONS
     const [itemOffset, setItemOffset] = useState(0);
     const itemsPerPage = 6;
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     const currentItems = approvedData?.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(approvedData?.length / itemsPerPage);
     const handlePageClick = (event) => {
