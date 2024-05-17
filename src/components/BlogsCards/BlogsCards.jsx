@@ -6,7 +6,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useCategoryByPostsQuery, useGetCategoryPostsQuery } from '@/redux/apiSlice';
+import { useGetCategoryPostsQuery } from '@/redux/apiSlice';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
 
@@ -14,8 +14,6 @@ const BlogsCards = () => {
     const propsData = "Programming"
     const { data, isLoading } = useGetCategoryPostsQuery(propsData)
     const filteredData = data?.filter((item) => item?.status === "approved")
-    // console.log('latese blogs', filteredData)
-    console.log('blogscard', filteredData)
 
     return (
 

@@ -28,16 +28,12 @@ const SinglePost = ({ params }) => {
 
     // REDUX QUERIES
     const { data, isLoading } = useGetSinglePostQuery(params)
-    console.log('filteredData from single post', data)
     const { data: item } = useGetAllPostQuery(undefined)
     const filteredData = item?.filter((item) => item?.status === "approved")
-    // const userEmail = typeof window !== "undefined" ? window.localStorage.getItem('user') || '' : false;
-    // const activeUser = typeof window !== "undefined" ? window.localStorage.getItem('Imin') || '' : false;
     const [CommetsData] = useCreateCommentsMutation()
     const { data: userData } = useUserDataByEmailQuery(user)
     const [IncData] = useIncreaseViewsMutation()
     const [LikesData] = useCreateLikesMutation()
-    // console.log('does user is active', userData?.email === user)
 
     // ADD VIEWERS OR VISITORS TO THIS POST
     const [show, setShow] = useState(true);
@@ -104,20 +100,16 @@ const SinglePost = ({ params }) => {
     const [likeRes, setLikesRes] = useState('')
     // console.log('like', like)
     const handleLikes = async (params) => {
-        console.log('setlikes_params', params)
         const Obj = {
             id: data?._id,
             liker: [userData],
             like: params,
         }
-        console.log('like_Obj', Obj)
         if (!userData) {
             toast('You must logged in before do like')
         } else {
             try {
                 const res = await LikesData(Obj)
-                console.log('like obj', Obj)
-                console.log('comments res', res)
                 if (res?.data === "you liked the post") {
                     toast('you liked the post')
                     setLikesRes(res?.data)

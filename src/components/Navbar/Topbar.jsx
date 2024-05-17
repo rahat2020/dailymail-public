@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
-import { Card, Image } from 'react-bootstrap';
+import { Card, Image, Spinner } from 'react-bootstrap';
 import Link from 'next/link';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -19,10 +19,11 @@ import { AuthContext } from '@/context/authContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2'
+import axios from 'axios';
 import { usePathname } from "next/navigation";
 
 const Topbar = () => {
-  const [LoginData] = useLoginMutation()
+  const [LoginData, { isLoading: loading }] = useLoginMutation()
   const [RegisterData] = useRegisterMutation()
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -30,29 +31,25 @@ const Topbar = () => {
 
   // LOGIN PARTS
   const { dispatch, user } = useContext(AuthContext)
-
-  const [username, setUserName] = useState("")
-  const [password, setUser_Password] = useState("")
-  // const userEmail = typeof window !== "undefined" ? window.localStorage.getItem('user') || '' : false;
-  // console.log('context user', user)
-  // console.log('userEmail', userEmail)
+  const [mutationData, setMutationData] = useState({
+    username: '',
+    password: '',
+  })
   const { data: userData } = useUserDataByEmailQuery(user)
   const { data: userPostsData } = useUserTotalPostAndVideosCountQuery(user)
-  // console.log('topbar', userData)
+  const handleOnchangeForLogin = (value, params) => {
+    setMutationData((prev) => ({ ...prev, [params]: value }))
+  }
   const handleLogin = async (e) => {
     e.preventDefault()
-    const object = {
-      username,
-      password
-    }
-    if (!username || !password) {
+    const object = mutationData
+    if (!mutationData.username || !mutationData.password) {
       toast('Field can not be empty')
-    } else if (password.length <= 6) {
+    } else if (mutationData.password.length <= 6) {
       toast('Password must greater than 6 characters')
     } else {
       try {
         const res = await LoginData(object)
-        console.log('login', res)
         if (res?.data?.message === "Login successful") {
           toast('Logged in Successfully')
           dispatch({ type: "LOGIN_SUCCESS", payload: res?.data?.email });
@@ -62,8 +59,8 @@ const Topbar = () => {
           if (res?.data?.role === 'user') {
             localStorage.setItem("ifura", "nu")
           }
-
-        } else if (res?.error?.data === "wrong credentials") {
+          setMutationData({});
+        } else if (res?.error?.data === "Wrong credentials") {
           toast('User not found')
         } else {
           toast('Login Failed')
@@ -76,37 +73,40 @@ const Topbar = () => {
   }
 
   // REGISTER 
-  const [usernameReg, setUserNameReg] = useState("")
-  const [passwordReg, setUser_PasswordReg] = useState("")
-  const [email, setUser_Email] = useState("")
-  const [terms, setUser_Terms] = useState("")
-  const [file, setFile] = useState("")
-
+  const [mutationDataForReg, setMutationDataForReg] = useState({
+    username: '',
+    password: '',
+    email: '',
+    terms: '',
+  });
+  const handleOnchangeForRegister = (value, params) => {
+    setMutationDataForReg((prev) => ({ ...prev, [params]: value }))
+  }
+  // const handleFile = async(file) => {
+  //   try{
+  //     const data = new FormData();
+  //     data.append("file", file);
+  //     data.append("upload_preset", "upload");
+  //     const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/rahatdev1020/image/upload", data)
+  //     const { url } = uploadRes.data
+  //     setMutationDataForReg((prev) => ({ ...prev, photo: url }))
+  //   } catch(err){
+  //     console.log("🚀 ~ handleFile ~ err:", err)
+      
+  //   }
+  // }
   const handleRegistration = async (e) => {
     e.preventDefault()
-    if (!usernameReg || !passwordReg || !email || !file || !terms) {
+    if (!mutationDataForReg.username || !mutationDataForReg.password || !mutationDataForReg.email || !mutationDataForReg.terms) {
       toast('Field can not be empty')
-    } else if (password.length <= 6) {
+    } else if (password.length < 6) {
       toast('Password must greater than 6 characters')
     } else {
       try {
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "upload");
-        const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/rahatdev1020/image/upload", data)
-        const { url } = uploadRes.data
-        // console.log('cloudinary', url)
-        const object = {
-          username: usernameReg,
-          password: passwordReg,
-          email,
-          terms,
-          photo: url,
-        }
-        const res = await RegisterData(object)
-        console.log('register', res)
+        // const res = await RegisterData(mutationDataForReg)
         if (res?.data === "registration successfull") {
-          toast('Registration Successfull')
+          toast('Registration Successfull');
+          setMutationDataForReg({});
         } else if (res.error.status === 400) {
           Swal.fire({
             icon: 'error',
@@ -131,7 +131,7 @@ const Topbar = () => {
       icon: 'success',
       title: 'Thanks for being with us',
     })
-    typeof window !== "undefined" ? windowlocalStorage.removeItem("user") : false;
+    typeof window !== "undefined" ? window.localStorage.removeItem("user") : false;
     typeof window !== "undefined" ? window.localStorage.removeItem("ifura") : false;
     typeof window !== "undefined" ? window.location.reload() : false;
   }
@@ -207,18 +207,24 @@ const Topbar = () => {
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Control type="text" placeholder="Enter username"
                         className='border-0 rounded shadow'
-                        onChange={(e) => setUserName(e.target.value)}
+                        onChange={(e) => handleOnchangeForLogin(e.target.value, 'username')}
                       />
                     </Form.Group>
                     <Form.Group className="mb-4" controlId="formBasicPassword">
                       <Form.Control type="password" placeholder="Password"
                         className='border-0 rounded shadow'
-                        onChange={(e) => setUser_Password(e.target.value)}
+                        onChange={(e) => handleOnchangeForLogin(e.target.value, 'password')}
                       />
                     </Form.Group>
                     <div className="d-grid w-100">
                       <Button variant="outline-secondary fw-bold border-0 shadow rounded" type="submit" onClick={handleLogin}>
-                        Login
+                        {
+                          loading ?
+                            <div className="d-flex justify-content-center align-items-center">
+                              <Spinner animation="border" role="status" />
+                            </div>
+                            : 'Login'
+                        }
                       </Button>
                     </div>
                   </Form>
@@ -230,28 +236,25 @@ const Topbar = () => {
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Control type="text" placeholder="Enter username"
                         className='border-0 rounded shadow'
-                        onChange={(e) => setUserNameReg(e.target.value)}
+                        onChange={(e) => handleOnchangeForRegister(e.target.value, 'username')}
                       />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Control type="email" placeholder="Enter email"
                         className='border-0 rounded shadow'
-                        onChange={(e) => setUser_Email(e.target.value)}
+                        onChange={(e) => handleOnchangeForRegister(e.target.value, 'email')}
                       />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
-                      <Form.Control type="file" className='border-0 rounded shadow' onChange={(e) => setFile(e.target.files[0])} />
                     </Form.Group>
                     <Form.Group className="mb-4" controlId="formBasicPassword">
                       <Form.Control type="password" placeholder="Password"
                         className='border-0 rounded shadow'
-                        onChange={(e) => setUser_PasswordReg(e.target.value)}
+                        onChange={(e) => handleOnchangeForRegister(e.target.value, 'password')}
                       />
                     </Form.Group>
                     <Form.Group className="mb-3" id="formGridCheckbox">
                       <Form.Check type="checkbox"
                         label="I accept terms & conditions"
-                        onClick={() => setUser_Terms('yes')}
+                        onClick={() => handleOnchangeForRegister('yes', 'terms')}
                       />
                     </Form.Group>
                     <Form.Group className="mb-3" id="formGridCheckbox">

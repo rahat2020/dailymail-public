@@ -12,9 +12,7 @@ const Featured = () => {
     const { data, isLoading } = useGetCategoryQuery(undefined)
     const { data: posts, isLoading: loading } = useGetAllPostQuery(undefined)
     const filteredData = posts?.filter((item) => item?.status === "approved")
-    console.log('featured blogs', filteredData)
-    console.log('featured blog number', filteredData ? filteredData[1] : 'none')
-    // console.log('featured category', data)
+
     return (
         <div className='featureds py-4'>
             <Container className=''>
