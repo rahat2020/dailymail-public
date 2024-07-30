@@ -28,7 +28,7 @@ const SinglePost = ({ params }) => {
 
     // REDUX QUERIES
     const { data, isLoading } = useGetSinglePostQuery(params)
-    const { data: item } = useGetAllPostQuery(undefined)
+    const { data: item } = useGetAllPostQuery([])
     const filteredData = item?.filter((item) => item?.status === "approved")
     const [CommetsData] = useCreateCommentsMutation()
     const { data: userData } = useUserDataByEmailQuery(user)
@@ -41,7 +41,7 @@ const SinglePost = ({ params }) => {
         const id = params
         try {
             const obj = { id }
-            const res = await IncData(obj)
+            await IncData(obj)
             setShow(false)
         } catch (err) {
             console.log(err)
@@ -130,6 +130,7 @@ const SinglePost = ({ params }) => {
     const abc = data?.likes?.map((item) => (item?.liker[0]?.email?.includes(user)))
     const trueValues = abc?.filter((value) => value === true);
     const stringResult = trueValues?.toString();
+    console.log("🚀 ~ SinglePost ~ stringResult:", stringResult)
     // const falseValues = abc?.filter((value) => value === false);
     // console.log('abc', abc)
     // console.log('stringResult', stringResult)
@@ -158,13 +159,12 @@ const SinglePost = ({ params }) => {
                                         <Col md={9} className='gy-3'>
                                             <div className="d-flex w-100 position-relative">
                                                 <Image src={data?.user[0]?.photo ? data.user[0]?.photo : "https://secure.gravatar.com/avatar/1b70c830da30f39d5c6fab323017430c?s=50&d=mm&r=g"}
-                                                    alt="rahat"
+                                                    alt="user"
                                                     style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '50%' }}
                                                     loading='lazy'
                                                 />
                                                 {
                                                     userData?.username === data?.user[0]?.username ?
-                                                        // userData?.email === user ?
                                                         <OverlayTrigger
                                                             placement="top"
                                                             delay={{ show: 250, hide: 400 }}
