@@ -3,18 +3,17 @@ import React from 'react'
 import { Col, Container, Form, Image, Row } from 'react-bootstrap';
 import './Footer.css';
 import Link from 'next/link';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import SearchIcon from '@mui/icons-material/Search';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import SendIcon from '@mui/icons-material/Send';
-import CopyrightIcon from '@mui/icons-material/Copyright';
+import { companyLinks, quickLinks, socialLinks } from '../UI/Data/footerData';
+import InstagramIcon from '@material-ui/icons/Instagram'; 
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import TwitterIcon from '@material-ui/icons/Twitter';
 
 const Footer = () => {
+  const getCurrentYear = new Date().getFullYear();
   return (
-
     <footer className="mt-5 pt-4 h-100 shadow-sm">
       <div className="bg-light p-3">
         <Container>
@@ -34,21 +33,23 @@ const Footer = () => {
                 <div className="d-flex flex-column">
                   <h5 className='text-secondary border-bottom w-100'>Company</h5>
                   <div className="d-flex justify-content-start flex-column">
-                    <Link href="/Contact" className='text-decoration-none text-secondary'>Contact</Link>
-                    <Link href="/Careers" className='text-decoration-none text-secondary'>Careers</Link>
-                    <Link href="/News" className='text-decoration-none text-secondary'>News</Link>
+                    {companyLinks?.map((link, index) => (
+                      <Link href={link.path} key={index} className='text-decoration-none text-secondary'>
+                        {link.title}
+                      </Link>
+                    ))}
                   </div>
                 </div>
                 <div className="d-flex flex-column">
                   <h5 className='text-secondary border-bottom w-100'>Quick links</h5>
                   <div className="d-flex justify-content-start flex-column">
-                    <Link href="/" className='text-decoration-none text-secondary'>Support Center</Link>
-                    <Link href="/" className='text-decoration-none text-secondary'>Security</Link>
-                    <Link href="/" className='text-decoration-none text-secondary'>Privacy Policy</Link>
-                    <Link href="/" className='text-decoration-none text-secondary'>Documentation</Link>
+                    {quickLinks?.map((link, index) => (
+                      <Link href={link.path} key={index} className='text-decoration-none text-secondary'>
+                        {link.title}
+                      </Link>
+                    ))}
                   </div>
                 </div>
-
               </div>
             </Col>
             <Col md={3}>
@@ -64,8 +65,7 @@ const Footer = () => {
                     <SendIcon className='text-muted' />
                   </Form>
                 </div>
-                <div className="w-100">
-                  <div className="d-flex justify-content-between align-items-center mt-3">
+                <div className="d-flex justify-content-between align-items-center mt-3">
                     <div className="TH_socialIcon_container">
                       <Link href="https://www.instagram.com/kazirahat1020" target="_blank">
                         <InstagramIcon className='TH_socialIcon' />
@@ -88,7 +88,6 @@ const Footer = () => {
                     </div>
                   </div>
 
-                </div>
               </div>
             </Col>
           </Row>
@@ -96,8 +95,7 @@ const Footer = () => {
       </div>
 
       <div className=" h-100 p-1 text-center shadow" style={{ backgroundColor: '#dfe8f6' }}>
-        <small className='text-secondary fw-bold'>© 2023 | All rights reserved to DailyMail</small>
-        {/* <small className='text-secondary '><CopyrightIcon /> 2023 | All rights reserved to DailyMail</small> */}
+        <small className='text-secondary fw-bold'>© {getCurrentYear} | All rights reserved to DailyMail</small>
       </div>
     </footer >
   )

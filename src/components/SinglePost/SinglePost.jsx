@@ -20,14 +20,21 @@ import { usePathname } from 'next/navigation';
 import Modal from 'react-bootstrap/Modal';
 import { AuthContext } from '@/context/authContext';
 import Link from 'next/link';
+import { alterredUserAvatar, dummyBlogThumbnail, formatDate } from '../UI/helpers/appHelpers';
+import { size } from 'lodash';
 
 
 const SinglePost = ({ params }) => {
+
     // AUTH CONTEXT 
     const { user } = useContext(AuthContext)
 
     // REDUX QUERIES
     const { data, isLoading } = useGetSinglePostQuery(params)
+    const { _id ,title, category, photoUrlOne, author, desc, website, user: authUser, viewers, createdAt, timeToRead, facebook, instagram,linkedin } = data || {}
+    const [{ username = '', photo = '' } = {}] = authUser || [];
+    const userAvatar = photo || alterredUserAvatar
+    const blogThumbnail = photoUrlOne || dummyBlogThumbnail
     const { data: item } = useGetAllPostQuery([])
     const filteredData = item?.filter((item) => item?.status === "approved")
     const [CommetsData] = useCreateCommentsMutation()
@@ -48,15 +55,6 @@ const SinglePost = ({ params }) => {
         }
     };
 
-
-    // FORMATING THE DATE LIKE THIS --> ( Nov 12, 2023 )
-    const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    }
-    const inputDateString = data?.createdAt;
-    const formattedDate = formatDate(inputDateString);
-
     // USER IS ONLINE TOOLTIP
     const pathname = usePathname()
     const renderTooltip = (props) => (
@@ -66,14 +64,14 @@ const SinglePost = ({ params }) => {
     );
 
     // CREATEING COMMENTS
-    const [desc, setDesc] = useState('')
+    const [descriptions, setDescriptions] = useState('')
     const handleComment = async () => {
         const Obj = {
-            id: data?._id,
+            id: _id,
             commentor: [userData],
-            desc,
+            desc: descriptions,
         }
-        if (!desc) {
+        if (!descriptions) {
             toast('Field can not be empty')
         } else if (!userData) {
             toast('You must logged in before do comments')
@@ -84,12 +82,13 @@ const SinglePost = ({ params }) => {
                 // console.log('comments res', res)
                 if (res?.data === "comments created") {
                     toast('Comments created')
+                    setDescriptions('')
                 } else if (res?.error?.data === "wrong credentials") {
                     toast('Comments not created')
                 } else {
                     toast('Login Failed')
                 }
-                setDesc('')
+            
             } catch (err) {
 
             }
@@ -98,7 +97,6 @@ const SinglePost = ({ params }) => {
 
     // CREATE LIKES
     const [likeRes, setLikesRes] = useState('')
-    // console.log('like', like)
     const handleLikes = async (params) => {
         const Obj = {
             id: data?._id,
@@ -118,7 +116,7 @@ const SinglePost = ({ params }) => {
                 } else {
                     toast('Likes Failed')
                 }
-                setDesc('')
+                setDescriptions('')
             } catch (err) {
 
             }
@@ -126,16 +124,9 @@ const SinglePost = ({ params }) => {
     }
 
 
-    // CHECING ALREADY THIS USER IS LIKED POST 
-    const abc = data?.likes?.map((item) => (item?.liker[0]?.email?.includes(user)))
-    const trueValues = abc?.filter((value) => value === true);
-    const stringResult = trueValues?.toString();
-    console.log("🚀 ~ SinglePost ~ stringResult:", stringResult)
-    // const falseValues = abc?.filter((value) => value === false);
-    // console.log('abc', abc)
-    // console.log('stringResult', stringResult)
-    // console.log('trueValues', trueValues)
-    // console.log('userEmail', userEmail)
+    // CHECING ALREADY THIS USER IS LIKED POST OR NOT
+    const isUserLikedThePost = data?.likes?.some(item => item?.liker?.[0]?.email?.includes(user));
+
 
     const handleLikeBtnClick = (e) => {
         e.preventDefault()
@@ -153,12 +144,13 @@ const SinglePost = ({ params }) => {
                                     <Spinner animation="grow" />
                                 </div> :
                                 <div className="my-3 w-100">
-                                    <p className='text-secondary fw-bold'>•{data?.category}</p>
-                                    <h1>{data?.title}</h1>
+                                    <p className='text-secondary fw-bold'>•{category}</p>
+                                    <h1>{title}</h1>
                                     <Row className='border-bottom border-light border-2 py-2 shadow-sm rounded'>
                                         <Col md={9} className='gy-3'>
                                             <div className="d-flex w-100 position-relative">
-                                                <Image src={data?.user[0]?.photo ? data.user[0]?.photo : "https://secure.gravatar.com/avatar/1b70c830da30f39d5c6fab323017430c?s=50&d=mm&r=g"}
+                                                <Image 
+                                                    src={userAvatar}
                                                     alt="user"
                                                     style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '50%' }}
                                                     loading='lazy'
@@ -179,23 +171,23 @@ const SinglePost = ({ params }) => {
                                                 }
 
                                                 <div className="d-flex flex-column justify-content-start align-items-start ms-2">
-                                                    <span className='fw-bold text-secondary'>{data?.user[0]?.username} </span>
+                                                    <span className='fw-bold text-secondary'>{username} </span>
                                                     <div className="d-flex jsutify-content-start align-items-start flex-wrap">
-                                                        <small className='text-secondary'>{formattedDate} | {data?.timeToRead} </small>
-                                                        <small className='text-secondary ms-2 '>| <VisibilityIcon style={{ fontSize: "1.11rem" }} /> {data?.viewers} views</small>
+                                                        <small className='text-secondary'>{formatDate(createdAt)} | {timeToRead} </small>
+                                                        <small className='text-secondary ms-2 '>| <VisibilityIcon style={{ fontSize: "1.11rem" }} /> {viewers} views</small>
                                                     </div>
                                                 </div>
                                             </div>
                                         </Col>
                                         <Col md={3} className='gy-3'>
                                             <div className="d-flex justify-content-center justify-content-md-end justify-content-lg-end align-items-center h-100 w-100">
-                                                <Nav.Link href={data?.instagram} target='_blank' className='text-decoration-none'>
+                                                <Nav.Link href={instagram} target='_blank' className='text-decoration-none'>
                                                     <InstagramIcon className='socialIcon' />
                                                 </Nav.Link>
-                                                <Nav.Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
+                                                <Nav.Link href={linkedin} target='_blank' className='text-decoration-none'>
                                                     <LinkedInIcon className='socialIcon ms-1 cursor-pointer' />
                                                 </Nav.Link>
-                                                <Nav.Link href={data?.facebook} target='_blank' className='text-decoration-none'>
+                                                <Nav.Link href={facebook} target='_blank' className='text-decoration-none'>
                                                     <FacebookIcon className='socialIcon ms-1' />
                                                 </Nav.Link>
 
@@ -206,21 +198,22 @@ const SinglePost = ({ params }) => {
                                     <div className="py-2">
                                         <small className='text-primary fw-bold'>home{pathname}</small>
                                         <p className='fw-bold text-muted py-2'
-                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.desc.slice(0, 80)) }}></p>
+                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(desc.slice(0, 80)) }}></p>
                                         <div className="d-flex justify-content-center align-items-center flex-column">
-                                            <Image src={data?.photoUrlOne ? data.photoUrlOne : 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-12-1440x720.jpg'}
+                                            <Image 
+                                                src={blogThumbnail}
                                                 alt='img-1'
                                                 className='w-sm-50 h-sm-100 img-fluid  w-md-100 w-lg-100 w-xl-100'
-                                            // style={{width:'90%', height:'100%'}}
+                                             // style={{width:'90%', height:'100%'}}
                                             />
-                                            <small className='text-secondary'>Source: {data?.author}</small>
+                                            <small className='text-secondary'>Source: {author}</small>
 
                                             <small className='text-primary'>
-                                                <Nav.Link href={data?.website ? data?.website : ''} target='_blank' >source website</Nav.Link>
+                                                <Nav.Link href={website} target='_blank' >source website</Nav.Link>
                                             </small>
                                         </div>
                                         <p className='text-muted py-2 letter-1'
-                                            dangerouslySetInnerHTML={{ __html: DOMPurify?.sanitize(data?.desc) }}></p>
+                                            dangerouslySetInnerHTML={{ __html: DOMPurify?.sanitize(desc) }}></p>
                                     </div>
                                 </div>
                         }
@@ -233,27 +226,29 @@ const SinglePost = ({ params }) => {
                         <div className="d-flex justify-content-between align-items-center border-light py-2 border-bottom">
                             <div className="d-flex">
                                 {
-                                    stringResult === 'true' ?
-                                        <FavoriteIcon className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={handleLikeBtnClick} /> :
+                                    isUserLikedThePost ?
+                                        <FavoriteIcon className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={handleLikeBtnClick} /> 
+                                        :
                                         <FavoriteIcon className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={() => handleLikes(1)} />
                                 }
 
-                                <span className='fw-bold tex-dark mx-2'>{data?.likes?.length}</span>
+                                <span className='fw-bold tex-dark mx-2'>{size(data?.likes)}</span>
                                 {
-                                    stringResult === 'true' ?
-                                        <span className='text-secondary fw-bold'>(You liked the post!)</span> :
+                                    isUserLikedThePost ?
+                                        <span className='text-secondary fw-bold'>(You liked the post!)</span> 
+                                        :
                                         <span className='text-secondary fw-bold'>(You did not like the post yet!)</span>
                                 }
                             </div>
                             <div className="d-flex">
-                                <Nav.Link href={data?.instagram} target='_blank' className='text-decoration-none'>
-                                    <InstagramIcon className='socialIcon' />
+                                <Nav.Link href={instagram} target='_blank' className='text-decoration-none'>
+                                    <InstagramIcon className='socialIcon'/>
                                 </Nav.Link>
-                                <Nav.Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
-                                    <LinkedInIcon className='socialIcon ms-1 cursor-pointer' />
+                                <Nav.Link href={linkedin} target='_blank' className='text-decoration-none'>
+                                    <LinkedInIcon className='socialIcon ms-1 cursor-pointer'/>
                                 </Nav.Link>
-                                <Nav.Link href={data?.facebook} target='_blank' className='text-decoration-none'>
-                                    <FacebookIcon className='socialIcon ms-1' />
+                                <Nav.Link href={facebook} target='_blank' className='text-decoration-none'>
+                                    <FacebookIcon className='socialIcon ms-1'/>
                                 </Nav.Link>
                             </div>
                         </div>
@@ -294,8 +289,8 @@ const SinglePost = ({ params }) => {
                             <Form>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                     <Form.Label className='fw-bold text-dark'>Write your comment:</Form.Label>
-                                    <Form.Control as="textarea" rows={3} placeholder='your comment' onChange={(e) => setDesc(e.target.value)} />
-                                    <Button className='btn_filter my-2' size='sm' onClick={handleComment}>Submit</Button>
+                                    <Form.Control className='comment_textBox' as="textarea" rows={3} placeholder='your comment' value={descriptions} onChange={(e) => setDescriptions(e.target.value)} />
+                                    <Button className='btn_filter my-4' size='sm' onClick={handleComment}>Submit</Button>
                                 </Form.Group>
                             </Form>
                         </div>
