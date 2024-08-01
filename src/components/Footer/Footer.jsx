@@ -6,10 +6,6 @@ import Link from 'next/link';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import SendIcon from '@mui/icons-material/Send';
 import { companyLinks, quickLinks, socialLinks } from '../UI/Data/footerData';
-import InstagramIcon from '@material-ui/icons/Instagram'; 
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
 
 const Footer = () => {
   const getCurrentYear = new Date().getFullYear();
@@ -65,28 +61,17 @@ const Footer = () => {
                     <SendIcon className='text-muted' />
                   </Form>
                 </div>
-                <div className="d-flex justify-content-between align-items-center mt-3">
-                    <div className="TH_socialIcon_container">
-                      <Link href="https://www.instagram.com/kazirahat1020" target="_blank">
-                        <InstagramIcon className='TH_socialIcon' />
-                      </Link>
-                    </div>
-                    <div className="TH_socialIcon_container">
-                      <Link href="https://www.linkedin.com/in/kazi-rahat2020/" target="_blank">
-                        <LinkedInIcon className='TH_socialIcon' />
-                      </Link>
-                    </div>
-                    <div className="TH_socialIcon_container">
-                      <Link href="https://www.facebook.com/rahatwebdev" target="_blank">
-                        <FacebookIcon className='TH_socialIcon' />
-                      </Link>
-                    </div>
-                    <div className="TH_socialIcon_container">
-                      <Link href="https://twitter.com/KaziRahat2020" target="_blank">
-                        <TwitterIcon className='TH_socialIcon' />
-                      </Link>
-                    </div>
+                <div className="w-100">
+                  <div className="d-flex justify-content-between align-items-center mt-3">
+                    {socialLinks?.map((link, index) => (
+                      <div className="TH_socialIcon_container" key={index}>
+                        <Link href={link.url} target="_blank" className='text-decoration-none'>
+                          <link.IconComponent className='TH_socialIcon' />
+                        </Link>
+                      </div>
+                    ))}
                   </div>
+                </div>
 
               </div>
             </Col>

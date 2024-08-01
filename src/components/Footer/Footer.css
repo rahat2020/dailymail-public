@@ -10,16 +10,16 @@
     transition: all .5s ease-in-out;
 
 }
-.TH_socialIcon_container:hover{
+/* .TH_socialIcon_container:hover{
     background: linear-gradient(140deg, #f35a5a 0%, #fa8837 35%);
     color: white;
 }
 .TH_socialIcon_container:hover .TH_socialIcon{
     color: white !important;
    
-}
-.TH_socialIcon {
+} */
+/* .TH_socialIcon {
     color: #ff6a00;
     font-size: 1.2rem;
     transition: all .5s ease-in-out;
-}
+} */
