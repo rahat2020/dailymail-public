@@ -34,10 +34,15 @@
     border: none;
     padding: 6px 25px;
     text-transform: capitalize;
+    font-weight: 500;
     background-image: linear-gradient(180deg, #FF8F50, #FF5324);
     box-shadow: #f344146e 0px 3px 54px;
     color: #fff;
-    font-weight: 400;
     border-radius: 20px;
     font-size:.84rem;
   }
+
+.comment_textBox{
+    outline: none !important;
+    border: 1px solid #c0c0c08f ;
+}

@@ -1,15 +1,9 @@
 "use client"
-import React, { useEffect, useState } from 'react'
-import { Button, Card, Carousel, Col, Container, Image, Row, Spinner } from 'react-bootstrap';
+import { Card, Carousel, Col, Container, Row, Spinner } from 'react-bootstrap';
 import './LatestBlogs.css';
 import Link from 'next/link';
 import Form from 'react-bootstrap/Form';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import SearchIcon from '@mui/icons-material/Search';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import { Facebook, Heart, Instagram, Linkedin, Search, Twitter } from 'react-feather';
 import { useGetAllPostQuery } from '@/redux/apiSlice';
 
 
@@ -104,7 +98,7 @@ const LatestBlogs = () => {
                                     className="me-2 rounded border-0 "
                                     aria-label="Search"
                                 />
-                                <SearchIcon className='text-muted' />
+                                <Search className='text-muted' />
                             </Form>
                         </Card>
                     </Col>
@@ -189,16 +183,16 @@ const LatestBlogs = () => {
                                 <Col md={12}>
                                     <div className="d-flex justify-content-evenly align-items-center my-4">
                                         <div className="socialIcon_container">
-                                            <InstagramIcon className='socialIcon' />
+                                            <Instagram className='socialIcon' />
                                         </div>
                                         <div className="socialIcon_container">
-                                            <LinkedInIcon className='socialIcon' />
+                                            <Linkedin className='socialIcon' />
                                         </div>
                                         <div className="socialIcon_container">
-                                            <FacebookIcon className='socialIcon' />
+                                            <Facebook className='socialIcon' />
                                         </div>
                                         <div className="socialIcon_container">
-                                            <TwitterIcon className='socialIcon' />
+                                            <Twitter className='socialIcon' />
                                         </div>
                                     </div>
                                 </Col>

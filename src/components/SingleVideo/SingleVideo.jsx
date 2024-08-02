@@ -1,15 +1,7 @@
 "use client"
 import React, { useContext, useState } from 'react';
 import { Button, Card, Col, Container, Form, Image, Modal, Row, Spinner, Nav } from 'react-bootstrap';
-import SendIcon from '@mui/icons-material/Send';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
-// import Link from 'next/link';
 import './SingleVideo.css';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllPostQuery, useGetAllVideosQuery, useGetSinglePostQuery, useGetSingleVideosQuery, useIncreaseVideoViewsMutation, useUserDataByEmailQuery } from '@/redux/apiSlice';
@@ -19,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from 'next/navigation';
 import { AuthContext } from '@/context/authContext';
 import ReactPlayer from 'react-player';
+import { Eye, Facebook, Heart, Instagram, Linkedin, Send, Twitter } from 'react-feather';
 
 
 const SingleVideo = ({ params }) => {
@@ -178,7 +171,7 @@ const SingleVideo = ({ params }) => {
                                                     <span className='fw-bold text-secondary'>{data?.user[0]?.username} </span>
                                                     <div className="d-flex jsutify-content-start align-items-start flex-wrap">
                                                         <small className='text-secondary'>{formattedDate} | {data?.timeToRead ? data.timeToRead : 'N/A'} </small>
-                                                        <small className='text-secondary ms-2 '>| <VisibilityIcon style={{ fontSize: "1.11rem" }} /> {data?.viewers ? data.viewers : 'N/A'} views</small>
+                                                        <small className='text-secondary ms-2 '>| <Eye style={{ fontSize: "1.11rem" }} /> {data?.viewers ? data.viewers : 'N/A'} views</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -186,13 +179,13 @@ const SingleVideo = ({ params }) => {
                                         <Col md={3} className='gy-3'>
                                             <div className="d-flex justify-content-center justify-content-md-end justify-content-lg-end align-items-center h-100 w-100">
                                                 <Nav.Link href={data?.instagram} target='_blank' className='text-decoration-none'>
-                                                    <InstagramIcon className='socialIcon' />
+                                                    <Instagram className='socialIcon' />
                                                 </Nav.Link>
                                                 <Nav.Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
-                                                    <LinkedInIcon className='socialIcon ms-1 cursor-pointer' />
+                                                    <Linkedin className='socialIcon ms-1 cursor-pointer' />
                                                 </Nav.Link>
                                                 <Nav.Link href={data?.facebook} target='_blank' className='text-decoration-none'>
-                                                    <FacebookIcon className='socialIcon ms-1' />
+                                                    <Facebook className='socialIcon ms-1' />
                                                 </Nav.Link>
                                             </div>
                                         </Col>
@@ -223,8 +216,8 @@ const SingleVideo = ({ params }) => {
                             <div className="d-flex">
                                 {
                                     stringResult === 'true' ?
-                                        <FavoriteIcon className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={handleLikeBtnClick} /> :
-                                        <FavoriteIcon className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={() => handleLikes(1)} />
+                                        <Heart className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={handleLikeBtnClick} /> :
+                                        <Heart className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={() => handleLikes(1)} />
                                 }
 
                                 <span className='fw-bold tex-dark mx-2'>{data?.likes?.length}</span>
@@ -236,13 +229,13 @@ const SingleVideo = ({ params }) => {
                             </div>
                             <div className="d-flex">
                                 <Nav.Link href={data?.instagram} target='_blank' className='text-decoration-none'>
-                                    <InstagramIcon className='socialIcon' />
+                                    <Instagram className='socialIcon' />
                                 </Nav.Link>
                                 <Nav.Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
-                                    <LinkedInIcon className='socialIcon ms-1 cursor-pointer' />
+                                    <Linkedin className='socialIcon ms-1 cursor-pointer' />
                                 </Nav.Link>
                                 <Nav.Link href={data?.facebook} target='_blank' className='text-decoration-none'>
-                                    <FacebookIcon className='socialIcon ms-1' />
+                                    <Facebook className='socialIcon ms-1' />
                                 </Nav.Link>
                             </div>
                         </div>
@@ -326,7 +319,7 @@ const SingleVideo = ({ params }) => {
                                     className="me-2 rounded border text-secondary"
                                     aria-label="Search"
                                 />
-                                <SendIcon className='text-muted' />
+                                <Send className='text-muted' />
                             </Form>
                         </Card>
                         <Card className='border-0 shadow my-3'>
@@ -335,16 +328,16 @@ const SingleVideo = ({ params }) => {
                                 <Col md={12}>
                                     <div className="d-flex justify-content-evenly align-items-center my-4">
                                         <div className="socialIcon_container">
-                                            <InstagramIcon className='socialIcon' />
+                                            <Instagram className='socialIcon' />
                                         </div>
                                         <div className="socialIcon_container">
-                                            <LinkedInIcon className='socialIcon' />
+                                            <Linkedin className='socialIcon' />
                                         </div>
                                         <div className="socialIcon_container">
-                                            <FacebookIcon className='socialIcon' />
+                                            <Facebook className='socialIcon' />
                                         </div>
                                         <div className="socialIcon_container">
-                                            <TwitterIcon className='socialIcon' />
+                                            <Twitter className='socialIcon' />
                                         </div>
                                     </div>
                                 </Col>

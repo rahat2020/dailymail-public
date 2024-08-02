@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
+import { ArrowUp } from 'react-feather';
 import './GotoTop.css';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 const GotoTop = () => {
     const gototop = () => {
@@ -30,7 +30,7 @@ const GotoTop = () => {
                 isVisible &&
                 (<div className="Gototop" onClick={gototop}>
                     <div className="topBtn__container">
-                            <ArrowUpwardIcon className="arrow__up"/>
+                            <ArrowUp className="arrow__up"/>
                     </div>
                 </div>)
             }

@@ -4,12 +4,12 @@ import './AllVideos.css';
 import { Breadcrumb, Col, Container, Form, Image, Row, Spinner } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import ReactPlayer from 'react-player';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
 import { useGetAllVideosQuery } from '@/redux/apiSlice';
 import ReactPaginate from 'react-paginate';
 import { usePathname } from 'next/navigation';
+import { Heart } from 'react-feather';
 
 const AllVideos = () => {
     // DATA FETCHING FORM REDUX API
@@ -125,7 +125,7 @@ const AllVideos = () => {
                                                                         </div>
 
                                                                         <div className="BC_likedWrapper">
-                                                                            <FavoriteIcon style={{ width: '2rem', height: '2rem', color: '#F70099' }} />
+                                                                            <Heart style={{ width: '2rem', height: '2rem', color: '#F70099' }} />
                                                                             <span className='BC_likedNum'>{item?.likes?.length}</span>
                                                                         </div>
                                                                     </div>
