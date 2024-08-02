@@ -1,13 +1,9 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap'
-import FacebookIcon from '@mui/icons-material/Facebook';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import { Facebook, Instagram, Linkedin, Twitter } from 'react-feather';
 import './TopHeader.css';
 import Link from 'next/link';
-import { toHijri, toGregorian } from "hijri-converter";
 import { usePathname } from 'next/navigation';
 
 const TopHeader = () => {
@@ -19,12 +15,6 @@ const TopHeader = () => {
     const currentDate = newdate.getDate()
 
     const formattedDate = `${currentYear},${month},${currentDate}`;
-    const gregorianDate = new Date();
-    const hijriDate = toHijri(formattedDate);
-    // Print the Hijri date
-    // console.log(`Hijri Date: ${hijriDate}`);
-    // console.log(`formattedDate: ${formattedDate}`);
-    // console.log(monthName, currentDate, currentYear)
     const Tpath = usePathname()
 
     // TIME FUNCTIONS
@@ -41,9 +31,6 @@ const TopHeader = () => {
     const seconds = time.getSeconds();
     const ampm = hours >= 12 ? 'PM' : 'AM';
     const formattedHours = hours % 12 || 12;
-
-    // console.log("time", hours, minutes, seconds, formattedHours)
-
 
     return (
         <div className='featureds p-2'>
@@ -80,7 +67,6 @@ const TopHeader = () => {
                                             'text-secondary text-decoration-none'}
                                     >
                                     Documentation
-
                                     </Link>
                                 </p>
 
@@ -91,22 +77,22 @@ const TopHeader = () => {
                         <div className="d-flex justify-content-between align-items-center mt-3">
                             <div className="TH_socialIcon_container">
                                 <Link href="https://www.instagram.com/kazirahat1020" target="_blank">
-                                    <InstagramIcon className='TH_socialIcon' />
+                                    <Instagram className='TH_socialIcon' />
                                 </Link>
                             </div>
                             <div className="TH_socialIcon_container">
                                 <Link href="https://www.linkedin.com/in/kazi-rahat2020/" target="_blank">
-                                    <LinkedInIcon className='TH_socialIcon' />
+                                    <Linkedin className='TH_socialIcon' />
                                 </Link>
                             </div>
                             <div className="TH_socialIcon_container">
                                 <Link href="https://www.facebook.com/rahatwebdev" target="_blank">
-                                    <FacebookIcon className='TH_socialIcon' />
+                                    <Facebook className='TH_socialIcon' />
                                 </Link>
                             </div>
                             <div className="TH_socialIcon_container">
                                 <Link href="https://twitter.com/KaziRahat2020" target="_blank">
-                                    <TwitterIcon className='TH_socialIcon' />
+                                    <Twitter className='TH_socialIcon' />
                                 </Link>
                             </div>
                         </div>

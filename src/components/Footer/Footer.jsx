@@ -3,9 +3,8 @@ import React from 'react'
 import { Col, Container, Form, Image, Row } from 'react-bootstrap';
 import './Footer.css';
 import Link from 'next/link';
-import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
-import SendIcon from '@mui/icons-material/Send';
 import { companyLinks, quickLinks, socialLinks } from '../UI/Data/footerData';
+import { MapPin, Send } from 'react-feather';
 
 const Footer = () => {
   const getCurrentYear = new Date().getFullYear();
@@ -19,7 +18,7 @@ const Footer = () => {
                 <Image src="/dm.png" alt="Logo" style={{ width: '10rem' }} />
                 <p className='text-secondary'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum, animi! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis, rem.</p>
                 <div className="d-flex">
-                  <AddLocationAltIcon className='text-secondary' /> <p className='text-secondary'>Chattogram, Bangladesh</p>
+                  <MapPin className='text-secondary' /> <p className='text-secondary ms-2'> Chattogram, Bangladesh</p>
                 </div>
 
               </div>
@@ -58,7 +57,7 @@ const Footer = () => {
                       className="me-2 rounded border-0 text-secondary"
                       aria-label="Search"
                     />
-                    <SendIcon className='text-muted' />
+                    <Send className='text-muted' />
                   </Form>
                 </div>
                 <div className="w-100">

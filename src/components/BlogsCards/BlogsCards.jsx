@@ -4,13 +4,10 @@ import './BlogsCards.css';
 import { Col, Container, Image, Row, Spinner } from 'react-bootstrap';
 import { size } from 'lodash';
 import Link from 'next/link';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useGetCategoryPostsQuery } from '@/redux/apiSlice';
 import DOMPurify from 'dompurify';
 import { alterredUserAvatar } from '../UI/helpers/appHelpers';
+import { Facebook, Heart, Instagram, Linkedin } from 'react-feather';
 
 const BlogsCards = () => {
     const propsData = "Programming"
@@ -63,7 +60,7 @@ const BlogsCards = () => {
                                                                 </div>
                                                             </div>
                                                             <div className="BC_likedWrapper">
-                                                                <FavoriteIcon style={{ width: '2rem', height: '2rem', color: '#F70099' }} />
+                                                                <Heart style={{ width: '2rem', height: '2rem', color: '#F70099' }} />
                                                                 <span className='BC_likedNum'>{size(likes)}</span>
                                                             </div>
                                                         </div>
@@ -82,13 +79,13 @@ const BlogsCards = () => {
                                                     </div>
                                                     <div className="icons mt-4">
                                                         <Link href={facebook} target='_blank' className="link">
-                                                            <FacebookIcon />
+                                                            <Facebook />
                                                         </Link>
                                                         <Link href={linkedin} target='_blank' className="link">
-                                                            <LinkedInIcon />
+                                                            <Linkedin />
                                                         </Link>
                                                         <Link href={instagram} target='_blank' className="link">
-                                                            <InstagramIcon />
+                                                            <Instagram />
                                                         </Link>
                                                     </div>
                                                     <div className="more">

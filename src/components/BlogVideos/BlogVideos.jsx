@@ -4,12 +4,12 @@ import './BlogVideos.css';
 import { Col, Container, Image, Row, Spinner } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import ReactPlayer from 'react-player';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
 import { useGetAllVideosQuery } from '@/redux/apiSlice';
 import { alterredUserAvatar } from '../UI/helpers/appHelpers';
 import { size } from 'lodash';
+import { Heart } from 'react-feather';
 
 const BlogVideos = () => {
     const [hasWindow, setHasWindow] = useState(false);
@@ -74,7 +74,7 @@ const BlogVideos = () => {
                                                                         	</div>
     	
                                                                         	<div className="BC_likedWrapper">
-                                                                            	<FavoriteIcon style={{ width: '2rem', height: '2rem', color: '#F70099' }} />
+                                                                            	<Heart style={{ width: '2rem', height: '2rem', color: '#F70099' }} />
                                                                             	<span className='BC_likedNum'>{size(likes)}</span>
                                                                         	</div>
                                                                     	</div>
