@@ -1,18 +1,15 @@
 "use client"
 import React, { useState } from 'react';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import './CategoryByPosts.css';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
-import { useGetAllVideosQuery, useGetCategoryPostsQuery, useGetCategoryvideosQuery } from '@/redux/apiSlice';
+import { useGetCategoryPostsQuery, useGetCategoryvideosQuery } from '@/redux/apiSlice';
 import Spinner from 'react-bootstrap/Spinner';
 import { usePathname } from 'next/navigation';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ReactPaginate from 'react-paginate';
+import { Facebook, Heart, Instagram, Linkedin } from 'react-feather';
 
 
 
@@ -24,10 +21,6 @@ const CategoryByPosts = ({ params }) => {
     const { data: catVideos, isLoading: loading } = useGetCategoryvideosQuery(params.category)
     const approvedVideoData = catVideos?.filter((item) => item?.status === "approved")
 
-    // COMBINE ARRAY 
-    // const combinedVideoAndPostData = {...approvedData, ...approvedVideoData}
-    // console.log('combinedVideoAndPostData', combinedVideoAndPostData)
-
     // BREADCUMB
     const routerPath = usePathname()
 
@@ -36,7 +29,6 @@ const CategoryByPosts = ({ params }) => {
     const [itemOffset, setItemOffset] = useState(0);
     const itemsPerPage = 6;
     const endOffset = itemOffset + itemsPerPage;
-    // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     const currentItems = approvedData?.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(approvedData?.length / itemsPerPage);
     const handlePageClick = (event) => {
@@ -126,7 +118,7 @@ const CategoryByPosts = ({ params }) => {
                                                             </div>
                                                         </div>
                                                         <div className="BC_likedWrapper">
-                                                            <FavoriteIcon style={{ width: '2rem', height: '2rem', color: '#F70099' }} />
+                                                            <Heart style={{ width: '2rem', height: '2rem', color: '#F70099' }} />
                                                             <span className='BC_likedNum'>{item?.likes?.length}</span>
                                                         </div>
                                                     </div>
@@ -143,13 +135,13 @@ const CategoryByPosts = ({ params }) => {
                                                 </div>
                                                 <div className="icons mt-4">
                                                     <Link href={item?.facebook} target='_blank' className="link">
-                                                        <FacebookIcon />
+                                                        <Facebook />
                                                     </Link>
                                                     <Link href={item?.linkedin} target='_blank' className="link">
-                                                        <LinkedInIcon />
+                                                        <Linkedin />
                                                     </Link>
                                                     <Link href={item?.instagram} target='_blank' className="link">
-                                                        <InstagramIcon />
+                                                        <Instagram />
                                                     </Link>
                                                 </div>
                                                 <div className="more">

@@ -1,15 +1,7 @@
 "use client"
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Card, Col, Container, Form, Image, Row, Spinner, Nav } from 'react-bootstrap';
 import './SinglePost.css';
-import SendIcon from '@mui/icons-material/Send';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
-// import Link from 'next/link';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllPostQuery, useGetSinglePostQuery, useIncreaseViewsMutation, useUserDataByEmailQuery } from '@/redux/apiSlice';
@@ -22,6 +14,7 @@ import { AuthContext } from '@/context/authContext';
 import Link from 'next/link';
 import { alterredUserAvatar, dummyBlogThumbnail, formatDate } from '../UI/helpers/appHelpers';
 import { size } from 'lodash';
+import { Eye, Facebook, Heart, Instagram, Linkedin, Send, Twitter } from 'react-feather';
 
 
 const SinglePost = ({ params }) => {
@@ -174,7 +167,7 @@ const SinglePost = ({ params }) => {
                                                     <span className='fw-bold text-secondary'>{username} </span>
                                                     <div className="d-flex jsutify-content-start align-items-start flex-wrap">
                                                         <small className='text-secondary'>{formatDate(createdAt)} | {timeToRead} </small>
-                                                        <small className='text-secondary ms-2 '>| <VisibilityIcon style={{ fontSize: "1.11rem" }} /> {viewers} views</small>
+                                                        <small className='text-secondary ms-2 '>| <Eye style={{ fontSize: "1.11rem" }} /> {viewers} views</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,13 +175,13 @@ const SinglePost = ({ params }) => {
                                         <Col md={3} className='gy-3'>
                                             <div className="d-flex justify-content-center justify-content-md-end justify-content-lg-end align-items-center h-100 w-100">
                                                 <Nav.Link href={instagram} target='_blank' className='text-decoration-none'>
-                                                    <InstagramIcon className='socialIcon' />
+                                                    <Instagram className='socialIcon' />
                                                 </Nav.Link>
                                                 <Nav.Link href={linkedin} target='_blank' className='text-decoration-none'>
-                                                    <LinkedInIcon className='socialIcon ms-1 cursor-pointer' />
+                                                    <Linkedin className='socialIcon ms-1 cursor-pointer' />
                                                 </Nav.Link>
                                                 <Nav.Link href={facebook} target='_blank' className='text-decoration-none'>
-                                                    <FacebookIcon className='socialIcon ms-1' />
+                                                    <Facebook className='socialIcon ms-1' />
                                                 </Nav.Link>
 
                                             </div>
@@ -227,9 +220,9 @@ const SinglePost = ({ params }) => {
                             <div className="d-flex">
                                 {
                                     isUserLikedThePost ?
-                                        <FavoriteIcon className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={handleLikeBtnClick} /> 
+                                        <Heart className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={handleLikeBtnClick} /> 
                                         :
-                                        <FavoriteIcon className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={() => handleLikes(1)} />
+                                        <Heart className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={() => handleLikes(1)} />
                                 }
 
                                 <span className='fw-bold tex-dark mx-2'>{size(data?.likes)}</span>
@@ -242,13 +235,13 @@ const SinglePost = ({ params }) => {
                             </div>
                             <div className="d-flex">
                                 <Nav.Link href={instagram} target='_blank' className='text-decoration-none'>
-                                    <InstagramIcon className='socialIcon'/>
+                                    <Instagram className='socialIcon'/>
                                 </Nav.Link>
                                 <Nav.Link href={linkedin} target='_blank' className='text-decoration-none'>
-                                    <LinkedInIcon className='socialIcon ms-1 cursor-pointer'/>
+                                    <Linkedin className='socialIcon ms-1 cursor-pointer'/>
                                 </Nav.Link>
                                 <Nav.Link href={facebook} target='_blank' className='text-decoration-none'>
-                                    <FacebookIcon className='socialIcon ms-1'/>
+                                    <Facebook className='socialIcon ms-1'/>
                                 </Nav.Link>
                             </div>
                         </div>
@@ -339,7 +332,7 @@ const SinglePost = ({ params }) => {
                                     className="me-2 rounded border text-secondary"
                                     aria-label="Search"
                                 />
-                                <SendIcon className='text-muted' />
+                                <Send className='text-muted' />
                             </Form>
                         </Card>
                         <Card className='border-0 shadow my-3'>
@@ -349,22 +342,22 @@ const SinglePost = ({ params }) => {
                                     <div className="d-flex justify-content-evenly align-items-center my-4">
                                         <div className="socialIcon_container">
                                             <Link href="https://www.instagram.com/kazirahat1020" target="_blank">
-                                                <InstagramIcon className='socialIcon' />
+                                                <Instagram className='socialIcon' />
                                             </Link>
                                         </div>
                                         <div className="socialIcon_container">
                                             <Link href="https://www.linkedin.com/in/kazi-rahat2020/" target="_blank">
-                                                <LinkedInIcon className='socialIcon' />
+                                                <Linkedin className='socialIcon' />
                                             </Link>
                                         </div>
                                         <div className="socialIcon_container">
                                             <Link href="https://www.facebook.com/rahatwebdev" target="_blank">
-                                                <FacebookIcon className='socialIcon' />
+                                                <Facebook className='socialIcon' />
                                             </Link>
                                         </div>
                                         <div className="socialIcon_container">
                                             <Link href="https://twitter.com/KaziRahat2020" target="_blank">
-                                                <TwitterIcon className='socialIcon' />
+                                                <Twitter className='socialIcon' />
                                             </Link>
                                         </div>
                                     </div>
