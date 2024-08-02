@@ -78,7 +78,6 @@ const Footer = () => {
           </Row>
         </Container>
       </div>
-
       <div className=" h-100 p-1 text-center shadow" style={{ backgroundColor: '#dfe8f6' }}>
         <small className='text-secondary fw-bold'>© {getCurrentYear} | All rights reserved to DailyMail</small>
       </div>
