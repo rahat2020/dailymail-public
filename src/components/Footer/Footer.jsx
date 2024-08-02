@@ -72,7 +72,6 @@ const Footer = () => {
                     ))}
                   </div>
                 </div>
-
               </div>
             </Col>
           </Row>
