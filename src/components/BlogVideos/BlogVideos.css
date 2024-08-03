@@ -1,6 +1,13 @@
+  .bv_main {
+    height: 100%;
+  }
+
   .BV_wrapper {
     transition: all .3s ease-in-out;
     background-color: #FEF7F1;
+    height: 520px;
+    width: 100%;
+    border-radius: 10px;
     box-shadow: #ebebebd5 0px 3px 20px;
   }
 
@@ -10,14 +17,14 @@
     box-shadow: #f344146e 0px 3px 20px;
   }
 
-  .bv_title {
+  .bv_text_box_wrapper .bv_title {
     color: #1b1b1bde;
     font-size: 1.222rem;
   }
 
   .BV_card {
     position: relative;
-    height: 440px;
+    height: 100%;
     width: 100%;
     overflow: hidden;
     /* box-shadow: 0px 5px 10px 0 #00000033; */
@@ -50,90 +57,25 @@
     border-radius: 50%;
   }
 
-  /* .header img {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 50%;
-  } */
-
-
-  .BV_card .wave-container {
-    position: absolute;
-    width: 100%;
-    height: 60%;
-    top: 0;
-  }
-
-  .wave {
-    position: absolute;
-    height: 960px;
-    width: 620px;
-    opacity: 0.6;
-    border-radius: 40%;
-    left: -200px;
-    top: -112%;
-    /* background: radial-gradient(#353535, #383737); */
-    background: linear-gradient(140deg, #de4c4c 0%, #ee731b 35%);
-    animation: wave 3s infinite linear;
-  }
-
-  .wave:nth-child(2) {
-    animation-delay: 0.2s;
-  }
-
-  .wave:nth-child(3) {
-    animation-delay: 0.3s;
-  }
-
-  @keyframes wave {
-    0% {
-      transform: rotate(0deg);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  .icons {
-    position: absolute;
-    top: 52%;
-    height: 100px;
-    width: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-  }
-
-  /* .watch_btn {
+  .bv_button {
     text-decoration: none;
-    height: 40px;
-    width: 40px;
-    margin: 7px;
+    padding: 6px 25px;
     color: #e97623;
-    background: white;
-    background: linear-gradient(140deg, #fff 0%, #ffff 35%);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    /* background: linear-gradient(180deg, #e2595986 20%, #e97623 45%); */
+    background: #fff;
+    border: solid 1px #e97623;
+    border-radius: 30px;
     transition: 0.4s;
   }
 
-  .watch_btn:hover {
-    background: linear-gradient(140deg, #de4c4c 0%, #e97623af 35%);
-    color: white;
-    
-  } */
+  .bv_button:hover {
+    color: #fff;
+    border: none;
+    background-image: linear-gradient(180deg, #FF8F50, #FF5324) !important;
+
+  }
 
   .BV_card .more {
     position: absolute;
@@ -141,6 +83,7 @@
     left: 50%;
     transform: translateX(-50%);
   }
+
   .BV_card .more a {
     text-decoration: none;
     padding: 6px 25px;
@@ -153,10 +96,11 @@
     border-radius: 30px;
     transition: 0.4s;
   }
+
   .BV_card .more a:hover {
     color: #fff;
     background-image: linear-gradient(180deg, #FF8F50, #FF5324);
- 
+
   }
 
   .btn_filter {

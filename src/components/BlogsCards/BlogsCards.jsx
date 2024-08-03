@@ -6,7 +6,7 @@ import { size } from 'lodash';
 import Link from 'next/link';
 import { useGetCategoryPostsQuery } from '@/redux/apiSlice';
 import DOMPurify from 'dompurify';
-import { alterredUserAvatar } from '../UI/helpers/appHelpers';
+import { alterredUserAvatar } from '../utils/helpers/appHelpers';
 import { Facebook, Heart, Instagram, Linkedin } from 'react-feather';
 
 const BlogsCards = () => {

@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation';
 import Modal from 'react-bootstrap/Modal';
 import { AuthContext } from '@/context/authContext';
 import Link from 'next/link';
-import { alterredUserAvatar, dummyBlogThumbnail, formatDate } from '../UI/helpers/appHelpers';
+import { alterredUserAvatar, dummyBlogThumbnail, formatDate } from '../utils/helpers/appHelpers';
 import { size } from 'lodash';
 import { Eye, Facebook, Heart, Instagram, Linkedin, Send, Twitter } from 'react-feather';
 
@@ -24,7 +24,7 @@ const SinglePost = ({ params }) => {
 
     // REDUX QUERIES
     const { data, isLoading } = useGetSinglePostQuery(params)
-    const { _id ,title, category, photoUrlOne, author, desc, website, user: authUser, viewers, createdAt, timeToRead, facebook, instagram,linkedin } = data || {}
+    const { _id ,title, category, photoUrlOne, author, desc, likes, website, user: authUser, viewers, createdAt, timeToRead, facebook, instagram,linkedin } = data || {}
     const [{ username = '', photo = '' } = {}] = authUser || [];
     const userAvatar = photo || alterredUserAvatar
     const blogThumbnail = photoUrlOne || dummyBlogThumbnail
@@ -71,8 +71,6 @@ const SinglePost = ({ params }) => {
         } else {
             try {
                 const res = await CommetsData(Obj)
-                // console.log('comments obj', Obj)
-                // console.log('comments res', res)
                 if (res?.data === "comments created") {
                     toast('Comments created')
                     setDescriptions('')
@@ -115,12 +113,8 @@ const SinglePost = ({ params }) => {
             }
         }
     }
-
-
     // CHECING ALREADY THIS USER IS LIKED POST OR NOT
-    const isUserLikedThePost = data?.likes?.some(item => item?.liker?.[0]?.email?.includes(user));
-
-
+    const isUserLikedThePost = likes?.some(item => item?.liker?.[0]?.email?.includes(user));
     const handleLikeBtnClick = (e) => {
         e.preventDefault()
         toast('Already, you liked the post')
@@ -210,12 +204,9 @@ const SinglePost = ({ params }) => {
                                     </div>
                                 </div>
                         }
-
-
                         <div className="d-flex justify-content-center align-items-center flex-wrap">
                             <Image src="/banner-03.png" alt="banners" className='img-fluid' />
                         </div>
-
                         <div className="d-flex justify-content-between align-items-center border-light py-2 border-bottom">
                             <div className="d-flex">
                                 {
@@ -245,7 +236,6 @@ const SinglePost = ({ params }) => {
                                 </Nav.Link>
                             </div>
                         </div>
-
                         <h6 className='text-dark fw-bold my-2'>All Comments</h6>
                         <div className="border-top">
                             <div className="d-flex flex-column justify-content-start align-items-start my-3">
@@ -276,8 +266,6 @@ const SinglePost = ({ params }) => {
                                         </div>
                                     ))
                                 }
-
-
                             </div>
                             <Form>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
