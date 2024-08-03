@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation';
 import { AuthContext } from '@/context/authContext';
 import ReactPlayer from 'react-player';
 import { Eye, Facebook, Heart, Instagram, Linkedin, Send, Twitter } from 'react-feather';
-import { alterredUserAvatar, formatDate } from '../UI/helpers/appHelpers';
+import { alterredUserAvatar, formatDate } from '../utils/helpers/appHelpers';
 import { size } from 'lodash';
 import Link from 'next/link';
 

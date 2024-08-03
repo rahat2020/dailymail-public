@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation';
 import Modal from 'react-bootstrap/Modal';
 import { AuthContext } from '@/context/authContext';
 import Link from 'next/link';
-import { alterredUserAvatar, dummyBlogThumbnail, formatDate } from '../UI/helpers/appHelpers';
+import { alterredUserAvatar, dummyBlogThumbnail, formatDate } from '../utils/helpers/appHelpers';
 import { size } from 'lodash';
 import { Eye, Facebook, Heart, Instagram, Linkedin, Send, Twitter } from 'react-feather';
 

@@ -5,7 +5,7 @@ import { Col, Container, Image, Row } from "react-bootstrap"
 import Card from 'react-bootstrap/Card';
 import Carousel from 'react-bootstrap/Carousel';
 import Link from 'next/link';
-import FeaturedSkelton, { FeaturedCatSkelton } from '../utils/FeaturedSkelton';
+import FeaturedSkelton, { FeaturedCatSkelton } from '@/components/utils/skeleton/FeaturedSkelton';
 
 const Featured = () => {
 
@@ -97,7 +97,7 @@ const Featured = () => {
                     <Row className='gy-2'>
                         {
                             isLoading ?
-                                <FeaturedCatSkelton />
+                                <FeaturedCatSkelton/>
                                 :
                                 <>
                                     {
