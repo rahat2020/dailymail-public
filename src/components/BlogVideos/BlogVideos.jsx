@@ -38,7 +38,7 @@ const BlogVideos = () => {
                                         const [{ username = '', photo = '' } = {}] = user || [];
                                         const userAvatar = photo || alterredUserAvatar
                                         return (
-                                            	<Col md={4} key={index} className='gy-3'>
+                                            	<Col md={4} key={index} className='py-3'>
                                                 	<div className='BV_wrapper'>
                                                     	<div className="BV_card">
                                                         	<div className="header">

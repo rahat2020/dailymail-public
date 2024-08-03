@@ -4,7 +4,7 @@ import { Button, Card, Col, Container, Form, Image, Modal, Row, Spinner, Nav } f
 import './SingleVideo.css';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllPostQuery, useGetAllVideosQuery, useGetSinglePostQuery, useGetSingleVideosQuery, useIncreaseVideoViewsMutation, useUserDataByEmailQuery } from '@/redux/apiSlice';
+import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllVideosQuery, useGetSingleVideosQuery, useIncreaseVideoViewsMutation, useUserDataByEmailQuery } from '@/redux/apiSlice';
 import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +12,9 @@ import { usePathname } from 'next/navigation';
 import { AuthContext } from '@/context/authContext';
 import ReactPlayer from 'react-player';
 import { Eye, Facebook, Heart, Instagram, Linkedin, Send, Twitter } from 'react-feather';
+import { alterredUserAvatar, formatDate } from '../UI/helpers/appHelpers';
+import { size } from 'lodash';
+import Link from 'next/link';
 
 
 const SingleVideo = ({ params }) => {
@@ -21,21 +24,15 @@ const SingleVideo = ({ params }) => {
 
     // REDUX
     const { data, isLoading } = useGetSingleVideosQuery(params)
+    const { _id, title, category, likes, author, desc, user: authUser, viewers, createdAt, timeToRead, facebook, instagram, linkedin } = data || {}
+    const [{ username = '', photo = '' } = {}] = authUser || [];
+    const userAvatar = photo || alterredUserAvatar
     const { data: item } = useGetAllVideosQuery(undefined)
     const filteredData = item?.filter((item) => item?.status === "approved")
     const [CommetsData] = useCreateCommentsMutation()
     const { data: userData } = useUserDataByEmailQuery(user)
     const [LikesData] = useCreateLikesMutation()
     const [IncData] = useIncreaseVideoViewsMutation()
-    // console.log('single post loggedInUserData', userData)
-
-    // FORMATING DATE
-    const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    }
-    const inputDateString = data?.createdAt;
-    const formattedDate = formatDate(inputDateString);
 
     // CATCHING PATHNAME 
     const pathname = usePathname()
@@ -53,7 +50,7 @@ const SingleVideo = ({ params }) => {
         const id = params
         try {
             const obj = { id }
-            const res = await IncData(obj)
+            await IncData(obj)
             setShow(false)
         } catch (err) {
             console.log(err)
@@ -61,12 +58,12 @@ const SingleVideo = ({ params }) => {
     };
 
     // CREATEING COMMENTS
-    const [desc, setDesc] = useState('')
+    const [descriptions, setDescriptions] = useState('')
     const handleComment = async () => {
         const Obj = {
-            id: data?._id,
+            id: _id,
             commentor: [userData],
-            desc,
+            desc: descriptions,
         }
         if (!desc) {
             toast('Field can not be empty')
@@ -75,18 +72,17 @@ const SingleVideo = ({ params }) => {
         } else {
             try {
                 const res = await CommetsData(Obj)
-                // console.log('comments obj', Obj)
-                // console.log('comments res', res)
                 if (res?.data === "comments created") {
                     toast('Comments created')
+                    setDescriptions('')
                 } else if (res?.error?.data === "wrong credentials") {
                     toast('Comments not created')
                 } else {
                     toast('Login Failed')
                 }
-                setDesc('')
-            } catch (err) {
 
+            } catch (err) {
+                console.log(err)
             }
         }
     }
@@ -95,7 +91,7 @@ const SingleVideo = ({ params }) => {
     const [likeRes, setLikesRes] = useState('')
     const handleLikes = async (params) => {
         const Obj = {
-            id: data?._id,
+            id: _id,
             liker: [userData],
             like: params,
         }
@@ -112,20 +108,15 @@ const SingleVideo = ({ params }) => {
                 } else {
                     toast('Likes Failed')
                 }
-                setDesc('')
+                setDescriptions('')
             } catch (err) {
 
             }
         }
     }
 
-
-    const abc = data?.likes?.map((item) => (item?.liker[0]?.email?.includes(user)))
-    const trueValues = abc?.filter((value) => value === true);
-    const stringResult = trueValues?.toString();
-    // const falseValues = abc?.filter((value) => value === false);
-    // console.log('abc', abc)
-
+  // CHECING ALREADY THIS USER IS LIKED POST OR NOT
+    const isUserLikedThePost = likes?.some(item => item?.liker?.[0]?.email?.includes(user));
     const handleLikeBtnClick = (e) => {
         e.preventDefault()
         toast('Already, you liked the post')
@@ -142,12 +133,13 @@ const SingleVideo = ({ params }) => {
                                     <Spinner animation="grow" />
                                 </div> :
                                 <div className="my-3 w-100">
-                                    <p className='text-secondary fw-bold'>•{data?.category}</p>
-                                    <h1>{data?.title}</h1>
+                                    <p className='text-secondary fw-bold'>•{category}</p>
+                                    <h1>{title}</h1>
                                     <Row className='border-bottom border-light border-2 py-2 shadow-sm rounded'>
                                         <Col md={9} className='gy-3'>
                                             <div className="d-flex w-100 position-relative">
-                                                <Image src={data?.user[0]?.photo ? data.user[0]?.photo : "https://secure.gravatar.com/avatar/1b70c830da30f39d5c6fab323017430c?s=50&d=mm&r=g"}
+                                                <Image
+                                                    src={userAvatar}
                                                     alt="rahat"
                                                     style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '50%' }}
                                                     loading='lazy'
@@ -168,23 +160,23 @@ const SingleVideo = ({ params }) => {
                                                 }
 
                                                 <div className="d-flex flex-column justify-content-start align-items-start ms-2">
-                                                    <span className='fw-bold text-secondary'>{data?.user[0]?.username} </span>
+                                                    <span className='fw-bold text-secondary'>{username} </span>
                                                     <div className="d-flex jsutify-content-start align-items-start flex-wrap">
-                                                        <small className='text-secondary'>{formattedDate} | {data?.timeToRead ? data.timeToRead : 'N/A'} </small>
-                                                        <small className='text-secondary ms-2 '>| <Eye style={{ fontSize: "1.11rem" }} /> {data?.viewers ? data.viewers : 'N/A'} views</small>
+                                                        <small className='text-secondary'>{formatDate(createdAt)} | {timeToRead || ''} </small>
+                                                        <small className='text-secondary ms-2 '>| <Eye style={{ width: ".90rem", height: '.90rem' }} /> {viewers || 0} views</small>
                                                     </div>
                                                 </div>
                                             </div>
                                         </Col>
                                         <Col md={3} className='gy-3'>
                                             <div className="d-flex justify-content-center justify-content-md-end justify-content-lg-end align-items-center h-100 w-100">
-                                                <Nav.Link href={data?.instagram} target='_blank' className='text-decoration-none'>
+                                                <Nav.Link href={instagram} target='_blank' className='text-decoration-none'>
                                                     <Instagram className='socialIcon' />
                                                 </Nav.Link>
-                                                <Nav.Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
+                                                <Nav.Link href={linkedin} target='_blank' className='text-decoration-none'>
                                                     <Linkedin className='socialIcon ms-1 cursor-pointer' />
                                                 </Nav.Link>
-                                                <Nav.Link href={data?.facebook} target='_blank' className='text-decoration-none'>
+                                                <Nav.Link href={facebook} target='_blank' className='text-decoration-none'>
                                                     <Facebook className='socialIcon ms-1' />
                                                 </Nav.Link>
                                             </div>
@@ -193,48 +185,48 @@ const SingleVideo = ({ params }) => {
                                     <ToastContainer />
                                     <div className="py-2">
                                         <small className='text-primary fw-bold'>home{pathname}</small>
-                                        <p className='fw-bold text-dark py-2' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.desc.slice(0, 80)) }}></p>
+                                        <p className='fw-bold text-dark py-2' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(desc.slice(0, 80)) }}></p>
                                         <div className="d-flex justify-content-center align-items-center flex-column">
                                             <ReactPlayer url={data?.videoOne}
                                                 controls
                                                 width="580px" height="300px"
                                             />
-                                            <small className='text-secondary'>Source: {data?.author}</small>
+                                            <small className='text-secondary'>Source: {author}</small>
                                         </div>
                                         <p className='text-dark py-2 letter-1'
-                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data?.desc) }}></p>
+                                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(desc) }}></p>
                                     </div>
                                 </div>
                         }
 
-
                         <div className="d-flex justify-content-center align-items-center flex-wrap">
                             <Image src="/banner-03.png" alt="banners" className='img-fluid' />
                         </div>
-
                         <div className="d-flex justify-content-between align-items-center border-light py-2 border-bottom">
                             <div className="d-flex">
                                 {
-                                    stringResult === 'true' ?
-                                        <Heart className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={handleLikeBtnClick} /> :
+                                    isUserLikedThePost ?
+                                        <Heart className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={handleLikeBtnClick} />
+                                        :
                                         <Heart className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={() => handleLikes(1)} />
                                 }
 
-                                <span className='fw-bold tex-dark mx-2'>{data?.likes?.length}</span>
+                                <span className='fw-bold tex-dark mx-2'>{size(likes)}</span>
                                 {
-                                    stringResult === 'true' ?
-                                        <span className='text-secondary fw-bold'>(You liked the post!)</span> :
-                                        <span className='text-secondary fw-bold'>(You did not like the post yet!)</span>
+                                    isUserLikedThePost ?
+                                        <span className='text-secondary fw-bold'>- You liked the post!</span>
+                                        :
+                                        <span className='text-secondary fw-bold'>- You did not like the post yet!</span>
                                 }
                             </div>
                             <div className="d-flex">
-                                <Nav.Link href={data?.instagram} target='_blank' className='text-decoration-none'>
+                                <Nav.Link href={instagram} target='_blank' className='text-decoration-none'>
                                     <Instagram className='socialIcon' />
                                 </Nav.Link>
-                                <Nav.Link href={data?.linkedin} target='_blank' className='text-decoration-none'>
+                                <Nav.Link href={linkedin} target='_blank' className='text-decoration-none'>
                                     <Linkedin className='socialIcon ms-1 cursor-pointer' />
                                 </Nav.Link>
-                                <Nav.Link href={data?.facebook} target='_blank' className='text-decoration-none'>
+                                <Nav.Link href={facebook} target='_blank' className='text-decoration-none'>
                                     <Facebook className='socialIcon ms-1' />
                                 </Nav.Link>
                             </div>
@@ -270,13 +262,11 @@ const SingleVideo = ({ params }) => {
                                         </div>
                                     ))
                                 }
-
-
                             </div>
                             <Form>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                     <Form.Label className='fw-bold text-dark'>Write your comment:</Form.Label>
-                                    <Form.Control as="textarea" rows={3} placeholder='your comment' onChange={(e) => setDesc(e.target.value)} />
+                                    <Form.Control as="textarea" rows={3} placeholder='your comment' value={descriptions} onChange={(e) => setDescriptions(e.target.value)} />
                                     <Button variant='danger mt-2 fw-bold' size='sm' onClick={handleComment}>Submit</Button>
                                 </Form.Group>
                             </Form>
@@ -326,20 +316,30 @@ const SingleVideo = ({ params }) => {
                             <h5 className='fw-bold border-bottom border-light text-center text-dark my-3'>Stay in touch</h5>
                             <Row>
                                 <Col md={12}>
+                                    <Col md={12}>
                                     <div className="d-flex justify-content-evenly align-items-center my-4">
                                         <div className="socialIcon_container">
-                                            <Instagram className='socialIcon' />
+                                            <Link href="https://www.instagram.com/kazirahat1020" target="_blank">
+                                                <Instagram className='socialIcon' />
+                                            </Link>
                                         </div>
                                         <div className="socialIcon_container">
-                                            <Linkedin className='socialIcon' />
+                                            <Link href="https://www.linkedin.com/in/kazi-rahat2020/" target="_blank">
+                                                <Linkedin className='socialIcon' />
+                                            </Link>
                                         </div>
                                         <div className="socialIcon_container">
-                                            <Facebook className='socialIcon' />
+                                            <Link href="https://www.facebook.com/rahatwebdev" target="_blank">
+                                                <Facebook className='socialIcon' />
+                                            </Link>
                                         </div>
                                         <div className="socialIcon_container">
-                                            <Twitter className='socialIcon' />
+                                            <Link href="https://twitter.com/KaziRahat2020" target="_blank">
+                                                <Twitter className='socialIcon' />
+                                            </Link>
                                         </div>
                                     </div>
+                                </Col>
                                 </Col>
                             </Row>
                         </Card>
