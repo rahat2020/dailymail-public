@@ -10,15 +10,16 @@ import { usePathname } from 'next/navigation';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import ReactPaginate from 'react-paginate';
 import { Facebook, Heart, Instagram, Linkedin } from 'react-feather';
+import { size } from 'lodash';
 
 
 
 const CategoryByPosts = ({ params }) => {
     // POSTS DATA
-    const { data, isLoading } = useGetCategoryPostsQuery(params.category)
+    const { data, isLoading } = useGetCategoryPostsQuery(params?.category)
     const approvedData = data?.filter((item) => item?.status === "approved")
     // VIDEOS DATA
-    const { data: catVideos, isLoading: loading } = useGetCategoryvideosQuery(params.category)
+    const { data: catVideos, isLoading: loading } = useGetCategoryvideosQuery(params?.category)
     const approvedVideoData = catVideos?.filter((item) => item?.status === "approved")
 
     // BREADCUMB
@@ -159,7 +160,11 @@ const CategoryByPosts = ({ params }) => {
 
 
                 {
-                    data?.length === 0 ? <div className='fw-bold text-dark'>Posts not found</div> : ''
+                    size(data) === 0 && !isLoading ? 
+                    <div className='fw-bold text-dark d-flex justify-content-center align-items-center'>
+                        <p className='text-center'>Posts not found</p>
+                    </div> 
+                    : ''
                 }
 
             </Row>
