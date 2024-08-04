@@ -3,7 +3,7 @@
 const getPlayerDimensions = (screenSize) => {
     switch (screenSize) {
       case 'xs':
-        return { width: '100%', height: 'auto' };
+        return { width: '100%', height: '180px' };
       case 'sm':
         return { width: '300px', height: '180px' };
       case 'md':
