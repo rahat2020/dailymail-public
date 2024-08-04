@@ -13,8 +13,6 @@ const TopHeader = () => {
     const month = newdate.getMonth() + 1;
     const currentYear = newdate.getFullYear()
     const currentDate = newdate.getDate()
-
-    const formattedDate = `${currentYear},${month},${currentDate}`;
     const Tpath = usePathname()
 
     // TIME FUNCTIONS

@@ -56,7 +56,7 @@ const BlogVideos = () => {
 													}
 													<Card.Body>
 														<div className="d-flex justify-content-between text-center">
-															<div style={{ backgroundColor: 'green' }} className="w-100 d-flex justify-content-center flex-row text-center">
+															<div className="w-100 d-flex justify-content-center flex-row text-center">
 																<Image
 																	src={userAvatar}
 																	alt="person"
@@ -83,13 +83,13 @@ const BlogVideos = () => {
 																		}}>{category}</small>
 																	</div>
 																	<div className="w-50 d-flex justify-content-end align-items-center">
-																		<Heart style={{ width: '1rem', height: '1rem', color: '#F70099' }} />
+																		<Heart style={{ width: '1.4rem', height: '1.4rem', color: '#F70099' }} />
 																		<span className='ms-2'>{size(likes)}</span>
 																	</div>
 																</div>
 															</div>
 														</div>
-														<Card.Title>{truncateText(title, 40)}</Card.Title>
+														<Card.Title className='fw-bold py-2'>{truncateText(title, 45)}</Card.Title>
 														<Card.Text dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(desc?.slice(0, 70)) }}>
 														</Card.Text>
 														<div className="d-flex justify-content-center align-items-center">
