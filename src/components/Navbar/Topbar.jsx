@@ -1,13 +1,12 @@
 "use client"
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
-import { Card, Image, Spinner } from 'react-bootstrap';
-import Link from 'next/link';
+import { Card, Image } from 'react-bootstrap';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import './Navbar.css';
@@ -227,7 +226,6 @@ const Topbar = () => {
                         {
                           loading ?
                             <div className="d-flex justify-content-center align-items-center">
-                              {/* <Spinner animation="border" role="status" /> */}
                               <span>Loging in...</span>
                             </div>
                             : 'Login'
