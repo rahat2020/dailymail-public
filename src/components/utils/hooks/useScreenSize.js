@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 
 const useScreenSize = () => {
   const [screenSize, setScreenSize] = useState('');
-  console.log("🚀 ~ useScreenSize ~ screenSize:", screenSize)
-
   const handleResize = () => {
     const width = window.innerWidth;
     if (width < 480) setScreenSize('xs');
