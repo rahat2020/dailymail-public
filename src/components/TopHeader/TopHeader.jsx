@@ -1,16 +1,16 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap'
-import { Facebook, Instagram, Linkedin, Twitter } from 'react-feather';
 import './TopHeader.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import SocialIcons from '@/components/UI/common/SocialIcons';
 
 const TopHeader = () => {
 
     const newdate = new Date();
     const monthName = newdate.toLocaleString('default', { month: 'long' });
-    const month = newdate.getMonth() + 1;
+    // const month = newdate.getMonth() + 1;
     const currentYear = newdate.getFullYear()
     const currentDate = newdate.getDate()
     const Tpath = usePathname()
@@ -72,28 +72,7 @@ const TopHeader = () => {
                         </div>
                     </Col>
                     <Col md={2}>
-                        <div className="d-flex justify-content-between align-items-center mt-3">
-                            <div className="TH_socialIcon_container">
-                                <Link href="https://www.instagram.com/kazirahat1020" target="_blank">
-                                    <Instagram className='TH_socialIcon' />
-                                </Link>
-                            </div>
-                            <div className="TH_socialIcon_container">
-                                <Link href="https://www.linkedin.com/in/kazi-rahat2020/" target="_blank">
-                                    <Linkedin className='TH_socialIcon' />
-                                </Link>
-                            </div>
-                            <div className="TH_socialIcon_container">
-                                <Link href="https://www.facebook.com/rahatwebdev" target="_blank">
-                                    <Facebook className='TH_socialIcon' />
-                                </Link>
-                            </div>
-                            <div className="TH_socialIcon_container">
-                                <Link href="https://twitter.com/KaziRahat2020" target="_blank">
-                                    <Twitter className='TH_socialIcon' />
-                                </Link>
-                            </div>
-                        </div>
+                        <SocialIcons/>
                     </Col>
                 </Row>
             </Container>

@@ -22,3 +22,7 @@ export const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
+
+export const  checkWindow = ()=>  {
+  return (typeof window !== "undefined") ? true : false;
+}

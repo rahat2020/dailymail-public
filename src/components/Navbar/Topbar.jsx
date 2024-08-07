@@ -19,10 +19,14 @@ import { AuthContext } from '@/context/authContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2'
-import axios from 'axios';
 import { usePathname } from "next/navigation";
+import { alterredUserAvatar, checkWindow } from '@/components/utils/helpers/appHelpers';
 
 const Topbar = () => {
+
+  // CURRENT PATHNAME
+  const Tpath = usePathname()
+
   const [LoginData, { isLoading: loading }] = useLoginMutation()
   const [RegisterData] = useRegisterMutation()
   const [show, setShow] = useState(false);
@@ -36,6 +40,9 @@ const Topbar = () => {
     password: '',
   })
   const { data: userData } = useUserDataByEmailQuery(user)
+  const { username, photo } = userData || {};
+  const userAvatar = photo || alterredUserAvatar
+  const classname = !userData ? 'profile_icons' : 'profile_icons_blinking'
   const { data: userPostsData } = useUserTotalPostAndVideosCountQuery(user)
   const handleOnchangeForLogin = (value, params) => {
     setMutationData((prev) => ({ ...prev, [params]: value }))
@@ -92,7 +99,7 @@ const Topbar = () => {
   //     setMutationDataForReg((prev) => ({ ...prev, photo: url }))
   //   } catch(err){
   //     console.log("🚀 ~ handleFile ~ err:", err)
-      
+
   //   }
   // }
   const handleRegistration = async (e) => {
@@ -103,7 +110,7 @@ const Topbar = () => {
       toast('Password must greater than 6 characters')
     } else {
       try {
-        // const res = await RegisterData(mutationDataForReg)
+        const res = await RegisterData(mutationDataForReg)
         if (res?.data === "registration successfull") {
           toast('Registration Successfull');
           setMutationDataForReg({});
@@ -131,16 +138,11 @@ const Topbar = () => {
       icon: 'success',
       title: 'Thanks for being with us',
     })
-    typeof window !== "undefined" ? window.localStorage.removeItem("user") : false;
-    typeof window !== "undefined" ? window.localStorage.removeItem("ifura") : false;
-    typeof window !== "undefined" ? window.location.reload() : false;
+    if (checkWindow()) {
+      window.localStorage.clear();
+      window.location.reload();
+    }
   }
-
-  // CURRENT PATHNAME
-  const Tpath = usePathname()
-
-
-
 
   return (
     <div>
@@ -175,8 +177,10 @@ const Topbar = () => {
                 <NavDropdown.Item href="/category-post/Lifestyles">Lifestyles</NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href="#" onClick={handleShow}>
-                <div className="d-flex justify-content-center align-items-center profile_icons">
-                  <Image src={userData?.photo ? userData.photo : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf9DBm4up7xkDQKhfO1kvAAwU8Grk36ZywnngllVU&s'} alt={userData?.username}
+                <div className={`d-flex justify-content-center align-items-center ${classname}`}>
+                  <Image
+                    src={userAvatar}
+                    alt={username}
                     style={{ width: '2rem', height: '2rem', objectFit: 'cover', borderRadius: '50%' }}
                   />
                 </div>
@@ -190,7 +194,9 @@ const Topbar = () => {
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
             {
-              userData === '' ? <span className=' text-secondary'>Welcome, start your journey from here!</span> : 'User panel'
+              !userData ?
+                <span className=' text-secondary'>Welcome, start your journey from here!</span>
+                : 'User panel'
             }
           </Offcanvas.Title>
         </Offcanvas.Header>
@@ -221,7 +227,8 @@ const Topbar = () => {
                         {
                           loading ?
                             <div className="d-flex justify-content-center align-items-center">
-                              <Spinner animation="border" role="status" />
+                              {/* <Spinner animation="border" role="status" /> */}
+                              <span>Loging in...</span>
                             </div>
                             : 'Login'
                         }
@@ -268,11 +275,12 @@ const Topbar = () => {
                   </Form>
                 </Tab>
               </Tabs>
-
               :
               <Card className='border-0 shadow'>
                 <div className="d-flex justify-content-center align-items-center p-2">
-                  <Card.Img variant="top" src={userData?.photo ? userData.photo : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf9DBm4up7xkDQKhfO1kvAAwU8Grk36ZywnngllVU&s'}
+                  <Card.Img
+                    variant="top"
+                    src={userAvatar}
                     style={{ width: '8rem', height: '8rem', objectFit: 'cover', borderRadius: '50%' }}
                     alt="Rahat"
                     className='shadow-sm'
@@ -309,10 +317,6 @@ const Topbar = () => {
                 </Card.Body>
               </Card>
           }
-
-
-
-
         </Offcanvas.Body>
       </Offcanvas>
     </div>

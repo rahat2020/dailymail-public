@@ -1,9 +1,11 @@
-.nav-link, .dropdown-item{
-    color:#666 !important;
+.nav-link,
+.dropdown-item {
+    color: #666 !important;
     /* color:#ec873f !important; */
     font-weight: bold;
 }
-::placeholder{
+
+::placeholder {
     color: #8b8b8ba6 !important;
 }
 
@@ -11,30 +13,57 @@
     color: #EF7C2A !important;
 }
 
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
     color: #fff !important;
     border-color: #FF5324 !important;
     background-image: linear-gradient(180deg, #FF8F50, #FF5324);
     box-shadow: #f344146e 0px 3px 54px;
     border: .2px solid #fff !important;
 }
-.profile_icons{
-    width: 2rem;
-    height: 2rem;
-    border-radius:50%;
-    background-image: linear-gradient(180deg, #42B7FE, #2B8EFE);
-    box-shadow: #2B8EFE 0px 3px 54px;
+
+.profile_icons {
+    width: 2.53rem;
+    height: 2.53rem;
+    padding: 1rem;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: none;
-    background-color: auto;
+    border: 1px solid #FF5324;
 }
-.profile_icons:hover{
-    background-image: linear-gradient(180deg, #42B7FE, #2B8EFE);
-    box-shadow: #0077ff 0px 3px 54px;
+
+.profile_icons:hover {
+    box-shadow: #FF5324 0px 2px 30px;
 }
-.btn_goto_dashboard{
+
+.profile_icons_blinking {
+    width: 2.53rem;
+    height: 2.53rem;
+    padding: 1rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #FF5324;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0% {
+        border-color: #FF5324;
+    }
+
+    50% {
+        border-color: transparent;
+    }
+
+    100% {
+        border-color: #FF5324;
+    }
+}
+
+.btn_goto_dashboard {
     border: none;
     padding: 6px 25px;
     text-transform: capitalize;
@@ -43,9 +72,10 @@
     color: #fff;
     font-weight: 400;
     border-radius: 20px;
-    font-size:.84rem;
+    font-size: .84rem;
 }
-.btn_filter{
+
+.btn_filter {
     border: none;
     padding: 6px 25px;
     text-transform: capitalize;
@@ -54,6 +84,5 @@
     color: #fff;
     font-weight: 400;
     border-radius: 20px;
-    font-size:.84rem;
-  }
-
+    font-size: .84rem;
+}
