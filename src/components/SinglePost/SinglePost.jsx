@@ -2,18 +2,18 @@
 import React, { useContext, useState } from 'react';
 import { Button, Card, Col, Container, Form, Image, Row, Spinner, Nav } from 'react-bootstrap';
 import './SinglePost.css';
+import Link from 'next/link';
+import { size } from 'lodash';
+import DOMPurify from 'dompurify';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllPostQuery, useGetSinglePostQuery, useIncreaseViewsMutation, useUserDataByEmailQuery } from '@/redux/apiSlice';
-import DOMPurify from 'dompurify';
+import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from 'next/navigation';
-import Modal from 'react-bootstrap/Modal';
 import { AuthContext } from '@/context/authContext';
-import Link from 'next/link';
-import { alterredUserAvatar, dummyBlogThumbnail, formatDate } from '../utils/helpers/appHelpers';
-import { size } from 'lodash';
+import { alterredUserAvatar, dummyBlogThumbnail, formatDate } from '@/components/utils/helpers/appHelpers';
 import { Eye, Facebook, Heart, Instagram, Linkedin, Send, Twitter } from 'react-feather';
 
 
@@ -24,7 +24,7 @@ const SinglePost = ({ params }) => {
 
     // REDUX QUERIES
     const { data, isLoading } = useGetSinglePostQuery(params)
-    const { _id ,title, category, photoUrlOne, author, desc, likes, website, user: authUser, viewers, createdAt, timeToRead, facebook, instagram,linkedin } = data || {}
+    const { _id, title, category, photoUrlOne, author, desc, likes, website, user: authUser, viewers, createdAt, timeToRead, facebook, instagram, linkedin } = data || {}
     const [{ username = '', photo = '' } = {}] = authUser || [];
     const userAvatar = photo || alterredUserAvatar
     const blogThumbnail = photoUrlOne || dummyBlogThumbnail
@@ -79,7 +79,7 @@ const SinglePost = ({ params }) => {
                 } else {
                     toast('Login Failed')
                 }
-            
+
             } catch (err) {
 
             }
@@ -136,7 +136,7 @@ const SinglePost = ({ params }) => {
                                     <Row className='border-bottom border-light border-2 py-2 shadow-sm rounded'>
                                         <Col md={9} className='gy-3'>
                                             <div className="d-flex w-100 position-relative">
-                                                <Image 
+                                                <Image
                                                     src={userAvatar}
                                                     alt="user"
                                                     style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '50%' }}
@@ -161,23 +161,22 @@ const SinglePost = ({ params }) => {
                                                     <span className='fw-bold text-secondary'>{username} </span>
                                                     <div className="d-flex jsutify-content-start align-items-start flex-wrap">
                                                         <small className='text-secondary'>{formatDate(createdAt)} | {timeToRead} </small>
-                                                        <small className='text-secondary ms-2 '>| <Eye style={{ fontSize: "1.11rem" }} /> {viewers} views</small>
+                                                        <small className='text-secondary ms-2 '>| <Eye style={{ width: '1rem', height: '1rem' }} /> {viewers} views</small>
                                                     </div>
                                                 </div>
                                             </div>
                                         </Col>
                                         <Col md={3} className='gy-3'>
-                                            <div className="d-flex justify-content-center justify-content-md-end justify-content-lg-end align-items-center h-100 w-100">
-                                                <Nav.Link href={instagram} target='_blank' className='text-decoration-none'>
+                                            <div className="gap-2 d-flex justify-content-center justify-content-md-end justify-content-lg-end align-items-center h-100 w-100">
+                                                <Link href={instagram || '#'} target='_blank' className='text-decoration-none'>
                                                     <Instagram className='socialIcon' />
-                                                </Nav.Link>
-                                                <Nav.Link href={linkedin} target='_blank' className='text-decoration-none'>
+                                                </Link>
+                                                <Link href={linkedin || '#'} target='_blank' className='text-decoration-none'>
                                                     <Linkedin className='socialIcon ms-1 cursor-pointer' />
-                                                </Nav.Link>
-                                                <Nav.Link href={facebook} target='_blank' className='text-decoration-none'>
+                                                </Link>
+                                                <Link href={facebook || '#'} target='_blank' className='text-decoration-none'>
                                                     <Facebook className='socialIcon ms-1' />
-                                                </Nav.Link>
-
+                                                </Link>
                                             </div>
                                         </Col>
                                     </Row>
@@ -187,11 +186,11 @@ const SinglePost = ({ params }) => {
                                         <p className='fw-bold text-muted py-2'
                                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(desc.slice(0, 80)) }}></p>
                                         <div className="d-flex justify-content-center align-items-center flex-column">
-                                            <Image 
+                                            <Image
                                                 src={blogThumbnail}
                                                 alt='img-1'
                                                 className='w-sm-50 h-sm-100 img-fluid  w-md-100 w-lg-100 w-xl-100'
-                                             // style={{width:'90%', height:'100%'}}
+                                            // style={{width:'90%', height:'100%'}}
                                             />
                                             <small className='text-secondary'>Source: {author}</small>
 
@@ -211,7 +210,7 @@ const SinglePost = ({ params }) => {
                             <div className="d-flex">
                                 {
                                     isUserLikedThePost ?
-                                        <Heart className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={handleLikeBtnClick} /> 
+                                        <Heart className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={handleLikeBtnClick} />
                                         :
                                         <Heart className={`${likeRes === "you liked the post" ? 'activeLikes' : 'text-secondary fw-bold'}`} style={{ cursor: 'pointer' }} onClick={() => handleLikes(1)} />
                                 }
@@ -219,21 +218,21 @@ const SinglePost = ({ params }) => {
                                 <span className='fw-bold tex-dark mx-2'>{size(data?.likes)}</span>
                                 {
                                     isUserLikedThePost ?
-                                        <span className='text-secondary fw-bold'>(You liked the post!)</span> 
+                                        <span className='text-secondary fw-bold'>(You liked the post!)</span>
                                         :
                                         <span className='text-secondary fw-bold'>(You did not like the post yet!)</span>
                                 }
                             </div>
                             <div className="d-flex">
-                                <Nav.Link href={instagram} target='_blank' className='text-decoration-none'>
-                                    <Instagram className='socialIcon'/>
-                                </Nav.Link>
-                                <Nav.Link href={linkedin} target='_blank' className='text-decoration-none'>
-                                    <Linkedin className='socialIcon ms-1 cursor-pointer'/>
-                                </Nav.Link>
-                                <Nav.Link href={facebook} target='_blank' className='text-decoration-none'>
-                                    <Facebook className='socialIcon ms-1'/>
-                                </Nav.Link>
+                                <Link href={instagram || '#'} target='_blank' className='text-decoration-none'>
+                                    <Instagram className='socialIcon' />
+                                </Link>
+                                <Link href={linkedin || '#'} target='_blank' className='text-decoration-none'>
+                                    <Linkedin className='socialIcon ms-1 cursor-pointer' />
+                                </Link>
+                                <Link href={facebook || '#'} target='_blank' className='text-decoration-none'>
+                                    <Facebook className='socialIcon ms-1' />
+                                </Link>
                             </div>
                         </div>
                         <h6 className='text-dark fw-bold my-2'>All Comments</h6>
