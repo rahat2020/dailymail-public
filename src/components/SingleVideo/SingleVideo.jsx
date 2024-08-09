@@ -2,10 +2,12 @@
 import React, { useContext, useState } from 'react';
 import { Button, Card, Col, Container, Form, Image, Modal, Row, Spinner, Nav } from 'react-bootstrap';
 import './SingleVideo.css';
+import { size } from 'lodash';
+import DOMPurify from 'dompurify';
+import Link from 'next/link';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { useCreateCommentsMutation, useCreateLikesMutation, useGetAllVideosQuery, useGetSingleVideosQuery, useIncreaseVideoViewsMutation, useUserDataByEmailQuery } from '@/redux/apiSlice';
-import DOMPurify from 'dompurify';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { usePathname } from 'next/navigation';
@@ -13,8 +15,7 @@ import { AuthContext } from '@/context/authContext';
 import ReactPlayer from 'react-player';
 import { Eye, Facebook, Heart, Instagram, Linkedin, Send, Twitter } from 'react-feather';
 import { alterredUserAvatar, formatDate } from '../utils/helpers/appHelpers';
-import { size } from 'lodash';
-import Link from 'next/link';
+
 
 
 const SingleVideo = ({ params }) => {
@@ -115,7 +116,7 @@ const SingleVideo = ({ params }) => {
         }
     }
 
-  // CHECING ALREADY THIS USER IS LIKED POST OR NOT
+    // CHECING ALREADY THIS USER IS LIKED POST OR NOT
     const isUserLikedThePost = likes?.some(item => item?.liker?.[0]?.email?.includes(user));
     const handleLikeBtnClick = (e) => {
         e.preventDefault()
@@ -163,22 +164,22 @@ const SingleVideo = ({ params }) => {
                                                     <span className='fw-bold text-secondary'>{username} </span>
                                                     <div className="d-flex jsutify-content-start align-items-start flex-wrap">
                                                         <small className='text-secondary'>{formatDate(createdAt)} | {timeToRead || ''} </small>
-                                                        <small className='text-secondary ms-2 '>| <Eye style={{ width: ".90rem", height: '.90rem' }} /> {viewers || 0} views</small>
+                                                        <small className='text-secondary ms-2 '>| <Eye style={{ width: '1rem', height: '1rem' }} /> {viewers || 0} views</small>
                                                     </div>
                                                 </div>
                                             </div>
                                         </Col>
                                         <Col md={3} className='gy-3'>
                                             <div className="d-flex justify-content-center justify-content-md-end justify-content-lg-end align-items-center h-100 w-100">
-                                                <Nav.Link href={instagram} target='_blank' className='text-decoration-none'>
+                                                <Link href={instagram || '#'} target='_blank' className='text-decoration-none'>
                                                     <Instagram className='socialIcon' />
-                                                </Nav.Link>
-                                                <Nav.Link href={linkedin} target='_blank' className='text-decoration-none'>
+                                                </Link>
+                                                <Link href={linkedin || '#'} target='_blank' className='text-decoration-none'>
                                                     <Linkedin className='socialIcon ms-1 cursor-pointer' />
-                                                </Nav.Link>
-                                                <Nav.Link href={facebook} target='_blank' className='text-decoration-none'>
+                                                </Link>
+                                                <Link href={facebook || '#'} target='_blank' className='text-decoration-none'>
                                                     <Facebook className='socialIcon ms-1' />
-                                                </Nav.Link>
+                                                </Link>
                                             </div>
                                         </Col>
                                     </Row>
@@ -220,15 +221,15 @@ const SingleVideo = ({ params }) => {
                                 }
                             </div>
                             <div className="d-flex">
-                                <Nav.Link href={instagram} target='_blank' className='text-decoration-none'>
+                                <Link href={instagram || '#'} target='_blank' className='text-decoration-none'>
                                     <Instagram className='socialIcon' />
-                                </Nav.Link>
-                                <Nav.Link href={linkedin} target='_blank' className='text-decoration-none'>
+                                </Link>
+                                <Link href={linkedin || '#'} target='_blank' className='text-decoration-none'>
                                     <Linkedin className='socialIcon ms-1 cursor-pointer' />
-                                </Nav.Link>
-                                <Nav.Link href={facebook} target='_blank' className='text-decoration-none'>
+                                </Link>
+                                <Link href={facebook || '#'} target='_blank' className='text-decoration-none'>
                                     <Facebook className='socialIcon ms-1' />
-                                </Nav.Link>
+                                </Link>
                             </div>
                         </div>
 
@@ -317,29 +318,29 @@ const SingleVideo = ({ params }) => {
                             <Row>
                                 <Col md={12}>
                                     <Col md={12}>
-                                    <div className="d-flex justify-content-evenly align-items-center my-4">
-                                        <div className="socialIcon_container">
-                                            <Link href="https://www.instagram.com/kazirahat1020" target="_blank">
-                                                <Instagram className='socialIcon' />
-                                            </Link>
+                                        <div className="d-flex justify-content-evenly align-items-center my-4">
+                                            <div className="socialIcon_container">
+                                                <Link href="https://www.instagram.com/kazirahat1020" target="_blank">
+                                                    <Instagram className='socialIcon' />
+                                                </Link>
+                                            </div>
+                                            <div className="socialIcon_container">
+                                                <Link href="https://www.linkedin.com/in/kazi-rahat2020/" target="_blank">
+                                                    <Linkedin className='socialIcon' />
+                                                </Link>
+                                            </div>
+                                            <div className="socialIcon_container">
+                                                <Link href="https://www.facebook.com/rahatwebdev" target="_blank">
+                                                    <Facebook className='socialIcon' />
+                                                </Link>
+                                            </div>
+                                            <div className="socialIcon_container">
+                                                <Link href="https://twitter.com/KaziRahat2020" target="_blank">
+                                                    <Twitter className='socialIcon' />
+                                                </Link>
+                                            </div>
                                         </div>
-                                        <div className="socialIcon_container">
-                                            <Link href="https://www.linkedin.com/in/kazi-rahat2020/" target="_blank">
-                                                <Linkedin className='socialIcon' />
-                                            </Link>
-                                        </div>
-                                        <div className="socialIcon_container">
-                                            <Link href="https://www.facebook.com/rahatwebdev" target="_blank">
-                                                <Facebook className='socialIcon' />
-                                            </Link>
-                                        </div>
-                                        <div className="socialIcon_container">
-                                            <Link href="https://twitter.com/KaziRahat2020" target="_blank">
-                                                <Twitter className='socialIcon' />
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </Col>
+                                    </Col>
                                 </Col>
                             </Row>
                         </Card>
