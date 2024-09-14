@@ -1,15 +1,16 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import './AllVideos.css';
-import { Breadcrumb, Col, Container, Form, Image, Row, Spinner } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
+import { Col, Container, Form, Image, Row, Spinner } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
 import { useGetAllVideosQuery } from '@/redux/apiSlice';
 import ReactPaginate from 'react-paginate';
 import { usePathname } from 'next/navigation';
-import { Heart } from 'react-feather';
+import { Heart, Search } from 'react-feather';
+import Breadcrumb from '@/components/UI/common/Breadcrumb/Breadcrumb';
+import AppSpinner from '@/components/UI/common/AppSpinner';
 
 const AllVideos = () => {
     // DATA FETCHING FORM REDUX API
@@ -50,25 +51,22 @@ const AllVideos = () => {
         <div>
             <>
                 <Container className='mt-5 bv_main'>
-                    <Breadcrumb className="text-decoration-none">
-                        <Breadcrumb.Item href="/" className="text-decoration-none">Home</Breadcrumb.Item>
-                        <Breadcrumb.Item href={routerPath} className="text-decoration-none">{routerPath}</Breadcrumb.Item>
-                    </Breadcrumb>
+                    <Breadcrumb params={routerPath} />
                     <h3 className='fw-bold text-capitalize'>All Video Posts</h3>
-
                     <div className="d-flex justify-content-between align-items-center py-3">
-                        <Form className="d-flex">
+                        <Form className="d-flex justify-content-cetner align-items-center border border-1 shadow-sm rounded">
+                            <Search style={{ color: 'gray', width: '1rem', height: '.90rem', marginLeft: '10px' }} />
                             <Form.Control
                                 type="search"
                                 placeholder="Search videos"
-                                className="me-2 border border-1 shadow-sm"
+                                className="border-0"
                                 size='sm'
                                 aria-label="Search"
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 defaultValue={searchQuery}
                             />
                         </Form>
-                        <div className="d-flex justify-content-between align-items-center">
+                        {/* <div className="d-flex justify-content-between align-items-center">
                             <Form.Select aria-label="Default select example" className="border border-1 shadow-sm text-secondary" size="sm">
                                 <option>select category</option>
                                 <option value="1">One</option>
@@ -76,14 +74,13 @@ const AllVideos = () => {
                                 <option value="3">Three</option>
                             </Form.Select>
                             <Button className="btn_filter ms-2">Filter</Button>
-                        </div>
+                        </div> */}
                     </div>
                     <Row>
                         {
                             isLoading ?
-                                <div className='d-flex justify-content-center align-items-center text-dark fw-bold my-5 fs-5'>
-                                    <Spinner animation="grow" />
-                                </div> :
+                                <AppSpinner />
+                                :
                                 <>
                                     {
                                         filteredData?.map((item, index) => (

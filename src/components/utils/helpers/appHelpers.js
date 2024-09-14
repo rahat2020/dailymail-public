@@ -4,6 +4,8 @@ export const alterredUserAvatar = 'https://encrypted-tbn0.gstatic.com/images?q=t
 
 export const dummyBlogThumbnail = 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-12-1440x720.jpg';
 
+export const smallThumbnail = 'https://new.axilthemes.com/themes/blogar/wp-content/uploads/2021/01/demo_image-1-300x169.jpg';
+
 export const truncateText = (text, maxLength, ellipsis = '...') => {
     if (typeof text !== 'string' || typeof maxLength !== 'number') {
       console.error(

@@ -8,6 +8,7 @@ import { useGetCategoryPostsQuery } from '@/redux/apiSlice';
 import DOMPurify from 'dompurify';
 import { alterredUserAvatar } from '../utils/helpers/appHelpers';
 import { Facebook, Heart, Instagram, Linkedin } from 'react-feather';
+import AppSpinner from '@/components/UI/common/AppSpinner';
 
 const BlogsCards = () => {
     const propsData = "Programming"
@@ -20,14 +21,12 @@ const BlogsCards = () => {
             <Row>
                 {
                     isLoading ?
-                        <div className='d-flex justify-content-center align-items-center text-dark fw-bold my-5 fs-5'>
-                            <Spinner animation="grow" />
-                        </div>
+                        <AppSpinner />
                         :
                         <>
                             {
                                 filteredData?.map((item, i) => {
-                                    const {category, desc, user,title, facebook, instagram,linkedin, _id , likes } = item || {}
+                                    const { category, desc, user, title, facebook, instagram, linkedin, _id, likes } = item || {}
                                     const [{ username = '', photo = '' } = {}] = user || [];
                                     const userAvatar = photo || alterredUserAvatar
                                     return (
@@ -37,7 +36,7 @@ const BlogsCards = () => {
                                                     <div className="header p-2">
                                                         <div className="d-flex justify-content-between align-items-center">
                                                             <div className="d-flex">
-                                                                <Image 
+                                                                <Image
                                                                     src={userAvatar}
                                                                     alt="prson"
                                                                     className='rounded-circle' loading='lazy'

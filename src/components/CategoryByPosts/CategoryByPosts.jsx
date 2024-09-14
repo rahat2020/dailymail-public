@@ -1,17 +1,17 @@
 "use client"
 import React, { useState } from 'react';
-import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
+import { Col, Container, Form, Image, Row } from 'react-bootstrap';
+import { usePathname } from 'next/navigation';
 import './CategoryByPosts.css';
 import DOMPurify from 'dompurify';
-import Link from 'next/link';
-import { useGetCategoryPostsQuery, useGetCategoryvideosQuery } from '@/redux/apiSlice';
-import Spinner from 'react-bootstrap/Spinner';
-import { usePathname } from 'next/navigation';
-import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import ReactPaginate from 'react-paginate';
-import { Facebook, Heart, Instagram, Linkedin } from 'react-feather';
 import { size } from 'lodash';
-
+import Link from 'next/link';
+import { useGetCategoryPostsQuery } from '@/redux/apiSlice';
+import ReactPaginate from 'react-paginate';
+import { Facebook, Heart, Instagram, Linkedin, Search } from 'react-feather';
+import Breadcrumb from '@/components/UI/common/Breadcrumb/Breadcrumb';
+import CategoryTitle from '@/components/UI/common/CategoryTitle';
+import AppSpinner from '@/components/UI/common/AppSpinner';
 
 
 const CategoryByPosts = ({ params }) => {
@@ -19,13 +19,10 @@ const CategoryByPosts = ({ params }) => {
     const { data, isLoading } = useGetCategoryPostsQuery(params?.category)
     const approvedData = data?.filter((item) => item?.status === "approved")
     // VIDEOS DATA
-    const { data: catVideos, isLoading: loading } = useGetCategoryvideosQuery(params?.category)
-    const approvedVideoData = catVideos?.filter((item) => item?.status === "approved")
-
+    // const { data: catVideos} = useGetCategoryvideosQuery(params?.category)
+    // const approvedVideoData = catVideos?.filter((item) => item?.status === "approved")
     // BREADCUMB
     const routerPath = usePathname()
-
-
     // PAGINATIONS
     const [itemOffset, setItemOffset] = useState(0);
     const itemsPerPage = 6;
@@ -61,42 +58,28 @@ const CategoryByPosts = ({ params }) => {
 
     return (
         <Container className='mt-5'>
-
-            <Breadcrumb className="text-decoration-none">
-                <Breadcrumb.Item href="/" className="text-decoration-none">Home</Breadcrumb.Item>
-                <Breadcrumb.Item href={routerPath} className="text-decoration-none">{routerPath}</Breadcrumb.Item>
-            </Breadcrumb>
-            <h3 className='fw-bold text-capitalize'>{params?.category} blogs you may like</h3>
-
+            <Breadcrumb params={routerPath} />
+            <h3 className='fw-bold text-capitalize'><CategoryTitle params={params?.category} /> you may like</h3>
             <div className="d-flex justify-content-between align-items-center py-3">
-                <Form className="d-flex">
+                <Form className="d-flex justify-content-cetner align-items-center border border-1 shadow-sm rounded">
+                    <Search style={{ color: 'gray', width: '1rem', height: '.90rem', marginLeft: '10px' }} />
                     <Form.Control
                         type="search"
                         placeholder="Search blogs"
-                        className="me-2 border border-1 shadow-sm"
+                        className="mr-4 border-0"
                         size='sm'
                         aria-label="Search"
                         onChange={(e) => setSearchQuery(e.target.value)}
                         defaultValue={searchQuery}
                     />
                 </Form>
-                <div className="d-flex justify-content-between align-items-center">
-                    <Form.Select aria-label="Default select example" className="border border-1 shadow-sm text-secondary" size="sm">
-                        <option>select blogs</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </Form.Select>
-                    <Button className="btn_filter ms-2">Filter</Button>
-                </div>
             </div>
 
             <Row>
                 {
                     isLoading ?
-                        <div className='d-flex justify-content-center align-items-center text-dark fw-bold my-5 fs-5'>
-                            <Spinner animation="grow" />
-                        </div> :
+                        <AppSpinner />
+                        :
                         <>
                             {
                                 filteredData?.map((item, index) => (
@@ -160,11 +143,11 @@ const CategoryByPosts = ({ params }) => {
 
 
                 {
-                    size(data) === 0 && !isLoading ? 
-                    <div className='fw-bold text-dark d-flex justify-content-center align-items-center'>
-                        <p className='text-center'>Posts not found</p>
-                    </div> 
-                    : ''
+                    size(data) === 0 && !isLoading ?
+                        <div className='fw-bold text-dark d-flex justify-content-center align-items-center'>
+                            <p className='text-center'>Posts not found</p>
+                        </div>
+                        : ''
                 }
 
             </Row>
