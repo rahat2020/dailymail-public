@@ -15,7 +15,7 @@ import { usePathname } from 'next/navigation';
 import { AuthContext } from '@/context/authContext';
 import { alterredUserAvatar, dummyBlogThumbnail, formatDate } from '@/components/utils/helpers/appHelpers';
 import { Eye, Facebook, Heart, Instagram, Linkedin, Send, Twitter } from 'react-feather';
-
+import AppSpinner from '@/components/UI/common/AppSpinner';
 
 const SinglePost = ({ params }) => {
 
@@ -127,9 +127,7 @@ const SinglePost = ({ params }) => {
                     <Col md={8}>
                         {
                             isLoading ?
-                                <div className='d-flex justify-content-center align-items-center text-dark fw-bold my-5 fs-5'>
-                                    <Spinner animation="grow" />
-                                </div> :
+                                <AppSpinner /> :
                                 <div className="my-3 w-100">
                                     <p className='text-secondary fw-bold'>•{category}</p>
                                     <h1>{title}</h1>
