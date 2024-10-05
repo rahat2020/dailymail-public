@@ -7,7 +7,7 @@ const TwitterIcon = ({ width = '30px', height = '30px' }) => (
     width={width}
     height={height}
     viewBox="0 0 24 24"
-    fill="#887979"
+    fill="none"
     stroke="currentColor"
     stroke-width="2"
     stroke-linecap="round"

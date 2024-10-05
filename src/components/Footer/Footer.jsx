@@ -63,7 +63,7 @@ const Footer = () => {
                 <div className="w-100">
                   <div className="d-flex justify-content-between align-items-center mt-3">
                     {socialLinks?.map((link, index) => (
-                      <div className="TH_socialIcon_container" key={index}>
+                      <div className="" key={index}>
                         <Link href={link.url} target="_blank" className='text-decoration-none'>
                           <link.IconComponent className='TH_socialIcon' />
                         </Link>
